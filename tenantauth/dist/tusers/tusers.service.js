@@ -17,13 +17,46 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const tuser_entity_1 = require("./tuser.entity");
-const rabbitmq_receiver_1 = require("./rabbitmq.receiver");
+const amqp = require("amqplib");
 let TusersService = class TusersService {
     constructor(repo) {
         this.repo = repo;
+        this.consumeMessages();
     }
-    create(body) {
-        (0, rabbitmq_receiver_1.receiveMessage)();
+    async consumeMessages() {
+        try {
+            console.log("Connecting to RabbitMQ...");
+            const connection = await amqp.connect("amqp://ananth:u7i8o9p0@localhost");
+            console.log("Connection to RabbitMQ established.");
+            const channel = await connection.createChannel();
+            const exchange = "user_exchange";
+            await channel.assertExchange(exchange, "direct", { durable: true });
+            const { queue } = await channel.assertQueue("", { exclusive: true });
+            console.log("Waiting for messages in queue:", queue);
+            await channel.bindQueue(queue, exchange, "createUser");
+            await channel.bindQueue(queue, exchange, "updateUser");
+            channel.consume(queue, async (msg) => {
+                if (msg) {
+                    console.log("Message received:", msg.content.toString());
+                    const user = JSON.parse(msg.content.toString());
+                    if (msg.fields.routingKey === "createUser") {
+                        await this.create(user);
+                    }
+                    else if (msg.fields.routingKey === "updateUser") {
+                    }
+                    channel.ack(msg);
+                }
+            }, { noAck: false });
+        }
+        catch (err) {
+            console.error("Failed to connect to RabbitMQ");
+            console.error(err);
+        }
+    }
+    async create(body) {
+        console.log("Creating user:", body);
+        const user = this.repo.create(body);
+        await this.repo.save(user);
     }
     findOne(email) {
         return this.repo.findOne({ where: { email } });
@@ -34,7 +67,7 @@ let TusersService = class TusersService {
     async findById(id) {
         const tuser = await this.repo.findOne({ where: { id } });
         if (!tuser) {
-            throw new common_1.NotFoundException('user not found!');
+            throw new common_1.NotFoundException("user not found!");
         }
     }
 };

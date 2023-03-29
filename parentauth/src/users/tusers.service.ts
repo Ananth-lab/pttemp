@@ -11,26 +11,27 @@ export class TusersService {
 
   async create(body: CreateTuserDto) {
     const user = this.repo.create(body);
-  
-    const rabbitConnection = await connectRabbitMQ();
-    if (!rabbitConnection) {
-      throw new Error("Failed to connect to RabbitMQ");
-    }
-  
-    const { channel, queue } = rabbitConnection;
+
     try {
-      await channel.assertQueue(queue, { durable: false });
-      channel.sendToQueue(queue, Buffer.from(JSON.stringify(user)));
-      //console.log("Message sent:", user);
-      const userDeails = await this.repo.save(user);
-      console.log(userDeails);
-      return userDeails;
+      const rabbitConnection = await connectRabbitMQ();
+      if (!rabbitConnection) {
+        throw new Error("Failed to connect to RabbitMQ");
+      }
+
+      const { channel, exchange } = rabbitConnection;
+      await channel.publish(
+        exchange,
+        "createUser",
+        Buffer.from(JSON.stringify(user))
+      );
+      console.log("Message sent:", user);
+
+      return this.repo.save(user);
     } catch (error) {
-      console.error("Failed to send message to queue:", error);
+      console.error("Failed to publish message to RabbitMQ:", error);
       throw error;
     }
   }
-  
 
   find(email: string) {
     return this.repo.find({ where: { email } });
