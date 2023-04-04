@@ -29,6 +29,16 @@ const tmodules_module_1 = require("./tmodules/tmodules.module");
 const tmodule_entity_1 = require("./tmodules/tmodule.entity");
 const tsubmodule_entity_1 = require("./tmodules/tsubmodule.entity");
 const bsmap_entity_1 = require("./bundles/bsmap.entity");
+const tenant_organisation_module_1 = require("./users/tenant_organisation/tenant_organisation.module");
+const tenant_organisation_entity_1 = require("./users/tenant_organisation/entities/tenant_organisation.entity");
+const tenant_profile_module_1 = require("./users/tenant_profile/tenant_profile.module");
+const tenant_profile_entity_1 = require("./users/tenant_profile/entities/tenant_profile.entity");
+const tenant_branch_entity_1 = require("./users/tenant_branch/entities/tenant_branch.entity");
+const tenant_branch_module_1 = require("./users/tenant_branch/tenant_branch.module");
+const tenant_branch_address_module_1 = require("./users/tenant_branch_address/tenant_branch_address.module");
+const tenant_branch_address_entity_1 = require("./users/tenant_branch_address/entities/tenant_branch_address.entity");
+const tenant_poc_entity_1 = require("./users/tenant_poc/entities/tenant_poc.entity");
+const tenant_poc_module_1 = require("./users/tenant_poc/tenant_poc.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -42,16 +52,21 @@ AppModule = __decorate([
                 inject: [config_1.ConfigService],
                 useFactory: (config) => {
                     return {
-                        database: 'parentauth',
+                        database: "parentauth",
+                        type: "postgres",
+                        host: "localhost",
+                        port: 5432,
                         username: "ananth",
                         password: "u7i8o9p0",
-                        type: 'postgres',
-                        host: 'localhost',
-                        port: 5432,
                         synchronize: true,
                         entities: [
+                            tenant_organisation_entity_1.TenantOrganisation,
                             role_entity_1.Role,
                             privilege_entity_1.Privilege,
+                            tenant_profile_entity_1.TenantProfile,
+                            tenant_branch_entity_1.TenantBranch,
+                            tenant_branch_address_entity_1.TenantBranchAddress,
+                            tenant_poc_entity_1.TenantPoc,
                             pmodule_entity_1.Pmodule,
                             psubmodule_entity_1.Psubmodule,
                             rac_map_entity_1.Racmap,
@@ -66,9 +81,14 @@ AppModule = __decorate([
                 },
             }),
             privileges_module_1.PrivilegesModule,
+            tenant_organisation_module_1.TenantOrganisationModule,
+            tenant_branch_module_1.TenantBranchModule,
+            tenant_branch_address_module_1.TenantBranchAddressModule,
+            tenant_poc_module_1.TenantPocModule,
             roles_module_1.RolesModule,
             users_module_1.UsersModule,
             pmodules_module_1.PmodulesModule,
+            tenant_profile_module_1.TenantProfileModule,
             bundles_module_1.BundlesModule,
             tmodules_module_1.TmodulesModule,
         ],

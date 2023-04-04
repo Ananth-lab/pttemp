@@ -8,9 +8,15 @@ import { AuthService } from './auth.service';
 import { Tuser } from './tuser.entity';
 import { Puser } from './puser.entity';
 import { JwtService } from '@nestjs/jwt';
+import { TenantOrganisationModule } from './tenant_organisation/tenant_organisation.module';
+import { TenantOrganisationAddressModule } from './tenant_organisation_address/tenant_organisation_address.module';
+import { TenantProfileModule } from './tenant_profile/tenant_profile.module';
+import { TenantBranchModule } from './tenant_branch/tenant_branch.module';
+import { TenantPocModule } from './tenant_poc/tenant_poc.module';
+import { TenantBranchAddressModule } from './tenant_branch_address/tenant_branch_address.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Tuser, Puser])],
+  imports: [TypeOrmModule.forFeature([Tuser, Puser]), TenantOrganisationModule, TenantOrganisationAddressModule, TenantProfileModule, TenantBranchModule, TenantPocModule, TenantBranchAddressModule],
   controllers: [TusersController, PusersController],
   providers: [TusersService, PusersService, AuthService, JwtService],
 })

@@ -1,9 +1,10 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
-import { Tuser } from "./tuser.entity";
-import { CreateTuserDto } from "./dtos/create-tuser.dto";
-import { connectRabbitMQ } from "./rabbitmq.configurations";
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Tuser } from './tuser.entity';
+import { CreateTuserDto } from './dtos/create-tuser.dto';
+import { connectRabbitMQ } from './rabbit';
+
 
 @Injectable()
 export class TusersService {
@@ -11,27 +12,25 @@ export class TusersService {
 
   async create(body: CreateTuserDto) {
     const user = this.repo.create(body);
-
+  
     try {
       const rabbitConnection = await connectRabbitMQ();
       if (!rabbitConnection) {
-        throw new Error("Failed to connect to RabbitMQ");
+        throw new Error('Failed to connect to RabbitMQ');
       }
-
+  
       const { channel, exchange } = rabbitConnection;
-      await channel.publish(
-        exchange,
-        "createUser",
-        Buffer.from(JSON.stringify(user))
-      );
-      console.log("Message sent:", user);
-
+      await channel.publish(exchange, 'createUser', Buffer.from(JSON.stringify(user)));
+      console.log('Message sent:', user);
+  
       return this.repo.save(user);
     } catch (error) {
-      console.error("Failed to publish message to RabbitMQ:", error);
+      console.error('Failed to publish message to RabbitMQ:', error);
       throw error;
     }
   }
+  
+
 
   find(email: string) {
     return this.repo.find({ where: { email } });
@@ -45,7 +44,7 @@ export class TusersService {
     const tuser = await this.repo.findOne({ where: { id } });
 
     if (!tuser) {
-      throw new NotFoundException("not found");
+      throw new NotFoundException('not found');
     }
     return tuser;
   }

@@ -9,5 +9,4 @@ export class CreateTuserDto {
 
   @IsString()
   password: string;
-  
 }

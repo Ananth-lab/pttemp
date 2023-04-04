@@ -1,6 +1,6 @@
-import { Repository } from "typeorm";
-import { Tuser } from "./tuser.entity";
-import { CreateTuserDto } from "./dtos/create-tuser.dto";
+import { Repository } from 'typeorm';
+import { Tuser } from './tuser.entity';
+import { CreateTuserDto } from './dtos/create-tuser.dto';
 export declare class TusersService {
     private repo;
     constructor(repo: Repository<Tuser>);
