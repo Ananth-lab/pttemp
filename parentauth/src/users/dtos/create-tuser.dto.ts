@@ -1,4 +1,5 @@
-import { IsString } from 'class-validator';
+import { Optional } from '@nestjs/common';
+import { IsNumber, IsString } from 'class-validator';
 
 export class CreateTuserDto {
   @IsString()
@@ -8,5 +9,10 @@ export class CreateTuserDto {
   email: string;
 
   @IsString()
+  @Optional()
   password: string;
+
+  @IsString()
+  mobile : string;
+  
 }

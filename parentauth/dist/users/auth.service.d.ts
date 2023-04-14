@@ -8,7 +8,7 @@ export declare class AuthService {
     private pusersService;
     private jwtService;
     constructor(tusersService: TusersService, pusersService: PusersService, jwtService: JwtService);
-    psignup(body: CreatePuserDto): Promise<import("./puser.entity").Puser>;
+    psignup(body: CreatePuserDto): Promise<void>;
     pSignin(email: string, password: string): Promise<{
         user: import("./puser.entity").Puser;
         token: string;

@@ -25,8 +25,8 @@ export class Tuser {
   })
   isEmailVerified: boolean;
 
-  @Column({ nullable: true })
-  mobile: number;
+  @Column({ nullable: false })
+  mobile: string;
 
   @Column({ default: true })
   isMobileVerified: boolean;

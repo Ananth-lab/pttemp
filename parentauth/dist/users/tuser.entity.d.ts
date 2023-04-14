@@ -9,7 +9,7 @@ export declare class Tuser {
     name: string;
     email: string;
     isEmailVerified: boolean;
-    mobile: number;
+    mobile: string;
     isMobileVerified: boolean;
     password: string;
     status: status;
