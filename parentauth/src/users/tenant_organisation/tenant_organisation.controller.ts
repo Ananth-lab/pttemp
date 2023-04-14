@@ -33,10 +33,10 @@ export class TenantOrganisationController {
     );
   }
 
-  // @Get()
-  // findAll() {
-  //   return this.tenantOrganisationService.findAll();
-  // }
+  @Get()
+  findAll() {
+    return this.tenantOrganisationService.findAll();
+  }
 
   // @Get(':id')
   // findOne(@Param('id') id: string) {

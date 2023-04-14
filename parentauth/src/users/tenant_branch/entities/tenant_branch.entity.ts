@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity()
 export class TenantBranch {
@@ -17,6 +17,14 @@ export class TenantBranch {
   @Column()
   isparent: boolean;
 
+
+
 //   @ManyToOne(() => TenantBranch)
 //   parentbranch: TenantBranch;
+
+@CreateDateColumn()
+readonly createdAt!: Date;
+
+@UpdateDateColumn()
+readonly updatedAt!: Date;
 }

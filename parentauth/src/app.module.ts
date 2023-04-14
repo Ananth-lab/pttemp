@@ -30,6 +30,14 @@ import { TenantBranchAddressModule } from "./users/tenant_branch_address/tenant_
 import { TenantBranchAddress } from "./users/tenant_branch_address/entities/tenant_branch_address.entity";
 import { TenantPoc } from "./users/tenant_poc/entities/tenant_poc.entity";
 import { TenantPocModule } from "./users/tenant_poc/tenant_poc.module";
+import { TenantCountryModule } from "./users/tenant_country/tenant_country.module";
+import { TenantCountry } from "./users/tenant_country/entities/tenant_country.entity";
+import { IndustryDomainModule } from "./users/industry_domain/industry_domain.module";
+import { IndustryDomain } from "./users/industry_domain/entities/industry_domain.entity";
+import { TenantState } from "./users/tenant_state/entities/tenant_state.entity";
+import { TenantOrganisationAddress } from "./users/tenant_organisation_address/entities/tenant_organisation_address.entity";
+import { TenantOrganisationAddressModule } from "./users/tenant_organisation_address/tenant_organisation_address.module";
+import { TenantStateModule } from "./users/tenant_state/tenant_state.module";
 
 @Module({
   imports: [
@@ -46,8 +54,9 @@ import { TenantPocModule } from "./users/tenant_poc/tenant_poc.module";
           type: "postgres",
           host: "localhost",
           port: 5432,
-          username: "ananth",
-          password: "u7i8o9p0",
+          username: 'postgres',
+          password: 'Pass@123',
+    
 
           synchronize: true,
           entities: [
@@ -67,6 +76,7 @@ import { TenantPocModule } from "./users/tenant_poc/tenant_poc.module";
             Tmodule,
             Tsubmodule,
             Bsmap,
+            TenantCountry,IndustryDomain,TenantState,TenantOrganisationAddress
           ],
         };
       },
@@ -82,6 +92,8 @@ import { TenantPocModule } from "./users/tenant_poc/tenant_poc.module";
     TenantProfileModule,
     BundlesModule,
     TmodulesModule,
+    TenantCountryModule,
+    IndustryDomainModule,TenantOrganisationAddressModule,TenantStateModule
   ],
   controllers: [AppController],
   providers: [AppService],

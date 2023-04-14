@@ -21,6 +21,7 @@ export class TenantProfile {
   @Column()
   gstin: string;
 
-//   @ManyToOne(() => Tuser, tenant => tenant.tenantProfiles)
-//   tenant: Tuser;
+// @ManyToOne(() => Tuser, tenant => tenant.id
+// )
+tenant: Tuser;
 }

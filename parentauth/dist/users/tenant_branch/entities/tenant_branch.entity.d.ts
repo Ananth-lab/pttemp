@@ -3,4 +3,6 @@ export declare class TenantBranch {
     name: string;
     gstin: string;
     isparent: boolean;
+    readonly createdAt: Date;
+    readonly updatedAt: Date;
 }

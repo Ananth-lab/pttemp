@@ -33,6 +33,7 @@ let TenantOrganisationAddressController = class TenantOrganisationAddressControl
 };
 __decorate([
     (0, common_1.Post)(),
+    (0, common_1.UsePipes)(common_1.ValidationPipe),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_tenant_organisation_address_dto_1.CreateTenantOrganisationAddressDto]),
@@ -40,7 +41,8 @@ __decorate([
 ], TenantOrganisationAddressController.prototype, "create", null);
 __decorate([
     (0, common_1.Patch)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.UsePipes)(common_1.ValidationPipe),
+    __param(0, (0, common_1.Param)('id', common_1.ParseUUIDPipe)),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, update_tenant_organisation_address_dto_1.UpdateTenantOrganisationAddressDto]),
@@ -48,7 +50,7 @@ __decorate([
 ], TenantOrganisationAddressController.prototype, "update", null);
 __decorate([
     (0, common_1.Delete)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    __param(0, (0, common_1.Param)('id', common_1.ParseUUIDPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)

@@ -29,6 +29,14 @@ __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", Boolean)
 ], TenantBranch.prototype, "isparent", void 0);
+__decorate([
+    (0, typeorm_1.CreateDateColumn)(),
+    __metadata("design:type", Date)
+], TenantBranch.prototype, "createdAt", void 0);
+__decorate([
+    (0, typeorm_1.UpdateDateColumn)(),
+    __metadata("design:type", Date)
+], TenantBranch.prototype, "updatedAt", void 0);
 TenantBranch = __decorate([
     (0, typeorm_1.Entity)()
 ], TenantBranch);

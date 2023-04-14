@@ -23,7 +23,29 @@ let TenantOrganisationService = class TenantOrganisationService {
     }
     async create(createTenantOrganisationDto) {
         try {
+            if (createTenantOrganisationDto.isParent == true &&
+                createTenantOrganisationDto.tParentOrganisationId) {
+                const id = createTenantOrganisationDto.tParentOrganisationId.toString();
+                console.log(id);
+                const pOrg = await this.OrgRepo.find({ where: { id } });
+                if (!pOrg.length)
+                    throw new common_1.HttpException("no data found with given parentId", 404);
+            }
+            if ((createTenantOrganisationDto.isParent == true &&
+                !createTenantOrganisationDto.tParentOrganisationId) ||
+                (!createTenantOrganisationDto.isParent &&
+                    createTenantOrganisationDto.tParentOrganisationId)) {
+                throw new common_1.HttpException("no data found with give parentId or isParent is false", 404);
+            }
             return await this.OrgRepo.save(createTenantOrganisationDto);
+        }
+        catch (error) {
+            throw new common_1.HttpException(error.message, common_1.HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    async findAll() {
+        try {
+            return await this.OrgRepo.find({ relations: ["tParentOrganisationId"] });
         }
         catch (error) {
             throw new common_1.HttpException(error.message, common_1.HttpStatus.INTERNAL_SERVER_ERROR);
@@ -47,16 +69,22 @@ let TenantOrganisationService = class TenantOrganisationService {
                 organisation.pan = updateTenantOrganisationDto.pan;
             }
             if (updateTenantOrganisationDto.industry_domain) {
-                organisation.industry_domain = updateTenantOrganisationDto.industry_domain;
+                organisation.industry_domain =
+                    updateTenantOrganisationDto.industry_domain;
             }
             if (updateTenantOrganisationDto.isParent !== undefined) {
                 organisation.isParent = updateTenantOrganisationDto.isParent;
             }
-            if (updateTenantOrganisationDto.parentOrganisationId) {
-                organisation.parentOrganisationId = updateTenantOrganisationDto.parentOrganisationId;
-            }
-            if (updateTenantOrganisationDto.billing_address) {
-                organisation.billing_address = updateTenantOrganisationDto.billing_address;
+            if (updateTenantOrganisationDto.isParent) {
+                if (updateTenantOrganisationDto.tParentOrganisationId) {
+                    const id = updateTenantOrganisationDto.tParentOrganisationId.toString();
+                    const parentOrganisation = await this.OrgRepo.find({ where: { id } });
+                    if (!parentOrganisation.length) {
+                        throw new common_1.NotFoundException(`Parent organisation with id ${updateTenantOrganisationDto.tParentOrganisationId} not found`);
+                    }
+                    organisation.tParentOrganisationId =
+                        updateTenantOrganisationDto.tParentOrganisationId;
+                }
             }
             return await this.OrgRepo.save(organisation);
         }

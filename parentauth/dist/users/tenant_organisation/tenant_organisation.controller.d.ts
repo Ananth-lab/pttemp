@@ -5,6 +5,7 @@ export declare class TenantOrganisationController {
     private readonly tenantOrganisationService;
     constructor(tenantOrganisationService: TenantOrganisationService);
     create(createTenantOrganisationDto: CreateTenantOrganisationDto): Promise<CreateTenantOrganisationDto & import("./entities/tenant_organisation.entity").TenantOrganisation>;
+    findAll(): Promise<import("./entities/tenant_organisation.entity").TenantOrganisation[]>;
     update(id: string, updateTenantOrganisationDto: UpdateTenantOrganisationDto): Promise<string>;
     remove(id: string): Promise<import("typeorm").DeleteResult>;
 }

@@ -1,8 +1,19 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { TenantCountry } from "src/users/tenant_country/entities/tenant_country.entity";
+import { TenantOrganisation } from "src/users/tenant_organisation/entities/tenant_organisation.entity";
+import { TenantState } from "src/users/tenant_state/entities/tenant_state.entity";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from "typeorm";
 
 @Entity()
 export class TenantOrganisationAddress {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn("uuid")
   id: string;
 
   @Column()
@@ -17,12 +28,29 @@ export class TenantOrganisationAddress {
   @Column()
   city: string;
 
-  @Column()
-  state: string;
+  @ManyToOne(() => TenantState, (tenantState) => tenantState.id, {
+    nullable: false,
+  })
+  state: TenantState;
 
   @Column()
   post_code: string;
 
-  @Column()
-  country: string;
+  @ManyToOne(() => TenantCountry, (tenantCountry) => tenantCountry.id, {
+    nullable: false,
+  })
+  country: TenantCountry;
+
+  @OneToOne(
+    () => TenantOrganisation,
+    (tenantOrganisation) => tenantOrganisation.billingAddress,
+    { nullable: false }
+  )
+  tenantOrganisationId: TenantOrganisation;
+
+  @CreateDateColumn()
+  readonly createdAt!: Date;
+
+  @UpdateDateColumn()
+  readonly updatedAt!: Date;
 }

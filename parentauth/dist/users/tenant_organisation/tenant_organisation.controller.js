@@ -24,6 +24,9 @@ let TenantOrganisationController = class TenantOrganisationController {
     async create(createTenantOrganisationDto) {
         return await this.tenantOrganisationService.create(createTenantOrganisationDto);
     }
+    findAll() {
+        return this.tenantOrganisationService.findAll();
+    }
     async update(id, updateTenantOrganisationDto) {
         const organisation = await this.tenantOrganisationService.update(id, updateTenantOrganisationDto);
         if (!organisation)
@@ -42,6 +45,12 @@ __decorate([
     __metadata("design:paramtypes", [create_tenant_organisation_dto_1.CreateTenantOrganisationDto]),
     __metadata("design:returntype", Promise)
 ], TenantOrganisationController.prototype, "create", null);
+__decorate([
+    (0, common_1.Get)(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], TenantOrganisationController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Patch)(":id"),
     (0, common_1.UsePipes)(common_1.ValidationPipe),

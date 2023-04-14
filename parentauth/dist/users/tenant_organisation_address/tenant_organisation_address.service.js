@@ -35,27 +35,27 @@ let TenantOrganisationAddressService = class TenantOrganisationAddressService {
             if (!orgAdd)
                 return orgAdd;
             if (updateTenantOrganisationAddressDto.name) {
-                updateTenantOrganisationAddressDto.name = updateTenantOrganisationAddressDto.name;
+                orgAdd.name = updateTenantOrganisationAddressDto.name;
             }
             if (updateTenantOrganisationAddressDto.address) {
-                updateTenantOrganisationAddressDto.address = updateTenantOrganisationAddressDto.address;
+                orgAdd.address = updateTenantOrganisationAddressDto.address;
             }
             if (updateTenantOrganisationAddressDto.plot_no) {
-                updateTenantOrganisationAddressDto.plot_no = updateTenantOrganisationAddressDto.plot_no;
+                orgAdd.plot_no = updateTenantOrganisationAddressDto.plot_no;
             }
             if (updateTenantOrganisationAddressDto.city) {
-                updateTenantOrganisationAddressDto.city = updateTenantOrganisationAddressDto.city;
+                orgAdd.city = updateTenantOrganisationAddressDto.city;
             }
             if (updateTenantOrganisationAddressDto.state) {
-                updateTenantOrganisationAddressDto.state = updateTenantOrganisationAddressDto.state;
+                orgAdd.state = updateTenantOrganisationAddressDto.state;
             }
             if (updateTenantOrganisationAddressDto.post_code) {
-                updateTenantOrganisationAddressDto.post_code = updateTenantOrganisationAddressDto.post_code;
+                orgAdd.post_code = updateTenantOrganisationAddressDto.post_code;
             }
             if (updateTenantOrganisationAddressDto.country) {
-                updateTenantOrganisationAddressDto.country = updateTenantOrganisationAddressDto.country;
+                orgAdd.country = updateTenantOrganisationAddressDto.country;
             }
-            return await this.repoOrAd.save(updateTenantOrganisationAddressDto);
+            return await this.repoOrAd.save(orgAdd);
         }
         catch (error) {
             throw new common_1.HttpException(error.message, common_1.HttpStatus.INTERNAL_SERVER_ERROR);

@@ -39,6 +39,14 @@ const tenant_branch_address_module_1 = require("./users/tenant_branch_address/te
 const tenant_branch_address_entity_1 = require("./users/tenant_branch_address/entities/tenant_branch_address.entity");
 const tenant_poc_entity_1 = require("./users/tenant_poc/entities/tenant_poc.entity");
 const tenant_poc_module_1 = require("./users/tenant_poc/tenant_poc.module");
+const tenant_country_module_1 = require("./users/tenant_country/tenant_country.module");
+const tenant_country_entity_1 = require("./users/tenant_country/entities/tenant_country.entity");
+const industry_domain_module_1 = require("./users/industry_domain/industry_domain.module");
+const industry_domain_entity_1 = require("./users/industry_domain/entities/industry_domain.entity");
+const tenant_state_entity_1 = require("./users/tenant_state/entities/tenant_state.entity");
+const tenant_organisation_address_entity_1 = require("./users/tenant_organisation_address/entities/tenant_organisation_address.entity");
+const tenant_organisation_address_module_1 = require("./users/tenant_organisation_address/tenant_organisation_address.module");
+const tenant_state_module_1 = require("./users/tenant_state/tenant_state.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -56,8 +64,8 @@ AppModule = __decorate([
                         type: "postgres",
                         host: "localhost",
                         port: 5432,
-                        username: "ananth",
-                        password: "u7i8o9p0",
+                        username: 'postgres',
+                        password: 'Pass@123',
                         synchronize: true,
                         entities: [
                             tenant_organisation_entity_1.TenantOrganisation,
@@ -76,6 +84,7 @@ AppModule = __decorate([
                             tmodule_entity_1.Tmodule,
                             tsubmodule_entity_1.Tsubmodule,
                             bsmap_entity_1.Bsmap,
+                            tenant_country_entity_1.TenantCountry, industry_domain_entity_1.IndustryDomain, tenant_state_entity_1.TenantState, tenant_organisation_address_entity_1.TenantOrganisationAddress
                         ],
                     };
                 },
@@ -91,6 +100,8 @@ AppModule = __decorate([
             tenant_profile_module_1.TenantProfileModule,
             bundles_module_1.BundlesModule,
             tmodules_module_1.TmodulesModule,
+            tenant_country_module_1.TenantCountryModule,
+            industry_domain_module_1.IndustryDomainModule, tenant_organisation_address_module_1.TenantOrganisationAddressModule, tenant_state_module_1.TenantStateModule
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

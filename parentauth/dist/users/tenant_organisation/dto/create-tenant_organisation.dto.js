@@ -11,6 +11,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateTenantOrganisationDto = void 0;
 const class_validator_1 = require("class-validator");
+const tenant_organisation_entity_1 = require("../entities/tenant_organisation.entity");
+const industry_domain_entity_1 = require("../../industry_domain/entities/industry_domain.entity");
 class CreateTenantOrganisationDto {
 }
 __decorate([
@@ -34,13 +36,20 @@ __decorate([
     __metadata("design:type", String)
 ], CreateTenantOrganisationDto.prototype, "pan", void 0);
 __decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.ValidateIf)(doc => doc.industry_domain),
+    (0, class_validator_1.IsUUID)(),
+    __metadata("design:type", industry_domain_entity_1.IndustryDomain)
+], CreateTenantOrganisationDto.prototype, "industry_domain", void 0);
+__decorate([
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsBoolean)(),
     __metadata("design:type", Boolean)
 ], CreateTenantOrganisationDto.prototype, "isParent", void 0);
 __decorate([
-    (0, class_validator_1.IsOptional)(),
-    __metadata("design:type", String)
-], CreateTenantOrganisationDto.prototype, "parentOrganisationId", void 0);
+    (0, class_validator_1.ValidateIf)((doc) => doc.tParentOrganisationId),
+    (0, class_validator_1.IsUUID)(),
+    __metadata("design:type", tenant_organisation_entity_1.TenantOrganisation)
+], CreateTenantOrganisationDto.prototype, "tParentOrganisationId", void 0);
 exports.CreateTenantOrganisationDto = CreateTenantOrganisationDto;
 //# sourceMappingURL=create-tenant_organisation.dto.js.map
