@@ -11,19 +11,33 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateTenantBranchDto = void 0;
 const class_validator_1 = require("class-validator");
+const tenant_organisation_entity_1 = require("../../tenant_organisation/entities/tenant_organisation.entity");
+const tenant_branch_entity_1 = require("../entities/tenant_branch.entity");
 class CreateTenantBranchDto {
 }
 __decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsUUID)(),
+    __metadata("design:type", tenant_organisation_entity_1.TenantOrganisation)
+], CreateTenantBranchDto.prototype, "organisation_id", void 0);
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], CreateTenantBranchDto.prototype, "name", void 0);
 __decorate([
+    (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], CreateTenantBranchDto.prototype, "gstin", void 0);
 __decorate([
     (0, class_validator_1.IsBoolean)(),
     __metadata("design:type", Boolean)
-], CreateTenantBranchDto.prototype, "isparent", void 0);
+], CreateTenantBranchDto.prototype, "isParent", void 0);
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsUUID)(),
+    __metadata("design:type", tenant_branch_entity_1.TenantBranch)
+], CreateTenantBranchDto.prototype, "parentbranch", void 0);
 exports.CreateTenantBranchDto = CreateTenantBranchDto;
 //# sourceMappingURL=create-tenant_branch.dto.js.map

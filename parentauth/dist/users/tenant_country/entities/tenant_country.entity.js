@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TenantCountry = void 0;
+const tenant_branch_address_entity_1 = require("../../tenant_branch_address/entities/tenant_branch_address.entity");
 const tenant_organisation_address_entity_1 = require("../../tenant_organisation_address/entities/tenant_organisation_address.entity");
 const tenant_state_entity_1 = require("../../tenant_state/entities/tenant_state.entity");
 const typeorm_1 = require("typeorm");
@@ -31,6 +32,10 @@ __decorate([
     (0, typeorm_1.OneToMany)(() => tenant_organisation_address_entity_1.TenantOrganisationAddress, address => address.country),
     __metadata("design:type", tenant_organisation_address_entity_1.TenantOrganisationAddress)
 ], TenantCountry.prototype, "tOrganisationAddress", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => tenant_branch_address_entity_1.TenantBranchAddress, tenantBranch => tenantBranch.country),
+    __metadata("design:type", tenant_branch_address_entity_1.TenantBranchAddress)
+], TenantCountry.prototype, "tBranch", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", Date)

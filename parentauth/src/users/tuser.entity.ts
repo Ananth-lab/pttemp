@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne } from 'typeorm';
+import { TenantOrganisation } from './tenant_organisation/entities/tenant_organisation.entity';
 
 export enum status {
   PENDING = 'pending',
@@ -46,6 +47,9 @@ export class Tuser {
 
   @Column({ nullable: true })
   emailVerifyToken: string;
+
+  @OneToOne(() => TenantOrganisation, tenantOrganisation=>tenantOrganisation.tUserId)
+  orgId: TenantOrganisation;
 
   @Column({ nullable: true })
   emailVerifyExpires: string;

@@ -12,12 +12,14 @@ var TenantOrganisation_1;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TenantOrganisation = void 0;
 const industry_domain_entity_1 = require("../../industry_domain/entities/industry_domain.entity");
+const tenant_branch_entity_1 = require("../../tenant_branch/entities/tenant_branch.entity");
 const tenant_organisation_address_entity_1 = require("../../tenant_organisation_address/entities/tenant_organisation_address.entity");
+const tuser_entity_1 = require("../../tuser.entity");
 const typeorm_1 = require("typeorm");
 let TenantOrganisation = TenantOrganisation_1 = class TenantOrganisation {
 };
 __decorate([
-    (0, typeorm_1.PrimaryGeneratedColumn)('uuid'),
+    (0, typeorm_1.PrimaryGeneratedColumn)("uuid"),
     __metadata("design:type", String)
 ], TenantOrganisation.prototype, "id", void 0);
 __decorate([
@@ -37,11 +39,13 @@ __decorate([
     __metadata("design:type", String)
 ], TenantOrganisation.prototype, "pan", void 0);
 __decorate([
-    (0, typeorm_1.OneToMany)(() => TenantOrganisation_1, tenantOrganisation => tenantOrganisation.id, { nullable: false }),
+    (0, typeorm_1.OneToMany)(() => TenantOrganisation_1, (tenantOrganisation) => tenantOrganisation.id, { nullable: false }),
     __metadata("design:type", TenantOrganisation)
 ], TenantOrganisation.prototype, "tenantOrganisations", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => industry_domain_entity_1.IndustryDomain, industryDomain => industryDomain.id, { nullable: false }),
+    (0, typeorm_1.ManyToOne)(() => industry_domain_entity_1.IndustryDomain, (industryDomain) => industryDomain.id, {
+        nullable: false,
+    }),
     __metadata("design:type", industry_domain_entity_1.IndustryDomain)
 ], TenantOrganisation.prototype, "industry_domain", void 0);
 __decorate([
@@ -54,9 +58,18 @@ __decorate([
     __metadata("design:type", Boolean)
 ], TenantOrganisation.prototype, "isParent", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => TenantOrganisation_1, tenantOrganisation => tenantOrganisation.id, { nullable: true, onDelete: "CASCADE" }),
+    (0, typeorm_1.ManyToOne)(() => TenantOrganisation_1, (tenantOrganisation) => tenantOrganisation.id, { nullable: true, onDelete: "CASCADE" }),
     __metadata("design:type", TenantOrganisation)
 ], TenantOrganisation.prototype, "tParentOrganisationId", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => tenant_branch_entity_1.TenantBranch, (tenantBranch) => tenantBranch.organisation_id),
+    __metadata("design:type", tenant_branch_entity_1.TenantBranch)
+], TenantOrganisation.prototype, "Branch_id", void 0);
+__decorate([
+    (0, typeorm_1.OneToOne)(() => tuser_entity_1.Tuser, tUser => tUser.id),
+    (0, typeorm_1.JoinColumn)(),
+    __metadata("design:type", tuser_entity_1.Tuser)
+], TenantOrganisation.prototype, "tUserId", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", Date)

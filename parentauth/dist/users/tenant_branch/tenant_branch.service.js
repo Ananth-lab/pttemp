@@ -37,9 +37,9 @@ let TenantBranchService = class TenantBranchService {
             if (updateTenantBranchDto.gstin) {
                 branch.gstin = updateTenantBranchDto.gstin;
             }
-            if (updateTenantBranchDto.isparent == true ||
-                updateTenantBranchDto.isparent == false) {
-                branch.isparent = updateTenantBranchDto.isparent;
+            if (updateTenantBranchDto.isParent == true ||
+                updateTenantBranchDto.isParent == false) {
+                branch.isParent = updateTenantBranchDto.isParent;
             }
             if (updateTenantBranchDto.name) {
                 branch.name = updateTenantBranchDto.name;

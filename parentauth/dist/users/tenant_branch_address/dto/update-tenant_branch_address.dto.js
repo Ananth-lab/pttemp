@@ -13,6 +13,10 @@ exports.UpdateTenantBranchAddressDto = void 0;
 const mapped_types_1 = require("@nestjs/mapped-types");
 const create_tenant_branch_address_dto_1 = require("./create-tenant_branch_address.dto");
 const class_validator_1 = require("class-validator");
+const tenant_state_entity_1 = require("../../tenant_state/entities/tenant_state.entity");
+const tenant_country_entity_1 = require("../../tenant_country/entities/tenant_country.entity");
+const tenant_branch_entity_1 = require("../../tenant_branch/entities/tenant_branch.entity");
+const tenant_branch_address_entity_1 = require("../entities/tenant_branch_address.entity");
 class UpdateTenantBranchAddressDto extends (0, mapped_types_1.PartialType)(create_tenant_branch_address_dto_1.CreateTenantBranchAddressDto) {
 }
 __decorate([
@@ -32,8 +36,28 @@ __decorate([
     __metadata("design:type", String)
 ], UpdateTenantBranchAddressDto.prototype, "city", void 0);
 __decorate([
+    (0, class_validator_1.IsUUID)(),
+    __metadata("design:type", tenant_state_entity_1.TenantState)
+], UpdateTenantBranchAddressDto.prototype, "state", void 0);
+__decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], UpdateTenantBranchAddressDto.prototype, "post_code", void 0);
+__decorate([
+    (0, class_validator_1.IsUUID)(),
+    __metadata("design:type", tenant_country_entity_1.TenantCountry)
+], UpdateTenantBranchAddressDto.prototype, "country", void 0);
+__decorate([
+    (0, class_validator_1.IsUUID)(),
+    __metadata("design:type", tenant_branch_entity_1.TenantBranch)
+], UpdateTenantBranchAddressDto.prototype, "branch_id", void 0);
+__decorate([
+    (0, class_validator_1.IsBoolean)(),
+    __metadata("design:type", Boolean)
+], UpdateTenantBranchAddressDto.prototype, "isParent", void 0);
+__decorate([
+    (0, class_validator_1.IsUUID)(),
+    __metadata("design:type", tenant_branch_address_entity_1.TenantBranchAddress)
+], UpdateTenantBranchAddressDto.prototype, "tenantBranhAddress", void 0);
 exports.UpdateTenantBranchAddressDto = UpdateTenantBranchAddressDto;
 //# sourceMappingURL=update-tenant_branch_address.dto.js.map

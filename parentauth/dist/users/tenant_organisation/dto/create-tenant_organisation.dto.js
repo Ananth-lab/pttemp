@@ -13,6 +13,7 @@ exports.CreateTenantOrganisationDto = void 0;
 const class_validator_1 = require("class-validator");
 const tenant_organisation_entity_1 = require("../entities/tenant_organisation.entity");
 const industry_domain_entity_1 = require("../../industry_domain/entities/industry_domain.entity");
+const tuser_entity_1 = require("../../tuser.entity");
 class CreateTenantOrganisationDto {
 }
 __decorate([
@@ -51,5 +52,10 @@ __decorate([
     (0, class_validator_1.IsUUID)(),
     __metadata("design:type", tenant_organisation_entity_1.TenantOrganisation)
 ], CreateTenantOrganisationDto.prototype, "tParentOrganisationId", void 0);
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsUUID)(),
+    __metadata("design:type", tuser_entity_1.Tuser)
+], CreateTenantOrganisationDto.prototype, "tUserId", void 0);
 exports.CreateTenantOrganisationDto = CreateTenantOrganisationDto;
 //# sourceMappingURL=create-tenant_organisation.dto.js.map

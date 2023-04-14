@@ -86,6 +86,7 @@ export class TenantOrganisationService {
       if (updateTenantOrganisationDto.isParent !== undefined) {
         organisation.isParent = updateTenantOrganisationDto.isParent;
       }
+      if(updateTenantOrganisationDto.tUserId) {organisation.tUserId=updateTenantOrganisationDto.tUserId}
       if (updateTenantOrganisationDto.isParent) {
         if (updateTenantOrganisationDto.tParentOrganisationId) {
           const id =

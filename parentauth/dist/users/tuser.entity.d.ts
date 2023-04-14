@@ -1,3 +1,4 @@
+import { TenantOrganisation } from './tenant_organisation/entities/tenant_organisation.entity';
 export declare enum status {
     PENDING = "pending",
     ACTIVE = "active",
@@ -15,6 +16,7 @@ export declare class Tuser {
     status: status;
     model: string;
     emailVerifyToken: string;
+    orgId: TenantOrganisation;
     emailVerifyExpires: string;
     mobileVerifyToken: string;
     mobileVerifyExpires: string;

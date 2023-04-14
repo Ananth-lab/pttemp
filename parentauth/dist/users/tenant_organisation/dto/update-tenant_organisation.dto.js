@@ -15,6 +15,7 @@ const create_tenant_organisation_dto_1 = require("./create-tenant_organisation.d
 const class_validator_1 = require("class-validator");
 const tenant_organisation_entity_1 = require("../entities/tenant_organisation.entity");
 const industry_domain_entity_1 = require("../../industry_domain/entities/industry_domain.entity");
+const tuser_entity_1 = require("../../tuser.entity");
 class UpdateTenantOrganisationDto extends (0, mapped_types_1.PartialType)(create_tenant_organisation_dto_1.CreateTenantOrganisationDto) {
 }
 __decorate([
@@ -47,5 +48,9 @@ __decorate([
     (0, class_validator_1.IsUUID)(),
     __metadata("design:type", tenant_organisation_entity_1.TenantOrganisation)
 ], UpdateTenantOrganisationDto.prototype, "tParentOrganisationId", void 0);
+__decorate([
+    (0, class_validator_1.IsUUID)(),
+    __metadata("design:type", tuser_entity_1.Tuser)
+], UpdateTenantOrganisationDto.prototype, "tUserId", void 0);
 exports.UpdateTenantOrganisationDto = UpdateTenantOrganisationDto;
 //# sourceMappingURL=update-tenant_organisation.dto.js.map

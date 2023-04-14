@@ -1,6 +1,7 @@
 import { IsBoolean, IsNotEmpty, IsOptional, IsString, IsUUID, ValidateIf, ValidateNested } from 'class-validator';
 import { TenantOrganisation } from '../entities/tenant_organisation.entity';
 import { IndustryDomain } from 'src/users/industry_domain/entities/industry_domain.entity';
+import { Tuser } from 'src/users/tuser.entity';
 
 export class CreateTenantOrganisationDto {
   @IsNotEmpty()
@@ -33,5 +34,7 @@ export class CreateTenantOrganisationDto {
   @IsUUID()
   tParentOrganisationId: TenantOrganisation;
 
-
+  @IsNotEmpty()
+  @IsUUID()
+  tUserId:Tuser
 }

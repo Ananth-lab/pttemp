@@ -29,10 +29,10 @@ export class TenantBranchService {
       }
 
       if (
-        updateTenantBranchDto.isparent == true ||
-        updateTenantBranchDto.isparent == false
+        updateTenantBranchDto.isParent == true ||
+        updateTenantBranchDto.isParent == false
       ) {
-        branch.isparent = updateTenantBranchDto.isparent;
+        branch.isParent = updateTenantBranchDto.isParent;
       }
 
       if (updateTenantBranchDto.name) {

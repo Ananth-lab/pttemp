@@ -1,35 +1,66 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { TenantBranch } from "src/users/tenant_branch/entities/tenant_branch.entity";
+import { TenantCountry } from "src/users/tenant_country/entities/tenant_country.entity";
+import { TenantState } from "src/users/tenant_state/entities/tenant_state.entity";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToOne,
+} from "typeorm";
 // import { TenantBranch } from './TenantBranch';
 // import { Country } from './Country';
 // import { State } from './State';
 
 @Entity()
 export class TenantBranchAddress {
-    
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @Column({ type: 'varchar' })
+  @Column()
   name: string;
 
-  @Column({ type: 'varchar' })
+  @Column()
   address: string;
 
-  @Column({ type: 'varchar' })
+  @Column()
   plot_no: string;
 
-  @Column({ type: 'varchar' })
+  @Column()
   city: string;
 
-//   @ManyToOne(() => State, state => state.tenantBranchAddresses)
-//   state: State;
+  @ManyToOne(() => TenantState, (state) => state.id)
+  state: TenantState;
 
-  @Column({ type: 'varchar' })
+  @Column()
   post_code: string;
 
-//   @ManyToOne(() => Country, country => country.tenantBranchAddresses)
-//   country: Country;
+  @ManyToOne(() => TenantCountry, (country) => country.id)
+  country: TenantCountry;
 
-//   @ManyToOne(() => TenantBranch, tenantBranch => tenantBranch.addresses)
-//   branch: TenantBranch;
+  @Column({ default: false })
+  isParent: Boolean;
+
+  @ManyToOne(
+    () => TenantBranchAddress,
+    (tenantBranchAddress) => tenantBranchAddress.id,
+    {
+      nullable: true,
+      onDelete: "CASCADE",
+    }
+  )
+  tenantBranhAddress: TenantBranchAddress;
+
+  @OneToOne(() => TenantBranch, (tenantBranch) => tenantBranch.id, {
+    nullable: false,
+  })
+  tenantBranchId: TenantBranch;
+
+  @CreateDateColumn()
+  readonly createdAt!: Date;
+
+  @UpdateDateColumn()
+  readonly updatedAt!: Date;
 }

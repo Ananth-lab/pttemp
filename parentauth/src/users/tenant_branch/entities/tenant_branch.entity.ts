@@ -1,12 +1,14 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { TenantBranchAddress } from 'src/users/tenant_branch_address/entities/tenant_branch_address.entity';
+import { TenantOrganisation } from 'src/users/tenant_organisation/entities/tenant_organisation.entity';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn, OneToOne } from 'typeorm';
 
 @Entity()
 export class TenantBranch {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-//   @ManyToOne(() => TenantOrganisation)
-//   organisation: TenantOrganisation;
+  @ManyToOne(() => TenantOrganisation,tenantOrganisation=>tenantOrganisation.id)
+  organisation_id: TenantOrganisation;
 
   @Column()
   name: string;
@@ -14,13 +16,21 @@ export class TenantBranch {
   @Column()
   gstin: string;
 
-  @Column()
-  isparent: boolean;
+  @Column({ default: false })
+  isParent: boolean;
 
+  @ManyToOne(() => TenantBranch, (tenantBranch) => tenantBranch.id, {
+    nullable: true,
+    onDelete: "CASCADE",
+  })
+  parentbranchId: TenantBranch;
 
-
-//   @ManyToOne(() => TenantBranch)
-//   parentbranch: TenantBranch;
+  @OneToOne(
+    () => TenantBranchAddress,
+    (tenantBranchAddress) => tenantBranchAddress.tenantBranchId,
+    { nullable: false }
+  )
+  TenantBranchAddressId: TenantBranchAddress;
 
 @CreateDateColumn()
 readonly createdAt!: Date;

@@ -1,3 +1,4 @@
+import { TenantBranchAddress } from 'src/users/tenant_branch_address/entities/tenant_branch_address.entity';
 import { TenantOrganisationAddress } from 'src/users/tenant_organisation_address/entities/tenant_organisation_address.entity';
 import { TenantState } from 'src/users/tenant_state/entities/tenant_state.entity';
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
@@ -16,6 +17,9 @@ export class TenantCountry{
 
   @OneToMany(() => TenantOrganisationAddress, address => address.country)
   tOrganisationAddress: TenantOrganisationAddress
+
+  @OneToMany(() => TenantBranchAddress, tenantBranch => tenantBranch.country)
+  tBranch: TenantBranchAddress;
 
   @CreateDateColumn()
   readonly createdAt!: Date;
