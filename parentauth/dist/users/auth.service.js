@@ -31,8 +31,7 @@ let AuthService = class AuthService {
         const salt = (0, crypto_1.randomBytes)(8).toString('hex');
         const hash = (await scrypt(body.password, salt, 32));
         const result = salt + '.' + hash.toString('hex');
-        const user = await this.pusersService.create(Object.assign(Object.assign({}, body), { password: result }));
-        return user;
+        console.log(result);
     }
     async pSignin(email, password) {
         const [user] = await this.pusersService.find(email);
@@ -53,6 +52,12 @@ let AuthService = class AuthService {
         const users = await this.tusersService.find(body.email);
         if (users.length) {
             throw new common_1.BadRequestException('email in use');
+        }
+        if (!body.password) {
+            const passwordLength = 10;
+            const buffer = await (0, util_1.promisify)(crypto_1.randomBytes)(passwordLength);
+            const randomPassword = buffer.toString('hex');
+            body.password = randomPassword;
         }
         const salt = (0, crypto_1.randomBytes)(8).toString('hex');
         const hash = (await scrypt(body.password, salt, 32));

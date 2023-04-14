@@ -23,18 +23,22 @@ export class AuthService {
 
   async psignup(body: CreatePuserDto) {
     const users = await this.pusersService.find(body.email);
+
     if (users.length) {
       throw new BadRequestException('email in use');
     }
 
+  
     const salt = randomBytes(8).toString('hex');
 
     const hash = (await scrypt(body.password, salt, 32)) as Buffer;
     const result = salt + '.' + hash.toString('hex');
 
-    const user = await this.pusersService.create({ ...body, password: result });
+    console.log(result)
 
-    return user;
+    //const user = await this.pusersService.create({ ...body, password: result });
+
+    //return user;
   }
 
   async pSignin(email: string, password: string) {
@@ -67,13 +71,16 @@ export class AuthService {
       throw new BadRequestException('email in use');
     }
 
+    if (!body.password) {
+      const passwordLength = 10; // Set your desired password length here
+      const buffer = await promisify(randomBytes)(passwordLength);
+      const randomPassword = buffer.toString('hex');
+      body.password = randomPassword;
+    }
     const salt = randomBytes(8).toString('hex');
-
     const hash = (await scrypt(body.password, salt, 32)) as Buffer;
     const result = salt + '.' + hash.toString('hex');
-
     const user = await this.tusersService.create({ ...body, password: result });
-
     return user;
   }
 
