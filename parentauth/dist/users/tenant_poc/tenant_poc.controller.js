@@ -25,11 +25,15 @@ let TenantPocController = class TenantPocController {
         return await this.tenantPocService.create(createTenantPocDto);
     }
     async update(id, updateTenantPocDto) {
-        return await this.tenantPocService.update(id, updateTenantPocDto);
+        const user = await this.tenantPocService.update(id, updateTenantPocDto);
+        if (!user)
+            throw new common_1.HttpException("no data found", 404);
+        return "data updated";
     }
 };
 __decorate([
     (0, common_1.Post)(),
+    (0, common_1.UsePipes)(common_1.ValidationPipe),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_tenant_poc_dto_1.CreateTenantPocDto]),
@@ -37,6 +41,7 @@ __decorate([
 ], TenantPocController.prototype, "create", null);
 __decorate([
     (0, common_1.Patch)(':id'),
+    (0, common_1.UsePipes)(common_1.ValidationPipe),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),

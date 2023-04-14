@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { TenantOrganisation } from 'src/users/tenant_organisation/entities/tenant_organisation.entity';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToOne, JoinColumn } from 'typeorm';
 
 @Entity()
 export class TenantPoc {
@@ -19,9 +20,6 @@ export class TenantPoc {
 
   @Column({ nullable: true })
   phone: string;
-
-//   @ManyToOne(() => Tenant, { nullable: false })
-//   tenant: Tenant;
 
   @Column({ nullable: false, default: false })
   isAddedInPortal: boolean;
@@ -49,4 +47,8 @@ export class TenantPoc {
 
   @Column({ nullable: true, type: 'timestamp' })
   passwordResetExpires: Date;
+
+  @OneToOne(() => TenantOrganisation, tenantOrganisation => tenantOrganisation.id)
+  @JoinColumn()
+  tenantOrganisation_id:TenantOrganisation
 }

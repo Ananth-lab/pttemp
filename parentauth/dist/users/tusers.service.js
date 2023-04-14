@@ -45,6 +45,21 @@ let TusersService = class TusersService {
     findAllTusers() {
         return this.repo.find();
     }
+    async update(id, UpdateTuserDto) {
+        const user = await this.repo.findOne({ where: { id: id } });
+        if (!user)
+            return user;
+        if (UpdateTuserDto.email) {
+            user.email = UpdateTuserDto.email;
+        }
+        if (UpdateTuserDto.name) {
+            user.name = UpdateTuserDto.name;
+        }
+        if (UpdateTuserDto.mobile) {
+            user.mobile = UpdateTuserDto.mobile;
+        }
+        return await this.repo.save(user);
+    }
     async findOne(id) {
         const tuser = await this.repo.findOne({ where: { id } });
         if (!tuser) {

@@ -1,5 +1,6 @@
 
-import { IsString, IsEmail, IsNotEmpty, IsOptional, IsPhoneNumber } from 'class-validator';
+import { IsString, IsEmail, IsNotEmpty, IsOptional, IsPhoneNumber, IsUUID, UUIDVersion } from 'class-validator';
+import { TenantOrganisation } from 'src/users/tenant_organisation/entities/tenant_organisation.entity';
 
 export class CreateTenantPocDto {
   @IsOptional()
@@ -51,4 +52,8 @@ export class CreateTenantPocDto {
 
   @IsOptional()
   passwordResetExpires?: Date;
+
+  @IsNotEmpty()
+  @IsUUID()
+  tenantOrganisation_id : TenantOrganisation
 }

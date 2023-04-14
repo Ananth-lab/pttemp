@@ -1,6 +1,7 @@
 import { IndustryDomain } from "src/users/industry_domain/entities/industry_domain.entity";
 import { TenantBranch } from "src/users/tenant_branch/entities/tenant_branch.entity";
 import { TenantOrganisationAddress } from "src/users/tenant_organisation_address/entities/tenant_organisation_address.entity";
+import { TenantPoc } from "src/users/tenant_poc/entities/tenant_poc.entity";
 import { Tuser } from "src/users/tuser.entity";
 import {
   Column,
@@ -64,9 +65,15 @@ export class TenantOrganisation {
   @JoinColumn()
   tUserId: Tuser;
 
+  @OneToOne(() => TenantPoc, tenantPoc => tenantPoc.tenantOrganisation_id)
+  @JoinColumn()
+  tenantPoc_id:TenantPoc
+
   @CreateDateColumn()
   readonly createdAt!: Date;
 
   @UpdateDateColumn()
   readonly updatedAt!: Date;
+
+
 }

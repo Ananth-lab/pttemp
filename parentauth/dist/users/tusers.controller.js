@@ -18,6 +18,7 @@ const tusers_service_1 = require("./tusers.service");
 const auth_service_1 = require("./auth.service");
 const create_tuser_dto_1 = require("./dtos/create-tuser.dto");
 const signin_dto_1 = require("./dtos/signin.dto");
+const update_tuser_dto_1 = require("./dtos/update-tuser.dto");
 let TusersController = class TusersController {
     constructor(tusersService, authService) {
         this.tusersService = tusersService;
@@ -25,6 +26,12 @@ let TusersController = class TusersController {
     }
     addUser(body) {
         return this.authService.tsignup(body);
+    }
+    async update(id, body) {
+        const organisation = await this.tusersService.update(id, body);
+        if (!organisation)
+            throw new common_1.HttpException("no data found", 404);
+        return "data updated";
     }
     tenantUserLogin(body) {
         return this.authService.tSignin(body.email, body.password);
@@ -37,14 +44,23 @@ let TusersController = class TusersController {
     }
 };
 __decorate([
-    (0, common_1.Post)('/self_signup'),
+    (0, common_1.Post)("/self_signup"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_tuser_dto_1.CreateTuserDto]),
     __metadata("design:returntype", void 0)
 ], TusersController.prototype, "addUser", null);
 __decorate([
-    (0, common_1.Post)('/signin'),
+    (0, common_1.Patch)(":id"),
+    (0, common_1.UsePipes)(common_1.ValidationPipe),
+    __param(0, (0, common_1.Param)("id", common_1.ParseUUIDPipe)),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, update_tuser_dto_1.UpdateTuserDto]),
+    __metadata("design:returntype", Promise)
+], TusersController.prototype, "update", null);
+__decorate([
+    (0, common_1.Post)("/signin"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [signin_dto_1.SinginDto]),
@@ -57,14 +73,14 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], TusersController.prototype, "getTusers", null);
 __decorate([
-    (0, common_1.Get)('/:id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Get)("/:id"),
+    __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], TusersController.prototype, "getAPuser", null);
 TusersController = __decorate([
-    (0, common_1.Controller)('tenant_users'),
+    (0, common_1.Controller)("tenant_users"),
     __metadata("design:paramtypes", [tusers_service_1.TusersService,
         auth_service_1.AuthService])
 ], TusersController);

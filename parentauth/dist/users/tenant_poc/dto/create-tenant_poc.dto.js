@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateTenantPocDto = void 0;
 const class_validator_1 = require("class-validator");
+const tenant_organisation_entity_1 = require("../../tenant_organisation/entities/tenant_organisation.entity");
 class CreateTenantPocDto {
 }
 __decorate([
@@ -74,5 +75,10 @@ __decorate([
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", Date)
 ], CreateTenantPocDto.prototype, "passwordResetExpires", void 0);
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsUUID)(),
+    __metadata("design:type", tenant_organisation_entity_1.TenantOrganisation)
+], CreateTenantPocDto.prototype, "tenantOrganisation_id", void 0);
 exports.CreateTenantPocDto = CreateTenantPocDto;
 //# sourceMappingURL=create-tenant_poc.dto.js.map

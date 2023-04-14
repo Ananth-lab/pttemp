@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { Tuser } from './tuser.entity';
 import { CreateTuserDto } from './dtos/create-tuser.dto';
 import { connectRabbitMQ } from './rabbit';
+import { UpdateTuserDto } from './dtos/update-tuser.dto';
 
 
 @Injectable()
@@ -39,6 +40,25 @@ export class TusersService {
   findAllTusers() {
     return this.repo.find();
   }
+
+  async update(
+    id: string,
+    UpdateTuserDto: UpdateTuserDto
+  ) {
+      const user = await this.repo.findOne({ where: { id: id } });
+      if (!user) return user;
+      if(UpdateTuserDto.email ){
+        user.email = UpdateTuserDto.email; 
+      }
+      if(UpdateTuserDto.name ){
+        user.name = UpdateTuserDto.name; 
+      }
+      if(UpdateTuserDto.mobile ){
+        user.mobile = UpdateTuserDto.mobile; 
+      }
+
+      return await this.repo.save(user)
+    }
 
   async findOne(id: string) {
     const tuser = await this.repo.findOne({ where: { id } });

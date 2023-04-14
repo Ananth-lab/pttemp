@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UsePipes, ValidationPipe, HttpException } from '@nestjs/common';
 import { TenantPocService } from './tenant_poc.service';
 import { CreateTenantPocDto } from './dto/create-tenant_poc.dto';
 import { UpdateTenantPocDto } from './dto/update-tenant_poc.dto';
@@ -8,6 +8,7 @@ export class TenantPocController {
   constructor(private readonly tenantPocService: TenantPocService) {}
 
   @Post()
+  @UsePipes(ValidationPipe)
   async create(@Body() createTenantPocDto: CreateTenantPocDto) {
     return await this.tenantPocService.create(createTenantPocDto);
   }
@@ -23,8 +24,11 @@ export class TenantPocController {
   // }
 
   @Patch(':id')
+  @UsePipes(ValidationPipe)
   async update(@Param('id') id: string, @Body() updateTenantPocDto: UpdateTenantPocDto) {
-    return await this.tenantPocService.update(id, updateTenantPocDto);
+    const user =  await this.tenantPocService.update(id, updateTenantPocDto);
+    if (!user) throw new HttpException("no data found", 404);
+    return "data updated";
   }
 
 

@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TenantPoc = void 0;
+const tenant_organisation_entity_1 = require("../../tenant_organisation/entities/tenant_organisation.entity");
 const typeorm_1 = require("typeorm");
 let TenantPoc = class TenantPoc {
 };
@@ -73,6 +74,11 @@ __decorate([
     (0, typeorm_1.Column)({ nullable: true, type: 'timestamp' }),
     __metadata("design:type", Date)
 ], TenantPoc.prototype, "passwordResetExpires", void 0);
+__decorate([
+    (0, typeorm_1.OneToOne)(() => tenant_organisation_entity_1.TenantOrganisation, tenantOrganisation => tenantOrganisation.id),
+    (0, typeorm_1.JoinColumn)(),
+    __metadata("design:type", tenant_organisation_entity_1.TenantOrganisation)
+], TenantPoc.prototype, "tenantOrganisation_id", void 0);
 TenantPoc = __decorate([
     (0, typeorm_1.Entity)()
 ], TenantPoc);

@@ -5,5 +5,5 @@ export declare class TenantPocController {
     private readonly tenantPocService;
     constructor(tenantPocService: TenantPocService);
     create(createTenantPocDto: CreateTenantPocDto): Promise<CreateTenantPocDto & import("./entities/tenant_poc.entity").TenantPoc>;
-    update(id: string, updateTenantPocDto: UpdateTenantPocDto): Promise<"data updated" | import("./entities/tenant_poc.entity").TenantPoc>;
+    update(id: string, updateTenantPocDto: UpdateTenantPocDto): Promise<string>;
 }

@@ -10,6 +10,7 @@ import { promisify } from 'util';
 import { CreateTuserDto } from './dtos/create-tuser.dto';
 import { JwtService } from '@nestjs/jwt';
 import { CreatePuserDto } from './dtos/create-puser.dto';
+import { UpdateTuserDto } from './dtos/update-tuser.dto';
 
 const scrypt = promisify(_scrypt);
 
@@ -83,6 +84,7 @@ export class AuthService {
     const user = await this.tusersService.create({ ...body, password: result });
     return user;
   }
+
 
   async tSignin(email: string, password: string) {
     const [user] = await this.tusersService.find(email);

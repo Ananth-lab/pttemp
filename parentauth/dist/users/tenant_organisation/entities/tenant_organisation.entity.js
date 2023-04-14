@@ -14,6 +14,7 @@ exports.TenantOrganisation = void 0;
 const industry_domain_entity_1 = require("../../industry_domain/entities/industry_domain.entity");
 const tenant_branch_entity_1 = require("../../tenant_branch/entities/tenant_branch.entity");
 const tenant_organisation_address_entity_1 = require("../../tenant_organisation_address/entities/tenant_organisation_address.entity");
+const tenant_poc_entity_1 = require("../../tenant_poc/entities/tenant_poc.entity");
 const tuser_entity_1 = require("../../tuser.entity");
 const typeorm_1 = require("typeorm");
 let TenantOrganisation = TenantOrganisation_1 = class TenantOrganisation {
@@ -70,6 +71,11 @@ __decorate([
     (0, typeorm_1.JoinColumn)(),
     __metadata("design:type", tuser_entity_1.Tuser)
 ], TenantOrganisation.prototype, "tUserId", void 0);
+__decorate([
+    (0, typeorm_1.OneToOne)(() => tenant_poc_entity_1.TenantPoc, tenantPoc => tenantPoc.tenantOrganisation_id),
+    (0, typeorm_1.JoinColumn)(),
+    __metadata("design:type", tenant_poc_entity_1.TenantPoc)
+], TenantOrganisation.prototype, "tenantPoc_id", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", Date)

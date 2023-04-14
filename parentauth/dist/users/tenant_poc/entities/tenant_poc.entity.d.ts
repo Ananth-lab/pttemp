@@ -1,3 +1,4 @@
+import { TenantOrganisation } from 'src/users/tenant_organisation/entities/tenant_organisation.entity';
 export declare class TenantPoc {
     id: string;
     profileImage: string;
@@ -14,4 +15,5 @@ export declare class TenantPoc {
     mobileVerifyExpires: Date;
     passwordResetToken: Date;
     passwordResetExpires: Date;
+    tenantOrganisation_id: TenantOrganisation;
 }
