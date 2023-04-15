@@ -16,6 +16,7 @@ const class_validator_1 = require("class-validator");
 const tenant_state_entity_1 = require("../../tenant_state/entities/tenant_state.entity");
 const tenant_country_entity_1 = require("../../tenant_country/entities/tenant_country.entity");
 const tenant_organisation_entity_1 = require("../../tenant_organisation/entities/tenant_organisation.entity");
+const tenant_organisation_address_entity_1 = require("../entities/tenant_organisation_address.entity");
 class UpdateTenantOrganisationAddressDto extends (0, mapped_types_1.PartialType)(create_tenant_organisation_address_dto_1.CreateTenantOrganisationAddressDto) {
 }
 __decorate([
@@ -53,5 +54,14 @@ __decorate([
     (0, class_validator_1.IsUUID)(),
     __metadata("design:type", tenant_organisation_entity_1.TenantOrganisation)
 ], UpdateTenantOrganisationAddressDto.prototype, "tenantOrganisationId", void 0);
+__decorate([
+    (0, class_validator_1.IsBoolean)(),
+    __metadata("design:type", Boolean)
+], UpdateTenantOrganisationAddressDto.prototype, "isParent", void 0);
+__decorate([
+    (0, class_validator_1.ValidateIf)(doc => doc.parentOaddress),
+    (0, class_validator_1.IsUUID)(),
+    __metadata("design:type", tenant_organisation_address_entity_1.TenantOrganisationAddress)
+], UpdateTenantOrganisationAddressDto.prototype, "parentOaddress", void 0);
 exports.UpdateTenantOrganisationAddressDto = UpdateTenantOrganisationAddressDto;
 //# sourceMappingURL=update-tenant_organisation_address.dto.js.map

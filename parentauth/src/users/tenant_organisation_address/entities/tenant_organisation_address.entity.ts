@@ -48,6 +48,16 @@ export class TenantOrganisationAddress {
   )
   tenantOrganisationId: TenantOrganisation;
 
+  @Column({ default: false })
+  isParent: Boolean;
+
+  @ManyToOne(
+    () => TenantOrganisationAddress,
+    (tenantOrganisationAddress) => tenantOrganisationAddress.id,
+    { nullable: true, onDelete: "CASCADE" }
+  )
+  parentOaddress:TenantOrganisationAddress
+
   @CreateDateColumn()
   readonly createdAt!: Date;
 

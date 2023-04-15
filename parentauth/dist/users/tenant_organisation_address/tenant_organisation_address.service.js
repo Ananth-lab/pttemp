@@ -23,6 +23,13 @@ let TenantOrganisationAddressService = class TenantOrganisationAddressService {
     }
     async create(createTenantOrganisationAddressDto) {
         try {
+            if ((createTenantOrganisationAddressDto.isParent == null &&
+                createTenantOrganisationAddressDto.parentOaddress) ||
+                (createTenantOrganisationAddressDto.isParent == false &&
+                    createTenantOrganisationAddressDto.parentOaddress)) {
+                createTenantOrganisationAddressDto.isParent == false;
+                createTenantOrganisationAddressDto.parentOaddress = null;
+            }
             return await this.repoOrAd.save(createTenantOrganisationAddressDto);
         }
         catch (error) {
@@ -54,6 +61,11 @@ let TenantOrganisationAddressService = class TenantOrganisationAddressService {
             }
             if (updateTenantOrganisationAddressDto.country) {
                 orgAdd.country = updateTenantOrganisationAddressDto.country;
+            }
+            if (updateTenantOrganisationAddressDto.isParent) {
+                orgAdd.parentOaddress =
+                    updateTenantOrganisationAddressDto.parentOaddress;
+                orgAdd.isParent = updateTenantOrganisationAddressDto.isParent;
             }
             return await this.repoOrAd.save(orgAdd);
         }

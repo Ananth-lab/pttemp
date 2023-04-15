@@ -8,13 +8,14 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var TenantOrganisationAddress_1;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TenantOrganisationAddress = void 0;
 const tenant_country_entity_1 = require("../../tenant_country/entities/tenant_country.entity");
 const tenant_organisation_entity_1 = require("../../tenant_organisation/entities/tenant_organisation.entity");
 const tenant_state_entity_1 = require("../../tenant_state/entities/tenant_state.entity");
 const typeorm_1 = require("typeorm");
-let TenantOrganisationAddress = class TenantOrganisationAddress {
+let TenantOrganisationAddress = TenantOrganisationAddress_1 = class TenantOrganisationAddress {
 };
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)("uuid"),
@@ -57,6 +58,14 @@ __decorate([
     __metadata("design:type", tenant_organisation_entity_1.TenantOrganisation)
 ], TenantOrganisationAddress.prototype, "tenantOrganisationId", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ default: false }),
+    __metadata("design:type", Boolean)
+], TenantOrganisationAddress.prototype, "isParent", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => TenantOrganisationAddress_1, (tenantOrganisationAddress) => tenantOrganisationAddress.id, { nullable: true, onDelete: "CASCADE" }),
+    __metadata("design:type", TenantOrganisationAddress)
+], TenantOrganisationAddress.prototype, "parentOaddress", void 0);
+__decorate([
     (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", Date)
 ], TenantOrganisationAddress.prototype, "createdAt", void 0);
@@ -64,7 +73,7 @@ __decorate([
     (0, typeorm_1.UpdateDateColumn)(),
     __metadata("design:type", Date)
 ], TenantOrganisationAddress.prototype, "updatedAt", void 0);
-TenantOrganisationAddress = __decorate([
+TenantOrganisationAddress = TenantOrganisationAddress_1 = __decorate([
     (0, typeorm_1.Entity)()
 ], TenantOrganisationAddress);
 exports.TenantOrganisationAddress = TenantOrganisationAddress;

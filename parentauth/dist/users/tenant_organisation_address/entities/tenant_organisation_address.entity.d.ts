@@ -11,6 +11,8 @@ export declare class TenantOrganisationAddress {
     post_code: string;
     country: TenantCountry;
     tenantOrganisationId: TenantOrganisation;
+    isParent: Boolean;
+    parentOaddress: TenantOrganisationAddress;
     readonly createdAt: Date;
     readonly updatedAt: Date;
 }

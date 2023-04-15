@@ -24,11 +24,14 @@ let TenantOrganisationAddressController = class TenantOrganisationAddressControl
     async create(createTenantOrganisationAddressDto) {
         return await this.tenantOrganisationAddressService.create(createTenantOrganisationAddressDto);
     }
-    update(id, updateTenantOrganisationAddressDto) {
-        return this.tenantOrganisationAddressService.update(id, updateTenantOrganisationAddressDto);
+    async update(id, updateTenantOrganisationAddressDto) {
+        const organisation = await this.tenantOrganisationAddressService.update(id, updateTenantOrganisationAddressDto);
+        if (!organisation)
+            throw new common_1.HttpException("no data found", 404);
+        return "data updated";
     }
-    remove(id) {
-        return this.tenantOrganisationAddressService.remove(id);
+    async remove(id) {
+        return await this.tenantOrganisationAddressService.remove(id);
     }
 };
 __decorate([
@@ -40,23 +43,23 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], TenantOrganisationAddressController.prototype, "create", null);
 __decorate([
-    (0, common_1.Patch)(':id'),
+    (0, common_1.Patch)(":id"),
     (0, common_1.UsePipes)(common_1.ValidationPipe),
-    __param(0, (0, common_1.Param)('id', common_1.ParseUUIDPipe)),
+    __param(0, (0, common_1.Param)("id", common_1.ParseUUIDPipe)),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, update_tenant_organisation_address_dto_1.UpdateTenantOrganisationAddressDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], TenantOrganisationAddressController.prototype, "update", null);
 __decorate([
-    (0, common_1.Delete)(':id'),
-    __param(0, (0, common_1.Param)('id', common_1.ParseUUIDPipe)),
+    (0, common_1.Delete)(":id"),
+    __param(0, (0, common_1.Param)("id", common_1.ParseUUIDPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], TenantOrganisationAddressController.prototype, "remove", null);
 TenantOrganisationAddressController = __decorate([
-    (0, common_1.Controller)('tenant-organisation-address'),
+    (0, common_1.Controller)("tenant-organisation-address"),
     __metadata("design:paramtypes", [tenant_organisation_address_service_1.TenantOrganisationAddressService])
 ], TenantOrganisationAddressController);
 exports.TenantOrganisationAddressController = TenantOrganisationAddressController;
