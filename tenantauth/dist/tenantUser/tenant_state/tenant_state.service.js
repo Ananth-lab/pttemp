@@ -17,9 +17,41 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const tenant_state_entity_1 = require("./entities/tenant_state.entity");
 const typeorm_2 = require("typeorm");
+const amqp = require("amqplib");
 let TenantStateService = class TenantStateService {
     constructor(statRep) {
         this.statRep = statRep;
+        this.consumeMessages();
+    }
+    async consumeMessages() {
+        try {
+            console.log("Connecting to RabbitMQ...");
+            const connection = await amqp.connect("amqp://localhost");
+            console.log("Connection to RabbitMQ established.");
+            const channel = await connection.createChannel();
+            const exchange = "user_exchange";
+            await channel.assertExchange(exchange, "direct", { durable: true });
+            const { queue } = await channel.assertQueue("", { exclusive: true });
+            console.log("Waiting for messages in queue:State", queue);
+            await channel.bindQueue(queue, exchange, "createState");
+            await channel.bindQueue(queue, exchange, "updatState");
+            channel.consume(queue, async (msg) => {
+                if (msg) {
+                    console.log("Message received:state", msg.content.toString());
+                    const state = JSON.parse(msg.content.toString());
+                    if (msg.fields.routingKey === "createState") {
+                        await this.create(state);
+                    }
+                    else if (msg.fields.routingKey === "updateState") {
+                    }
+                    channel.ack(msg);
+                }
+            }, { noAck: false });
+        }
+        catch (err) {
+            console.error("Failed to connect to RabbitMQ");
+            console.error(err);
+        }
     }
     async create(createTenantStateDto) {
         try {

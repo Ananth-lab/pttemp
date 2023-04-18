@@ -17,9 +17,42 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const industry_domain_entity_1 = require("./entities/industry_domain.entity");
 const typeorm_2 = require("typeorm");
+const amqp = require("amqplib");
+const rabbitMq_sender_1 = require("../rabbitM/rabbitMq.sender");
 let IndustryDomainService = class IndustryDomainService {
     constructor(domainRepo) {
         this.domainRepo = domainRepo;
+        this.consumeMessages();
+    }
+    async consumeMessages() {
+        try {
+            console.log("Connecting to RabbitMQ...");
+            const connection = await amqp.connect("amqp://localhost");
+            console.log("Connection to RabbitMQ established.");
+            const channel = await connection.createChannel();
+            const exchange = "user_exchange";
+            await channel.assertExchange(exchange, "direct", { durable: true });
+            const { queue } = await channel.assertQueue("", { exclusive: true });
+            console.log("Waiting for messages in queue: Domain", queue);
+            await channel.bindQueue(queue, exchange, "createIndustryDomain");
+            await channel.bindQueue(queue, exchange, "updatIndustryDomain");
+            channel.consume(queue, async (msg) => {
+                if (msg) {
+                    console.log("Message received:", msg.content.toString());
+                    const domain = JSON.parse(msg.content.toString());
+                    if (msg.fields.routingKey === "createIndustryDomain") {
+                        await this.create(domain);
+                    }
+                    else if (msg.fields.routingKey === "updateIndustryDomain") {
+                    }
+                    channel.ack(msg);
+                }
+            }, { noAck: false });
+        }
+        catch (err) {
+            console.error("Failed to connect to RabbitMQ");
+            console.error(err);
+        }
     }
     async create(createIndustryDomainDto) {
         try {
@@ -44,7 +77,14 @@ let IndustryDomainService = class IndustryDomainService {
                 return domain;
             if (updateIndustryDomainDto.name)
                 domain.name = updateIndustryDomainDto.name;
-            return this.domainRepo.save(domain);
+            const industryDomain = this.domainRepo.save(domain);
+            const rabbitConnection = await (0, rabbitMq_sender_1.connectRabbitMQ)();
+            if (!rabbitConnection) {
+                throw new Error('Failed to connect to RabbitMQ');
+            }
+            const { channel, exchange } = rabbitConnection;
+            await channel.publish(exchange, 'updateIndustryDomainByT', Buffer.from(JSON.stringify(industryDomain)));
+            console.log('Message sent: from industryDomain', industryDomain);
         }
         catch (error) {
             throw new common_1.HttpException(error.message, common_1.HttpStatus.INTERNAL_SERVER_ERROR);

@@ -31,7 +31,7 @@ export class TusersService {
         queue,
         async (msg) => {
           if (msg) {
-            console.log("Message received:", msg.content.toString());
+            console.log("Message received:", msg.toString());
             const user: Tuser = JSON.parse(msg.content.toString());
             if (msg.fields.routingKey === "createUser") {
               await this.create(user);

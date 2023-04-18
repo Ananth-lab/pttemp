@@ -10,13 +10,56 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { TenantOrganisation } from "./entities/tenant_organisation.entity";
 import { Equal, Repository } from "typeorm";
 import { equal } from "assert";
+import * as amqp from "amqplib";
+import { connectRabbitMQ } from "../rabbitM/rabbitMq.sender";
 
 @Injectable()
 export class TenantOrganisationService {
   constructor(
     @InjectRepository(TenantOrganisation)
     private readonly OrgRepo: Repository<TenantOrganisation>
-  ) {}
+  ) {this.consumeMessages()}
+
+
+
+  async consumeMessages() {
+    try {
+      console.log("Connecting to RabbitMQ...");
+      const connection = await amqp.connect("amqp://localhost");
+      console.log("Connection to RabbitMQ established.");
+      const channel = await connection.createChannel();
+      const exchange = "user_exchange";
+  
+      await channel.assertExchange(exchange, "direct", { durable: true });
+      const { queue } = await channel.assertQueue("", { exclusive: true });
+      console.log("Waiting for messages in queue:Organisation", queue);
+  
+      // Bind the queue to the exchange with routing keys 'createUser' and 'updateUser'
+      await channel.bindQueue(queue, exchange, "createOrganisation");
+      await channel.bindQueue(queue, exchange, "updatOrganisation");
+  
+      channel.consume(
+        queue,
+        async (msg) => {
+          if (msg) {
+            console.log("Message received:", msg.content.toString());
+            const organisation:TenantOrganisation= JSON.parse(msg.content.toString());
+            if (msg.fields.routingKey === "createOrganisation") {
+              await this.create(organisation);
+            } else if (msg.fields.routingKey === "updateOrganisation") {
+                //await this.update();
+            }
+            channel.ack(msg);
+          }
+        },
+        { noAck: false }
+      );
+    } catch (err) {
+      console.error("Failed to connect to RabbitMQ");
+      console.error(err);
+    }
+  }
+  
   async create(createTenantOrganisationDto: CreateTenantOrganisationDto) {
     try {
       if (
@@ -103,7 +146,15 @@ export class TenantOrganisationService {
         }
       }
 
-      return await this.OrgRepo.save(organisation);
+     const organisationByT =await this.OrgRepo.save(organisation);
+      const rabbitConnection = await connectRabbitMQ();
+      if (!rabbitConnection) {
+        throw new Error('Failed to connect to RabbitMQ');
+      }
+  
+      const { channel, exchange } = rabbitConnection;
+      await channel.publish(exchange, 'updateOrganisationByT', Buffer.from(JSON.stringify(organisationByT)));
+      console.log('Message sent: from organisationByT',organisationByT);
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }

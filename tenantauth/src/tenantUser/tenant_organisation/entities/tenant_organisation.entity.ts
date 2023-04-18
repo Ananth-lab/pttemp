@@ -49,7 +49,7 @@ export class TenantOrganisation {
   billingAddress: TenantOrganisationAddress;
 
   @Column({ default: false })
-  isParent: Boolean;
+  isParent: boolean;
 
   @ManyToOne(
     () => TenantOrganisation,

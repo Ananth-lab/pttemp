@@ -12,7 +12,7 @@ export declare class TenantOrganisation {
     tenantOrganisations: TenantOrganisation;
     industry_domain: IndustryDomain;
     billingAddress: TenantOrganisationAddress;
-    isParent: Boolean;
+    isParent: boolean;
     tParentOrganisationId: TenantOrganisation;
     Branch_id: TenantBranch;
     tUserId: Tuser;

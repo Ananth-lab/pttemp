@@ -17,13 +17,66 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const tenant_country_entity_1 = require("./entities/tenant_country.entity");
 const typeorm_2 = require("typeorm");
+const amqp = require("amqplib");
+const rabbitMq_sender_1 = require("../rabbitM/rabbitMq.sender");
 let TenantCountryService = class TenantCountryService {
     constructor(countryRepository) {
         this.countryRepository = countryRepository;
+        this.consumeMessages();
+    }
+    async consumeMessages() {
+        try {
+            console.log("Connecting to RabbitMQ...");
+            const connection = await amqp.connect("amqp://localhost");
+            console.log("Connection to RabbitMQ established.");
+            const channel = await connection.createChannel();
+            const exchange = "user_exchange";
+            await channel.assertExchange(exchange, "direct", { durable: true });
+            const { queue } = await channel.assertQueue("", { exclusive: true });
+            console.log("Waiting for messages in queue:Country", queue);
+            await channel.bindQueue(queue, exchange, "createCountry");
+            await channel.bindQueue(queue, exchange, "updatCountry");
+            channel.consume(queue, async (msg) => {
+                if (msg) {
+                    console.log("Message received:", msg.content.toString());
+                    const country = JSON.parse(msg.content.toString());
+                    if (msg.fields.routingKey === "createCountry") {
+                        await this.create(country);
+                    }
+                    else if (msg.fields.routingKey === "updateCountry") {
+                    }
+                    channel.ack(msg);
+                }
+            }, { noAck: false });
+        }
+        catch (err) {
+            console.error("Failed to connect to RabbitMQ");
+            console.error(err);
+        }
     }
     async create(createTenantCountryDto) {
         try {
             return await this.countryRepository.save(createTenantCountryDto);
+        }
+        catch (error) {
+            throw new common_1.HttpException(error.message, common_1.HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    async update(id, updateTenantCountryDto) {
+        try {
+            const country = await this.countryRepository.findOne({ where: { id } });
+            if (!country)
+                return country;
+            if (updateTenantCountryDto.name)
+                country.name = updateTenantCountryDto.name;
+            const teantCountry = this.countryRepository.save(country);
+            const rabbitConnection = await (0, rabbitMq_sender_1.connectRabbitMQ)();
+            if (!rabbitConnection) {
+                throw new Error('Failed to connect to RabbitMQ');
+            }
+            const { channel, exchange } = rabbitConnection;
+            await channel.publish(exchange, 'updateCountryByT', Buffer.from(JSON.stringify(teantCountry)));
+            console.log('Message sent: from teantCountry', teantCountry);
         }
         catch (error) {
             throw new common_1.HttpException(error.message, common_1.HttpStatus.INTERNAL_SERVER_ERROR);

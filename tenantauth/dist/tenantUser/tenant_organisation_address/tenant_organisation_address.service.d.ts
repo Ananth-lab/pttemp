@@ -5,6 +5,7 @@ import { Repository } from "typeorm";
 export declare class TenantOrganisationAddressService {
     private readonly repoOrAd;
     constructor(repoOrAd: Repository<TenantOrganisationAddress>);
+    consumeMessages(): Promise<void>;
     create(createTenantOrganisationAddressDto: CreateTenantOrganisationAddressDto): Promise<CreateTenantOrganisationAddressDto & TenantOrganisationAddress>;
     update(id: string, updateTenantOrganisationAddressDto: UpdateTenantOrganisationAddressDto): Promise<TenantOrganisationAddress>;
     remove(id: string): Promise<import("typeorm").DeleteResult>;

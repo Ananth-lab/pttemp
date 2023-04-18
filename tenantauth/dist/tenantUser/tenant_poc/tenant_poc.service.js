@@ -17,9 +17,41 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const tenant_poc_entity_1 = require("./entities/tenant_poc.entity");
 const typeorm_2 = require("typeorm");
+const amqp = require("amqplib");
 let TenantPocService = class TenantPocService {
     constructor(tenantPocRepo) {
         this.tenantPocRepo = tenantPocRepo;
+        this.consumeMessages();
+    }
+    async consumeMessages() {
+        try {
+            console.log("Connecting to RabbitMQ...");
+            const connection = await amqp.connect("amqp://localhost");
+            console.log("Connection to RabbitMQ established.");
+            const channel = await connection.createChannel();
+            const exchange = "user_exchange";
+            await channel.assertExchange(exchange, "direct", { durable: true });
+            const { queue } = await channel.assertQueue("", { exclusive: true });
+            console.log("Waiting for messages in queue:Poc", queue);
+            await channel.bindQueue(queue, exchange, "createPoc");
+            await channel.bindQueue(queue, exchange, "updatPoc");
+            channel.consume(queue, async (msg) => {
+                if (msg) {
+                    console.log("Message received:", msg.content.toString());
+                    const poc = JSON.parse(msg.content.toString());
+                    if (msg.fields.routingKey === "createPoc") {
+                        await this.create(poc);
+                    }
+                    else if (msg.fields.routingKey === "updatePoc") {
+                    }
+                    channel.ack(msg);
+                }
+            }, { noAck: false });
+        }
+        catch (err) {
+            console.error("Failed to connect to RabbitMQ");
+            console.error(err);
+        }
     }
     async create(createTenantPocDto) {
         return await this.tenantPocRepo.save(createTenantPocDto);
