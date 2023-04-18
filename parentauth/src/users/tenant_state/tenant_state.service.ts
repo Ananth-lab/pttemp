@@ -23,10 +23,13 @@ export class TenantStateService {
   //   return `This action returns all tenantState`;
   // }
 
-  // findOne(id: number) {
-  //   return `This action returns a #${id} tenantState`;
-  // }
-
+  async findOne(id: string) {
+    try{
+    return await this.statRep.findOne({where:{id}});
+  } catch (error) {
+    throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+  }
   // update(id: number, updateTenantStateDto: UpdateTenantStateDto) {
   //   return `This action updates a #${id} tenantState`;
   // }

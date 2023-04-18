@@ -16,9 +16,13 @@ export class TenantPocService {
   //   return `This action returns all tenantPoc`;
   // }
 
-  // findOne(id: number) {
-  //   return `This action returns a #${id} tenantPoc`;
-  // }
+  async findOne(id: string) {
+    try{
+    return await this.tenantPocRepo.findOne({where:{id}});
+  } catch (error) {
+    throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+  }
 
   async update(id: string, updateTenantPocDto: UpdateTenantPocDto) {
     try{

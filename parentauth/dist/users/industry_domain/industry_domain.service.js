@@ -37,6 +37,14 @@ let IndustryDomainService = class IndustryDomainService {
             throw new common_1.HttpException(error.message, common_1.HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    async findOne(id) {
+        try {
+            return await this.domainRepo.findOne({ where: { id } });
+        }
+        catch (error) {
+            throw new common_1.HttpException(error.message, common_1.HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
     async update(id, updateIndustryDomainDto) {
         try {
             const domain = await this.domainRepo.findOne({ where: { id } });

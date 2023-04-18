@@ -29,6 +29,14 @@ let TenantBranchAddressService = class TenantBranchAddressService {
             throw new common_1.HttpException(error.message, common_1.HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    async findOne(id) {
+        try {
+            return await this.tenantBranchRepo.findOne({ where: { id } });
+        }
+        catch (error) {
+            throw new common_1.HttpException(error.message, common_1.HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
     async update(id, updateTenantBranchAddressDto) {
         try {
             const curAdd = await this.tenantBranchRepo.findOne({ where: { id: id } });

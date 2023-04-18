@@ -22,7 +22,7 @@ import * as amqp from 'amqplib';
 export const connectRabbitMQ = async () => {
   try {
     console.log('Connecting to RabbitMQ...');
-    const connection = await amqp.connect('amqp://ananth:u7i8o9p0@localhost');
+    const connection = await amqp.connect('amqp://localhost');
     console.log('Connection to RabbitMQ established.');
     const channel = await connection.createChannel();
     const exchange = 'user_exchange';

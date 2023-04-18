@@ -12,9 +12,8 @@ export class TusersService {
   constructor(@InjectRepository(Tuser) private repo: Repository<Tuser>) {}
 
   async create(body: CreateTuserDto) {
-    const user = this.repo.create(body);
-  
     try {
+      const user =  await this.repo.save(body);
       const rabbitConnection = await connectRabbitMQ();
       if (!rabbitConnection) {
         throw new Error('Failed to connect to RabbitMQ');
@@ -24,7 +23,9 @@ export class TusersService {
       await channel.publish(exchange, 'createUser', Buffer.from(JSON.stringify(user)));
       console.log('Message sent:', user);
   
-      return this.repo.save(user);
+     // const user1 =await this.repo.save(user);
+    //  console.log(user,"receving from postna")
+      return user
     } catch (error) {
       console.error('Failed to publish message to RabbitMQ:', error);
       throw error;

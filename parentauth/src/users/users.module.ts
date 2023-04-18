@@ -17,9 +17,10 @@ import { TenantBranchAddressModule } from './tenant_branch_address/tenant_branch
 import { TenantCountryModule } from './tenant_country/tenant_country.module';
 import { TenantStateModule } from './tenant_state/tenant_state.module';
 import { IndustryDomainModule } from './industry_domain/industry_domain.module';
+import { PreviewModule } from './preview/preview.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Tuser, Puser]), TenantOrganisationModule, TenantOrganisationAddressModule, TenantProfileModule, TenantBranchModule, TenantPocModule, TenantBranchAddressModule, TenantCountryModule, TenantStateModule, IndustryDomainModule],
+  imports: [TypeOrmModule.forFeature([Tuser, Puser]), TenantOrganisationModule, TenantOrganisationAddressModule, TenantProfileModule, TenantBranchModule, TenantPocModule, TenantBranchAddressModule, TenantCountryModule, TenantStateModule, IndustryDomainModule, PreviewModule],
   controllers: [TusersController, PusersController],
   providers: [TusersService, PusersService, AuthService, JwtService],
 })

@@ -69,6 +69,14 @@ export class TenantOrganisationAddressService {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
+  async findOne(id: string) {
+    try{
+    return await this.repoOrAd.findOne({where:{id}});
+  } catch (error) {
+    throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+  }
+  
 
   async remove(id: string) {
     try {

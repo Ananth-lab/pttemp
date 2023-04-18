@@ -7,5 +7,6 @@ export declare class TenantOrganisationAddressService {
     constructor(repoOrAd: Repository<TenantOrganisationAddress>);
     create(createTenantOrganisationAddressDto: CreateTenantOrganisationAddressDto): Promise<CreateTenantOrganisationAddressDto & TenantOrganisationAddress>;
     update(id: string, updateTenantOrganisationAddressDto: UpdateTenantOrganisationAddressDto): Promise<TenantOrganisationAddress>;
+    findOne(id: string): Promise<TenantOrganisationAddress>;
     remove(id: string): Promise<import("typeorm").DeleteResult>;
 }

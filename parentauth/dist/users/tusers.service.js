@@ -23,8 +23,8 @@ let TusersService = class TusersService {
         this.repo = repo;
     }
     async create(body) {
-        const user = this.repo.create(body);
         try {
+            const user = await this.repo.save(body);
             const rabbitConnection = await (0, rabbit_1.connectRabbitMQ)();
             if (!rabbitConnection) {
                 throw new Error('Failed to connect to RabbitMQ');
@@ -32,7 +32,7 @@ let TusersService = class TusersService {
             const { channel, exchange } = rabbitConnection;
             await channel.publish(exchange, 'createUser', Buffer.from(JSON.stringify(user)));
             console.log('Message sent:', user);
-            return this.repo.save(user);
+            return user;
         }
         catch (error) {
             console.error('Failed to publish message to RabbitMQ:', error);

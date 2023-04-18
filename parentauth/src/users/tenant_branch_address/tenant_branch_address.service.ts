@@ -19,6 +19,14 @@ export class TenantBranchAddressService {
     }
   }
 
+  async findOne(id: string) {
+    try{
+    return await this.tenantBranchRepo.findOne({where:{id}});
+  } catch (error) {
+    throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+  }
+
   async update(
     id: string,
     updateTenantBranchAddressDto: UpdateTenantBranchAddressDto

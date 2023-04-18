@@ -29,6 +29,14 @@ let TenantCountryService = class TenantCountryService {
             throw new common_1.HttpException(error.message, common_1.HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    async findOne(id) {
+        try {
+            return await this.countryRepository.findOne({ where: { id } });
+        }
+        catch (error) {
+            throw new common_1.HttpException(error.message, common_1.HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 };
 TenantCountryService = __decorate([
     (0, common_1.Injectable)(),

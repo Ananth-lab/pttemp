@@ -7,6 +7,7 @@ export declare class IndustryDomainService {
     constructor(domainRepo: Repository<IndustryDomain>);
     create(createIndustryDomainDto: CreateIndustryDomainDto): Promise<CreateIndustryDomainDto & IndustryDomain>;
     findAll(): Promise<IndustryDomain[]>;
+    findOne(id: string): Promise<IndustryDomain>;
     update(id: string, updateIndustryDomainDto: UpdateIndustryDomainDto): Promise<IndustryDomain>;
     remove(id: string): Promise<import("typeorm").DeleteResult>;
 }

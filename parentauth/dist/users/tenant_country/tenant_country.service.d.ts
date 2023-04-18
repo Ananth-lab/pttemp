@@ -5,4 +5,5 @@ export declare class TenantCountryService {
     private readonly countryRepository;
     constructor(countryRepository: Repository<TenantCountry>);
     create(createTenantCountryDto: CreateTenantCountryDto): Promise<CreateTenantCountryDto & TenantCountry>;
+    findOne(id: string): Promise<TenantCountry>;
 }

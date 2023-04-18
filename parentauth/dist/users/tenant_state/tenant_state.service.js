@@ -29,6 +29,14 @@ let TenantStateService = class TenantStateService {
             throw new common_1.HttpException(error.message, common_1.HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    async findOne(id) {
+        try {
+            return await this.statRep.findOne({ where: { id } });
+        }
+        catch (error) {
+            throw new common_1.HttpException(error.message, common_1.HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 };
 TenantStateService = __decorate([
     (0, common_1.Injectable)(),

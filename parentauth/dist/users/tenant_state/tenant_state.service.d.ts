@@ -5,4 +5,5 @@ export declare class TenantStateService {
     private readonly statRep;
     constructor(statRep: Repository<TenantState>);
     create(createTenantStateDto: CreateTenantStateDto): Promise<CreateTenantStateDto & TenantState>;
+    findOne(id: string): Promise<TenantState>;
 }

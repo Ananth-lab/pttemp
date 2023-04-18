@@ -73,6 +73,14 @@ let TenantOrganisationAddressService = class TenantOrganisationAddressService {
             throw new common_1.HttpException(error.message, common_1.HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    async findOne(id) {
+        try {
+            return await this.repoOrAd.findOne({ where: { id } });
+        }
+        catch (error) {
+            throw new common_1.HttpException(error.message, common_1.HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
     async remove(id) {
         try {
             return await this.repoOrAd.delete(id);

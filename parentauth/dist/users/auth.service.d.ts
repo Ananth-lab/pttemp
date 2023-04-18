@@ -13,7 +13,7 @@ export declare class AuthService {
         user: import("./puser.entity").Puser;
         token: string;
     }>;
-    tsignup(body: CreateTuserDto): Promise<import("./tuser.entity").Tuser>;
+    tsignup(body: CreateTuserDto): Promise<CreateTuserDto & import("./tuser.entity").Tuser>;
     tSignin(email: string, password: string): Promise<{
         user: import("./tuser.entity").Tuser;
         token: string;

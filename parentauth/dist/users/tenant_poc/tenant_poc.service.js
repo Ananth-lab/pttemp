@@ -24,6 +24,14 @@ let TenantPocService = class TenantPocService {
     async create(createTenantPocDto) {
         return await this.tenantPocRepo.save(createTenantPocDto);
     }
+    async findOne(id) {
+        try {
+            return await this.tenantPocRepo.findOne({ where: { id } });
+        }
+        catch (error) {
+            throw new common_1.HttpException(error.message, common_1.HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
     async update(id, updateTenantPocDto) {
         try {
             const currPoc = await this.tenantPocRepo.findOne({ where: { id: id } });

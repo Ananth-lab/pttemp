@@ -6,5 +6,6 @@ export declare class TenantBranchAddressService {
     private readonly tenantBranchRepo;
     constructor(tenantBranchRepo: Repository<TenantBranchAddress>);
     create(createTenantBranchAddressDto: CreateTenantBranchAddressDto): Promise<CreateTenantBranchAddressDto & TenantBranchAddress>;
+    findOne(id: string): Promise<TenantBranchAddress>;
     update(id: string, updateTenantBranchAddressDto: UpdateTenantBranchAddressDto): Promise<TenantBranchAddress>;
 }

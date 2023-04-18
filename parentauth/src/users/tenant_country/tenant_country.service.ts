@@ -18,6 +18,16 @@ constructor(@InjectRepository(TenantCountry)private readonly countryRepository:R
   
   }
 
+
+
+
+  async findOne(id: string) {
+    try{
+    return await this.countryRepository.findOne({where:{id}});
+  } catch (error) {
+    throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+  }
   // findAll() {
   //   return `This action returns all tenantCountry`;
   // }

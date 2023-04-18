@@ -54,9 +54,13 @@ export class TenantOrganisationService {
     }
   }
 
-  // findOne(id: String) {
-  //   return `This action returns a #${id} tenantOrganisation`;
-  // }
+  async findOne(id: string) {
+    try{
+    return await this.OrgRepo.findOne({where:{id}});
+  } catch (error) {
+    throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+  }
 
   async update(
     id: string,
