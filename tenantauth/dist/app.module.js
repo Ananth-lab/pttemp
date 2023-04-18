@@ -14,14 +14,30 @@ const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
 const privileges_module_1 = require("./privileges/privileges.module");
 const roles_module_1 = require("./roles/roles.module");
-const tusers_module_1 = require("./tusers/tusers.module");
+const tusers_module_1 = require("./tenantUser/tusers/tusers.module");
 const modules_module_1 = require("./modules/modules.module");
 const role_entity_1 = require("./roles/role.entity");
 const privilege_entity_1 = require("./privileges/privilege.entity");
 const module_entity_1 = require("./modules/module.entity");
 const submodule_entity_1 = require("./modules/submodule.entity");
 const rac_map_entity_1 = require("./roles/rac-map.entity");
-const tuser_entity_1 = require("./tusers/tuser.entity");
+const tuser_entity_1 = require("./tenantUser/tusers/tuser.entity");
+const tenant_organisation_entity_1 = require("./tenantUser/tenant_organisation/entities/tenant_organisation.entity");
+const tenant_organisation_address_entity_1 = require("./tenantUser/tenant_organisation_address/entities/tenant_organisation_address.entity");
+const tenant_poc_entity_1 = require("./tenantUser/tenant_poc/entities/tenant_poc.entity");
+const tenant_organisation_module_1 = require("./tenantUser/tenant_organisation/tenant_organisation.module");
+const tenant_organisation_address_module_1 = require("./tenantUser/tenant_organisation_address/tenant_organisation_address.module");
+const tenant_poc_module_1 = require("./tenantUser/tenant_poc/tenant_poc.module");
+const industry_domain_entity_1 = require("./tenantUser/industry_domain/entities/industry_domain.entity");
+const industry_domain_module_1 = require("./tenantUser/industry_domain/industry_domain.module");
+const tenant_branch_entity_1 = require("./tenantUser/tenant_branch/entities/tenant_branch.entity");
+const tenant_branch_module_1 = require("./tenantUser/tenant_branch/tenant_branch.module");
+const tenant_country_module_1 = require("./tenantUser/tenant_country/tenant_country.module");
+const tenant_state_module_1 = require("./tenantUser/tenant_state/tenant_state.module");
+const tenant_state_entity_1 = require("./tenantUser/tenant_state/entities/tenant_state.entity");
+const tenant_country_entity_1 = require("./tenantUser/tenant_country/entities/tenant_country.entity");
+const tenant_branch_address_entity_1 = require("./tenantUser/tenant_branch_address/entities/tenant_branch_address.entity");
+const tenant_branch_address_module_1 = require("./tenantUser/tenant_branch_address/tenant_branch_address.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -36,13 +52,13 @@ AppModule = __decorate([
                 useFactory: (config) => {
                     return {
                         database: 'tenantauth',
-                        username: 'ananth',
-                        password: 'u7i8o9p0',
+                        username: 'postgres',
+                        password: 'Pass@123',
                         type: 'postgres',
                         host: 'localhost',
                         port: 5432,
                         synchronize: true,
-                        entities: [role_entity_1.Role, privilege_entity_1.Privilege, module_entity_1.Tmodule, submodule_entity_1.Submodule, rac_map_entity_1.Racmap, tuser_entity_1.Tuser],
+                        entities: [role_entity_1.Role, privilege_entity_1.Privilege, module_entity_1.Tmodule, submodule_entity_1.Submodule, rac_map_entity_1.Racmap, tuser_entity_1.Tuser, industry_domain_entity_1.IndustryDomain, tenant_organisation_entity_1.TenantOrganisation, tenant_organisation_address_entity_1.TenantOrganisationAddress, tenant_poc_entity_1.TenantPoc, tenant_branch_entity_1.TenantBranch, tenant_state_entity_1.TenantState, tenant_country_entity_1.TenantCountry, tenant_branch_address_entity_1.TenantBranchAddress],
                     };
                 },
             }),
@@ -50,6 +66,7 @@ AppModule = __decorate([
             roles_module_1.RolesModule,
             tusers_module_1.TusersModule,
             modules_module_1.ModulesModule,
+            tenant_organisation_module_1.TenantOrganisationModule, tenant_organisation_address_module_1.TenantOrganisationAddressModule, tenant_poc_module_1.TenantPocModule, industry_domain_module_1.IndustryDomainModule, tenant_branch_module_1.TenantBranchModule, tenant_country_module_1.TenantCountryModule, tenant_state_module_1.TenantStateModule, tenant_branch_address_module_1.TenantBranchAddressModule
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

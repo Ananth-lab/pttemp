@@ -1,0 +1,1 @@
+{"version":3,"file":"rabbitmq.config.js","sourceRoot":"","sources":["../../../src/tenantUser/rabbitM/rabbitmq.config.ts"],"names":[],"mappings":";;;AAAa,QAAA,cAAc,GAAG;IAC1B,IAAI,EAAE,OAAO;IACb,QAAQ,EAAE,OAAO;IACjB,IAAI,EAAE,WAAW;IACjB,IAAI,EAAE,IAAI;IACV,KAAK,EAAE,GAAG;IACV,SAAS,EAAE,EAAE;CACd,CAAC"}
