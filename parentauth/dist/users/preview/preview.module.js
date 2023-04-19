@@ -8,16 +8,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PreviewModule = void 0;
 const common_1 = require("@nestjs/common");
-const preview_service_1 = require("./preview.service");
 const preview_controller_1 = require("./preview.controller");
 const tenant_organisation_address_controller_1 = require("../tenant_organisation_address/tenant_organisation_address.controller");
-const tenant_organisation_service_1 = require("../tenant_organisation/tenant_organisation.service");
+const tenant_organisation_address_service_1 = require("../tenant_organisation_address/tenant_organisation_address.service");
+const typeorm_1 = require("@nestjs/typeorm");
+const tenant_organisation_address_entity_1 = require("../tenant_organisation_address/entities/tenant_organisation_address.entity");
 let PreviewModule = class PreviewModule {
 };
 PreviewModule = __decorate([
     (0, common_1.Module)({
+        imports: [typeorm_1.TypeOrmModule.forFeature([tenant_organisation_address_entity_1.TenantOrganisationAddress])],
         controllers: [preview_controller_1.PreviewController, tenant_organisation_address_controller_1.TenantOrganisationAddressController],
-        providers: [preview_service_1.PreviewService, tenant_organisation_service_1.TenantOrganisationService]
+        providers: [tenant_organisation_address_service_1.TenantOrganisationAddressService]
     })
 ], PreviewModule);
 exports.PreviewModule = PreviewModule;

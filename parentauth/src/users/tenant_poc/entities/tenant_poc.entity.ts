@@ -50,5 +50,6 @@ export class TenantPoc {
 
   @OneToOne(() => TenantOrganisation, tenantOrganisation => tenantOrganisation.id)
   @JoinColumn()
+  @JoinColumn()
   tenantOrganisation_id:TenantOrganisation
 }

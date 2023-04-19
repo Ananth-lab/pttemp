@@ -9,7 +9,6 @@ export declare class TenantOrganisation {
     tradename: string;
     gstin: string;
     pan: string;
-    tenantOrganisations: TenantOrganisation;
     industry_domain: IndustryDomain;
     billingAddress: TenantOrganisationAddress;
     isParent: Boolean;

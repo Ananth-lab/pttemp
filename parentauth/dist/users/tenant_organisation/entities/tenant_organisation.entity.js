@@ -40,13 +40,10 @@ __decorate([
     __metadata("design:type", String)
 ], TenantOrganisation.prototype, "pan", void 0);
 __decorate([
-    (0, typeorm_1.OneToMany)(() => TenantOrganisation_1, (tenantOrganisation) => tenantOrganisation.id, { nullable: false }),
-    __metadata("design:type", TenantOrganisation)
-], TenantOrganisation.prototype, "tenantOrganisations", void 0);
-__decorate([
     (0, typeorm_1.ManyToOne)(() => industry_domain_entity_1.IndustryDomain, (industryDomain) => industryDomain.id, {
         nullable: false,
     }),
+    (0, typeorm_1.JoinColumn)(),
     __metadata("design:type", industry_domain_entity_1.IndustryDomain)
 ], TenantOrganisation.prototype, "industry_domain", void 0);
 __decorate([
@@ -60,10 +57,12 @@ __decorate([
 ], TenantOrganisation.prototype, "isParent", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(() => TenantOrganisation_1, (tenantOrganisation) => tenantOrganisation.id, { nullable: true, onDelete: "CASCADE" }),
+    (0, typeorm_1.JoinColumn)(),
     __metadata("design:type", TenantOrganisation)
 ], TenantOrganisation.prototype, "tParentOrganisationId", void 0);
 __decorate([
     (0, typeorm_1.OneToMany)(() => tenant_branch_entity_1.TenantBranch, (tenantBranch) => tenantBranch.organisation_id),
+    (0, typeorm_1.JoinColumn)(),
     __metadata("design:type", tenant_branch_entity_1.TenantBranch)
 ], TenantOrganisation.prototype, "Branch_id", void 0);
 __decorate([

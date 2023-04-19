@@ -77,6 +77,7 @@ __decorate([
 __decorate([
     (0, typeorm_1.OneToOne)(() => tenant_organisation_entity_1.TenantOrganisation, tenantOrganisation => tenantOrganisation.id),
     (0, typeorm_1.JoinColumn)(),
+    (0, typeorm_1.JoinColumn)(),
     __metadata("design:type", tenant_organisation_entity_1.TenantOrganisation)
 ], TenantPoc.prototype, "tenantOrganisation_id", void 0);
 TenantPoc = __decorate([

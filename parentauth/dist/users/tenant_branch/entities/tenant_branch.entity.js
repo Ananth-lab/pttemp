@@ -41,6 +41,7 @@ __decorate([
         nullable: true,
         onDelete: "CASCADE",
     }),
+    (0, typeorm_1.JoinColumn)(),
     __metadata("design:type", TenantBranch)
 ], TenantBranch.prototype, "parentbranchId", void 0);
 __decorate([

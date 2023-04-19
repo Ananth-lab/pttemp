@@ -32,6 +32,7 @@ export class TenantOrganisationAddress {
   @ManyToOne(() => TenantState, (tenantState) => tenantState.id, {
     nullable: false,
   })
+  @JoinColumn()
   state: TenantState;
 
   @Column()
@@ -40,6 +41,7 @@ export class TenantOrganisationAddress {
   @ManyToOne(() => TenantCountry, (tenantCountry) => tenantCountry.id, {
     nullable: false,
   })
+  @JoinColumn()
   country: TenantCountry;
 
   @OneToOne(
@@ -58,6 +60,7 @@ export class TenantOrganisationAddress {
     (tenantOrganisationAddress) => tenantOrganisationAddress.id,
     { nullable: true, onDelete: "CASCADE" }
   )
+  @JoinColumn()
   parentOaddress:TenantOrganisationAddress
 
   @CreateDateColumn()

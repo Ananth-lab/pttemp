@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
 import { TenantOrganisation } from './tenant_organisation/entities/tenant_organisation.entity';
 
 export enum status {
@@ -49,6 +49,7 @@ export class Tuser {
   emailVerifyToken: string;
 
   @OneToOne(() => TenantOrganisation, tenantOrganisation=>tenantOrganisation.tUserId)
+  @JoinColumn()
   orgId: TenantOrganisation;
 
   @Column({ nullable: true })

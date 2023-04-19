@@ -32,16 +32,17 @@ export class TenantOrganisation {
   @Column()
   pan: string;
 
-  @OneToMany(
-    () => TenantOrganisation,
-    (tenantOrganisation) => tenantOrganisation.id,
-    { nullable: false }
-  )
-  tenantOrganisations: TenantOrganisation;
+  // @OneToMany(
+  //   () => TenantOrganisation,
+  //   (tenantOrganisation) => tenantOrganisation.id,
+  //   { nullable: false }
+  // )
+  // tenantOrganisations: TenantOrganisation;
 
   @ManyToOne(() => IndustryDomain, (industryDomain) => industryDomain.id, {
     nullable: false,
   })
+  @JoinColumn()
   industry_domain: IndustryDomain;
 
   @OneToOne(() => TenantOrganisationAddress)
@@ -56,9 +57,11 @@ export class TenantOrganisation {
     (tenantOrganisation) => tenantOrganisation.id,
     { nullable: true, onDelete: "CASCADE" }
   )
+  @JoinColumn()
   tParentOrganisationId: TenantOrganisation;
 
   @OneToMany(() => TenantBranch, (tenantBranch) => tenantBranch.organisation_id)
+  @JoinColumn()
   Branch_id: TenantBranch;
 
   @OneToOne(() => Tuser, tUser=>tUser.id)

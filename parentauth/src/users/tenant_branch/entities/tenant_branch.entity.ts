@@ -1,6 +1,6 @@
 import { TenantBranchAddress } from 'src/users/tenant_branch_address/entities/tenant_branch_address.entity';
 import { TenantOrganisation } from 'src/users/tenant_organisation/entities/tenant_organisation.entity';
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn, OneToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn, OneToOne, JoinColumn } from 'typeorm';
 
 @Entity()
 export class TenantBranch {
@@ -23,6 +23,7 @@ export class TenantBranch {
     nullable: true,
     onDelete: "CASCADE",
   })
+  @JoinColumn()
   parentbranchId: TenantBranch;
 
   @OneToOne(

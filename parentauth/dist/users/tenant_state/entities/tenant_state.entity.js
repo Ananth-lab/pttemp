@@ -26,6 +26,7 @@ __decorate([
 ], TenantState.prototype, "name", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(() => tenant_country_entity_1.TenantCountry, tenantCountry => tenantCountry.id, { nullable: false }),
+    (0, typeorm_1.JoinColumn)(),
     __metadata("design:type", tenant_country_entity_1.TenantCountry)
 ], TenantState.prototype, "countryId", void 0);
 __decorate([

@@ -9,6 +9,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   OneToOne,
+  JoinColumn,
 } from "typeorm";
 // import { TenantBranch } from './TenantBranch';
 // import { Country } from './Country';
@@ -32,12 +33,14 @@ export class TenantBranchAddress {
   city: string;
 
   @ManyToOne(() => TenantState, (state) => state.id)
+  @JoinColumn()
   state: TenantState;
 
   @Column()
   post_code: string;
 
   @ManyToOne(() => TenantCountry, (country) => country.id)
+  @JoinColumn()
   country: TenantCountry;
 
   @Column({ default: false })
@@ -56,6 +59,7 @@ export class TenantBranchAddress {
   @OneToOne(() => TenantBranch, (tenantBranch) => tenantBranch.id, {
     nullable: false,
   })
+  @JoinColumn()
   tenantBranchId: TenantBranch;
 
   @CreateDateColumn()

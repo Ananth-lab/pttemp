@@ -72,6 +72,7 @@ __decorate([
 ], Tuser.prototype, "emailVerifyToken", void 0);
 __decorate([
     (0, typeorm_1.OneToOne)(() => tenant_organisation_entity_1.TenantOrganisation, tenantOrganisation => tenantOrganisation.tUserId),
+    (0, typeorm_1.JoinColumn)(),
     __metadata("design:type", tenant_organisation_entity_1.TenantOrganisation)
 ], Tuser.prototype, "orgId", void 0);
 __decorate([
