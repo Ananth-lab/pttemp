@@ -8,44 +8,45 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PreviewController = void 0;
 const common_1 = require("@nestjs/common");
-const industry_domain_service_1 = require("../industry_domain/industry_domain.service");
-const tenant_organisation_service_1 = require("../tenant_organisation/tenant_organisation.service");
+const tenant_organisation_address_service_1 = require("../tenant_organisation_address/tenant_organisation_address.service");
 let PreviewController = class PreviewController {
-    constructor(domain, organisation) {
-        this.domain = domain;
-        this.organisation = organisation;
+    constructor(tenantAddress) {
+        this.tenantAddress = tenantAddress;
     }
-    async getPreviewData() {
-        try {
-            const tenanIndustryDomain = await this.domain.findOne("id");
-            const tenantOrganisation = await this.organisation.findOne("id");
-            return { tenanIndustryDomain, tenantOrganisation };
-        }
-        catch (error) {
-            throw new Error(`Error fetching preview data: ${error.message}`);
-        }
+    findOne(id) {
+        return this.tenantAddress.findOne(id);
     }
-    async finalSubmit() { }
+    catch(error) {
+        throw new Error(`Error fetching preview data: ${error.message}`);
+    }
+    async finalSubmit(type) {
+        const { industry_domain, organisationId } = type;
+        return [industry_domain, organisationId];
+    }
 };
 __decorate([
-    (0, common_1.Get)(),
+    (0, common_1.Get)(":id"),
+    __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", Promise)
-], PreviewController.prototype, "getPreviewData", null);
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], PreviewController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Post)(),
+    __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], PreviewController.prototype, "finalSubmit", null);
 PreviewController = __decorate([
-    (0, common_1.Controller)('preview'),
-    __metadata("design:paramtypes", [industry_domain_service_1.IndustryDomainService,
-        tenant_organisation_service_1.TenantOrganisationService])
+    (0, common_1.Controller)("preview"),
+    __metadata("design:paramtypes", [tenant_organisation_address_service_1.TenantOrganisationAddressService])
 ], PreviewController);
 exports.PreviewController = PreviewController;
 //# sourceMappingURL=preview.controller.js.map

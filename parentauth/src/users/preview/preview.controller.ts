@@ -1,28 +1,32 @@
-import { Controller, Get,Post } from '@nestjs/common';
-import { IndustryDomainService } from '../industry_domain/industry_domain.service';
-import { TenantOrganisationService } from '../tenant_organisation/tenant_organisation.service';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  UsePipes,
+  ValidationPipe,
+} from "@nestjs/common";
 
-@Controller('preview')
+import { TenantOrganisationAddressService } from "../tenant_organisation_address/tenant_organisation_address.service";
+
+@Controller("preview")
 export class PreviewController {
   constructor(
-    private readonly domain:IndustryDomainService ,
-    private readonly organisation: TenantOrganisationService
+    private readonly tenantAddress: TenantOrganisationAddressService
   ) {}
 
-  @Get()
-  async getPreviewData() {
-    try {
-      // Use the respective service classes to fetch data from different tables
-      const tenanIndustryDomain = await this.domain.findOne("id");
-      const tenantOrganisation = await this.organisation.findOne("id");
-
-      // Merge the fetched data and send it in the API response
-      return { tenanIndustryDomain,tenantOrganisation };
-    } catch (error) {
-      throw new Error(`Error fetching preview data: ${error.message}`);
-    }
+  @Get(":id")
+  findOne(@Param("id") id: string) {
+    return this.tenantAddress.findOne(id);
+  }
+  catch(error) {
+    throw new Error(`Error fetching preview data: ${error.message}`);
   }
 
   @Post()
-  async finalSubmit(){}
+  async finalSubmit(@Body() type: any) {
+    const { industry_domain, organisationId } = type;
+    return [industry_domain, organisationId];
+  }
 }

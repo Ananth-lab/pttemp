@@ -47,6 +47,7 @@ const tenant_state_entity_1 = require("./users/tenant_state/entities/tenant_stat
 const tenant_organisation_address_entity_1 = require("./users/tenant_organisation_address/entities/tenant_organisation_address.entity");
 const tenant_organisation_address_module_1 = require("./users/tenant_organisation_address/tenant_organisation_address.module");
 const tenant_state_module_1 = require("./users/tenant_state/tenant_state.module");
+const preview_module_1 = require("./users/preview/preview.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -64,8 +65,8 @@ AppModule = __decorate([
                         type: "postgres",
                         host: "localhost",
                         port: 5432,
-                        username: "postgres",
-                        password: "Pass@123",
+                        username: 'ananth',
+                        password: 'u7i8o9p0',
                         synchronize: true,
                         entities: [
                             tenant_organisation_entity_1.TenantOrganisation,
@@ -101,7 +102,7 @@ AppModule = __decorate([
             bundles_module_1.BundlesModule,
             tmodules_module_1.TmodulesModule,
             tenant_country_module_1.TenantCountryModule,
-            industry_domain_module_1.IndustryDomainModule, tenant_organisation_address_module_1.TenantOrganisationAddressModule, tenant_state_module_1.TenantStateModule
+            industry_domain_module_1.IndustryDomainModule, tenant_organisation_address_module_1.TenantOrganisationAddressModule, tenant_state_module_1.TenantStateModule, preview_module_1.PreviewModule
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

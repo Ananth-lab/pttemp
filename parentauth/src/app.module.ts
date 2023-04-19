@@ -38,6 +38,7 @@ import { TenantState } from "./users/tenant_state/entities/tenant_state.entity";
 import { TenantOrganisationAddress } from "./users/tenant_organisation_address/entities/tenant_organisation_address.entity";
 import { TenantOrganisationAddressModule } from "./users/tenant_organisation_address/tenant_organisation_address.module";
 import { TenantStateModule } from "./users/tenant_state/tenant_state.module";
+import { PreviewModule } from "./users/preview/preview.module";
 
 @Module({
   imports: [
@@ -54,8 +55,8 @@ import { TenantStateModule } from "./users/tenant_state/tenant_state.module";
           type: "postgres",
           host: "localhost",
           port: 5432,
-          username: "postgres",
-          password: "Pass@123",
+          username : 'ananth',
+          password : 'u7i8o9p0',
     
 
           synchronize: true,
@@ -93,7 +94,7 @@ import { TenantStateModule } from "./users/tenant_state/tenant_state.module";
     BundlesModule,
     TmodulesModule,
     TenantCountryModule,
-    IndustryDomainModule,TenantOrganisationAddressModule,TenantStateModule
+    IndustryDomainModule,TenantOrganisationAddressModule,TenantStateModule,PreviewModule
   ],
   controllers: [AppController],
   providers: [AppService],
