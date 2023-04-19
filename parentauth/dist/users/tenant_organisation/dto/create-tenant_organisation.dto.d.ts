@@ -7,7 +7,7 @@ export declare class CreateTenantOrganisationDto {
     gstin: string;
     pan: string;
     industry_domain: IndustryDomain;
-    isParent: boolean;
+    isParent: Boolean;
     tParentOrganisationId: TenantOrganisation;
     tUserId: Tuser;
 }

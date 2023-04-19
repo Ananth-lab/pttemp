@@ -47,6 +47,16 @@ export class TenantOrganisationAddressController {
     return "data updated";
   }
 
+  @Get()
+  findAll() {
+    return this.tenantOrganisationAddressService.findAll();
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.tenantOrganisationAddressService.findOne(id);
+  }
+
   @Delete(":id")
   async remove(@Param("id", ParseUUIDPipe) id: string) {
     return await this.tenantOrganisationAddressService.remove(id);

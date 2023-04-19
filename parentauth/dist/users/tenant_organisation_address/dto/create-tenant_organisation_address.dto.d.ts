@@ -11,6 +11,6 @@ export declare class CreateTenantOrganisationAddressDto {
     post_code: string;
     country: TenantCountry;
     tenantOrganisationId: TenantOrganisation;
-    isParent: Boolean;
+    isParent: boolean;
     parentOaddress: TenantOrganisationAddress;
 }

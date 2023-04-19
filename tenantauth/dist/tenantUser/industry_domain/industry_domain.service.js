@@ -19,6 +19,7 @@ const industry_domain_entity_1 = require("./entities/industry_domain.entity");
 const typeorm_2 = require("typeorm");
 const amqp = require("amqplib");
 const rabbitMq_sender_1 = require("../rabbitM/rabbitMq.sender");
+require("dotenv").config();
 let IndustryDomainService = class IndustryDomainService {
     constructor(domainRepo) {
         this.domainRepo = domainRepo;
@@ -27,7 +28,7 @@ let IndustryDomainService = class IndustryDomainService {
     async consumeMessages() {
         try {
             console.log("Connecting to RabbitMQ...");
-            const connection = await amqp.connect("amqp://localhost");
+            const connection = await amqp.connect(process.env.rabbitMqUrl);
             console.log("Connection to RabbitMQ established.");
             const channel = await connection.createChannel();
             const exchange = "user_exchange";

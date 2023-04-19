@@ -49,7 +49,7 @@ export class CreateTenantOrganisationAddressDto {
 
   @IsOptional()
   @IsBoolean()
-  isParent: Boolean;
+  isParent: boolean;
 
   @ValidateIf(doc=>doc.parentOaddress)
   @IsUUID()

@@ -53,7 +53,10 @@ let TenantOrganisationService = class TenantOrganisationService {
     }
     async findOne(id) {
         try {
-            return await this.OrgRepo.findOne({ where: { id } });
+            return await this.OrgRepo.findOne({
+                where: { id },
+                relations: { tUserId: true },
+            });
         }
         catch (error) {
             throw new common_1.HttpException(error.message, common_1.HttpStatus.INTERNAL_SERVER_ERROR);

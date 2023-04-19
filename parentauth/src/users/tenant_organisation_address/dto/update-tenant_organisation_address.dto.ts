@@ -42,7 +42,7 @@ export class UpdateTenantOrganisationAddressDto extends PartialType(
   tenantOrganisationId: TenantOrganisation;
 
   @IsBoolean()
-  isParent: Boolean;
+  isParent: boolean;
 
   @ValidateIf(doc=>doc.parentOaddress)
   @IsUUID()

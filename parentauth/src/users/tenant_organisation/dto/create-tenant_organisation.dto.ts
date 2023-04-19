@@ -27,7 +27,7 @@ export class CreateTenantOrganisationDto {
 
   @IsOptional()
   @IsBoolean()
-  isParent: boolean;
+  isParent: Boolean;
 
   
   @ValidateIf((doc) => doc.tParentOrganisationId)

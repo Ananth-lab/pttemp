@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const tenant_profile_entity_1 = require("./entities/tenant_profile.entity");
 const typeorm_2 = require("typeorm");
+require("dotenv").config();
 let TenantProfileService = class TenantProfileService {
     constructor(profileRepo) {
         this.profileRepo = profileRepo;

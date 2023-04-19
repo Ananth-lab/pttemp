@@ -18,6 +18,7 @@ const typeorm_1 = require("@nestjs/typeorm");
 const tenant_country_entity_1 = require("./entities/tenant_country.entity");
 const typeorm_2 = require("typeorm");
 const amqp = require("amqplib");
+require("dotenv").config();
 const rabbitMq_sender_1 = require("../rabbitM/rabbitMq.sender");
 let TenantCountryService = class TenantCountryService {
     constructor(countryRepository) {
@@ -27,7 +28,7 @@ let TenantCountryService = class TenantCountryService {
     async consumeMessages() {
         try {
             console.log("Connecting to RabbitMQ...");
-            const connection = await amqp.connect("amqp://localhost");
+            const connection = await amqp.connect(process.env.rabbitMqUrl);
             console.log("Connection to RabbitMQ established.");
             const channel = await connection.createChannel();
             const exchange = "user_exchange";

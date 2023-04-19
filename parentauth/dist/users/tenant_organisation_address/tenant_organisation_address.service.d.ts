@@ -8,5 +8,6 @@ export declare class TenantOrganisationAddressService {
     create(createTenantOrganisationAddressDto: CreateTenantOrganisationAddressDto): Promise<CreateTenantOrganisationAddressDto & TenantOrganisationAddress>;
     update(id: string, updateTenantOrganisationAddressDto: UpdateTenantOrganisationAddressDto): Promise<TenantOrganisationAddress>;
     findOne(id: string): Promise<TenantOrganisationAddress>;
+    findAll(): Promise<TenantOrganisationAddress[]>;
     remove(id: string): Promise<import("typeorm").DeleteResult>;
 }

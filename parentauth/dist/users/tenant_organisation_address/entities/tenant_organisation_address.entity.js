@@ -55,6 +55,7 @@ __decorate([
 ], TenantOrganisationAddress.prototype, "country", void 0);
 __decorate([
     (0, typeorm_1.OneToOne)(() => tenant_organisation_entity_1.TenantOrganisation, (tenantOrganisation) => tenantOrganisation.billingAddress, { nullable: false }),
+    (0, typeorm_1.JoinColumn)(),
     __metadata("design:type", tenant_organisation_entity_1.TenantOrganisation)
 ], TenantOrganisationAddress.prototype, "tenantOrganisationId", void 0);
 __decorate([

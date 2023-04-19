@@ -6,6 +6,7 @@ import { IndustryDomain } from './entities/industry_domain.entity';
 import { Repository } from 'typeorm';
 import * as amqp from "amqplib";
 import { connectRabbitMQ } from '../rabbitM/rabbitMq.sender';
+require ("dotenv").config()
 
 @Injectable()
 export class IndustryDomainService {
@@ -14,7 +15,7 @@ constructor(@InjectRepository(IndustryDomain) private readonly domainRepo:Reposi
 async consumeMessages() {
   try {
     console.log("Connecting to RabbitMQ...");
-    const connection = await amqp.connect("amqp://localhost");
+    const connection = await amqp.connect(process.env.rabbitMqUrl);
     console.log("Connection to RabbitMQ established.");
     const channel = await connection.createChannel();
     const exchange = "user_exchange";

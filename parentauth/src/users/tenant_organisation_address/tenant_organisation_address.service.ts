@@ -71,11 +71,20 @@ export class TenantOrganisationAddressService {
   }
   async findOne(id: string) {
     try{
-    return await this.repoOrAd.findOne({where:{id}});
+      return await this.repoOrAd.findOne({where:{id}, relations: {tenantOrganisationId:{tUserId:true,industry_domain:true},country:true,state:true}});
   } catch (error) {
     throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
   }
   }
+
+  async findAll() {
+    try {
+      return await this.repoOrAd.find();
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
   
 
   async remove(id: string) {

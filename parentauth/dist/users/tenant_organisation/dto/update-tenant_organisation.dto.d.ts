@@ -9,7 +9,7 @@ export declare class UpdateTenantOrganisationDto extends UpdateTenantOrganisatio
     gstin: string;
     pan: string;
     industry_domain: IndustryDomain;
-    isParent: boolean;
+    isParent: Boolean;
     tParentOrganisationId: TenantOrganisation;
     tUserId: Tuser;
 }

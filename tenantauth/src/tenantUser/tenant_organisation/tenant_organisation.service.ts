@@ -12,6 +12,7 @@ import { Equal, Repository } from "typeorm";
 import { equal } from "assert";
 import * as amqp from "amqplib";
 import { connectRabbitMQ } from "../rabbitM/rabbitMq.sender";
+require ("dotenv").config()
 
 @Injectable()
 export class TenantOrganisationService {
@@ -25,7 +26,7 @@ export class TenantOrganisationService {
   async consumeMessages() {
     try {
       console.log("Connecting to RabbitMQ...");
-      const connection = await amqp.connect("amqp://localhost");
+      const connection = await amqp.connect(process.env.rabbitMqUrl);
       console.log("Connection to RabbitMQ established.");
       const channel = await connection.createChannel();
       const exchange = "user_exchange";

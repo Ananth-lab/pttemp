@@ -25,7 +25,7 @@ export class UpdateTenantOrganisationDto extends PartialType(CreateTenantOrganis
   
    
     @IsBoolean()
-    isParent: boolean;
+    isParent: Boolean;
   
    
     @ValidateIf((doc) => doc.tParentOrganisationId)

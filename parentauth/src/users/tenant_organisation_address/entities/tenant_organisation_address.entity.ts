@@ -5,6 +5,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -46,10 +47,11 @@ export class TenantOrganisationAddress {
     (tenantOrganisation) => tenantOrganisation.billingAddress,
     { nullable: false }
   )
+  @JoinColumn()
   tenantOrganisationId: TenantOrganisation;
 
   @Column({ default: false })
-  isParent: Boolean;
+  isParent: boolean;
 
   @ManyToOne(
     () => TenantOrganisationAddress,

@@ -5,6 +5,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { TenantProfile } from "./entities/tenant_profile.entity";
 import { Repository } from "typeorm";
 import { UpdateTenantProfileDto } from "./dto/update-tenant_profile.dto";
+require ("dotenv").config()
 
 @Injectable()
 export class TenantProfileService {

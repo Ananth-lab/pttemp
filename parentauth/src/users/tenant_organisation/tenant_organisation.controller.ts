@@ -38,10 +38,10 @@ export class TenantOrganisationController {
     return this.tenantOrganisationService.findAll();
   }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.tenantOrganisationService.findOne(+id);
-  // }
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.tenantOrganisationService.findOne(id);
+  }
 
   @Patch(":id")
   @UsePipes(ValidationPipe)

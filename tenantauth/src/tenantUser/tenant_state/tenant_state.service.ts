@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { TenantState } from './entities/tenant_state.entity';
 import { Repository } from 'typeorm';
 import * as amqp from "amqplib";
+require ("dotenv").config()
 
 @Injectable()
 export class TenantStateService {
@@ -14,7 +15,7 @@ export class TenantStateService {
 async consumeMessages() {
   try {
     console.log("Connecting to RabbitMQ...");
-    const connection = await amqp.connect("amqp://localhost");
+    const connection = await amqp.connect(process.env.rabbitMqUrl);
     console.log("Connection to RabbitMQ established.");
     const channel = await connection.createChannel();
     const exchange = "user_exchange";
