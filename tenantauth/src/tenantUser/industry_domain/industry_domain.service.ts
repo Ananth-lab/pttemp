@@ -25,18 +25,18 @@ async consumeMessages() {
     console.log("Waiting for messages in queue: Domain", queue);
 
     // Bind the queue to the exchange with routing keys 'createUser' and 'updateUser'
-    await channel.bindQueue(queue, exchange, "createIndustryDomain");
-    await channel.bindQueue(queue, exchange, "updatIndustryDomain");
+    await channel.bindQueue(queue, exchange, "tenantIndustyDetails");
+    await channel.bindQueue(queue, exchange, "updatetenantIndustyDetails");
 
     channel.consume(
       queue,
       async (msg) => {
         if (msg) {
           console.log("Message received:", msg.content.toString());
-          const domain: IndustryDomain = JSON.parse(msg.content.toString());
-          if (msg.fields.routingKey === "createIndustryDomain") {
-            await this.create(domain);
-          } else if (msg.fields.routingKey === "updateIndustryDomain") {
+          const domain = JSON.parse(msg.content.toString());
+          if (msg.fields.routingKey === "tenantIndustyDetails") {
+            await this.create(domain.tenantIndustyDetails);
+          } else if (msg.fields.routingKey === "updatetenantIndustyDetails") {
             //  await this.update(user);
           }
           channel.ack(msg);

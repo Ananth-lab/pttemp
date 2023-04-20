@@ -52,8 +52,8 @@ AppModule = __decorate([
                 useFactory: (config) => {
                     return {
                         database: 'tenantauth',
-                        username: 'postgres',
-                        password: 'Pass@123',
+                        username: 'ananth',
+                        password: 'u7i8o9p0',
                         type: 'postgres',
                         host: 'localhost',
                         port: 5432,

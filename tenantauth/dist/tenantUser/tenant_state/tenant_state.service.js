@@ -34,16 +34,16 @@ let TenantStateService = class TenantStateService {
             await channel.assertExchange(exchange, "direct", { durable: true });
             const { queue } = await channel.assertQueue("", { exclusive: true });
             console.log("Waiting for messages in queue:State", queue);
-            await channel.bindQueue(queue, exchange, "createState");
-            await channel.bindQueue(queue, exchange, "updatState");
+            await channel.bindQueue(queue, exchange, "tenantStateDetails");
+            await channel.bindQueue(queue, exchange, "updatetenantStateDetails");
             channel.consume(queue, async (msg) => {
                 if (msg) {
                     console.log("Message received:state", msg.content.toString());
                     const state = JSON.parse(msg.content.toString());
-                    if (msg.fields.routingKey === "createState") {
-                        await this.create(state);
+                    if (msg.fields.routingKey === "tenantStateDetails") {
+                        await this.create(state.tenantStateDetails);
                     }
-                    else if (msg.fields.routingKey === "updateState") {
+                    else if (msg.fields.routingKey === "updatetenantStateDetails") {
                     }
                     channel.ack(msg);
                 }

@@ -35,16 +35,16 @@ let IndustryDomainService = class IndustryDomainService {
             await channel.assertExchange(exchange, "direct", { durable: true });
             const { queue } = await channel.assertQueue("", { exclusive: true });
             console.log("Waiting for messages in queue: Domain", queue);
-            await channel.bindQueue(queue, exchange, "createIndustryDomain");
-            await channel.bindQueue(queue, exchange, "updatIndustryDomain");
+            await channel.bindQueue(queue, exchange, "tenantIndustyDetails");
+            await channel.bindQueue(queue, exchange, "updatetenantIndustyDetails");
             channel.consume(queue, async (msg) => {
                 if (msg) {
                     console.log("Message received:", msg.content.toString());
                     const domain = JSON.parse(msg.content.toString());
-                    if (msg.fields.routingKey === "createIndustryDomain") {
-                        await this.create(domain);
+                    if (msg.fields.routingKey === "tenantIndustyDetails") {
+                        await this.create(domain.tenantIndustyDetails);
                     }
-                    else if (msg.fields.routingKey === "updateIndustryDomain") {
+                    else if (msg.fields.routingKey === "updatetenantIndustyDetails") {
                     }
                     channel.ack(msg);
                 }

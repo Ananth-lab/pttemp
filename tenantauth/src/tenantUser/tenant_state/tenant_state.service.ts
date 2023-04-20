@@ -25,18 +25,18 @@ async consumeMessages() {
     console.log("Waiting for messages in queue:State", queue);
 
     // Bind the queue to the exchange with routing keys 'createUser' and 'updateUser'
-    await channel.bindQueue(queue, exchange, "createState");
-    await channel.bindQueue(queue, exchange, "updatState");
+    await channel.bindQueue(queue, exchange, "tenantStateDetails");
+    await channel.bindQueue(queue, exchange, "updatetenantStateDetails");
 
     channel.consume(
       queue,
       async (msg) => {
         if (msg) {
           console.log("Message received:state", msg.content.toString());
-          const state:TenantState= JSON.parse(msg.content.toString());
-          if (msg.fields.routingKey === "createState") {
-            await this.create(state);
-          } else if (msg.fields.routingKey === "updateState") {
+          const state= JSON.parse(msg.content.toString());
+          if (msg.fields.routingKey === "tenantStateDetails") {
+            await this.create(state.tenantStateDetails);
+          } else if (msg.fields.routingKey === "updatetenantStateDetails") {
               //await this.update();
           }
           channel.ack(msg);

@@ -35,16 +35,17 @@ let TenantCountryService = class TenantCountryService {
             await channel.assertExchange(exchange, "direct", { durable: true });
             const { queue } = await channel.assertQueue("", { exclusive: true });
             console.log("Waiting for messages in queue:Country", queue);
-            await channel.bindQueue(queue, exchange, "createCountry");
-            await channel.bindQueue(queue, exchange, "updatCountry");
+            await channel.bindQueue(queue, exchange, "tenantCountryDetails");
+            await channel.bindQueue(queue, exchange, "updatetenantCountryDetails");
             channel.consume(queue, async (msg) => {
                 if (msg) {
                     console.log("Message received:", msg.content.toString());
                     const country = JSON.parse(msg.content.toString());
-                    if (msg.fields.routingKey === "createCountry") {
-                        await this.create(country);
+                    if (msg.fields.routingKey === "tenantCountryDetails") {
+                        await this.create(country.tenantCountryDetails);
+                        console.log("created");
                     }
-                    else if (msg.fields.routingKey === "updateCountry") {
+                    else if (msg.fields.routingKey === "updatetenantCountryDetails") {
                     }
                     channel.ack(msg);
                 }

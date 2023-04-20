@@ -31,19 +31,20 @@ export class TenantOrganisationAddressService {
       console.log("Waiting for messages in queue:OrganisationAddress", queue);
   
       // Bind the queue to the exchange with routing keys 'createUser' and 'updateUser'
-      await channel.bindQueue(queue, exchange, "createOrganisationAddress");
-      await channel.bindQueue(queue, exchange, "updateOrganisationAddress");
+      await channel.bindQueue(queue, exchange, "tenantOrgAdddressDetails");
+      await channel.bindQueue(queue, exchange, "updatetenantOrgAdddressDetails");
   
       channel.consume(
         queue,
         async (msg) => {
           if (msg) {
             console.log("Message received:", msg.content.toString());
-            const organisationAddress:TenantOrganisationAddress= JSON.parse(msg.content.toString());
-            if (msg.fields.routingKey === "createOrganisationAddress") {
-             // organisationAddress.id=""
-              await this.create(organisationAddress);
-            } else if (msg.fields.routingKey === "updateOrganisationAddress") {
+            const organisationAddress= JSON.parse(msg.content.toString());
+            if (msg.fields.routingKey === "tenantOrgAdddressDetails") {
+             // organisationAddress.id=""\
+             console.log(organisationAddress.tenantOrgAdddressDetails)
+              await this.create(organisationAddress.tenantOrgAdddressDetails);
+            } else if (msg.fields.routingKey === "updatetenantOrgAdddressDetails") {
                 //await this.update();
             }
             channel.ack(msg);

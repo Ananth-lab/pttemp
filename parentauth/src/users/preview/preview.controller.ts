@@ -28,23 +28,22 @@ export class PreviewController {
   @Post()
   async finalSubmit(@Body() data: any) {
     const tenantOrgAdddressDetail = data;
-    const tenantOrgAdddressDetails = {};
+    const tenantOrgAdddressDetails: any = {};
     for (const [key, value] of Object.entries(data)) {
       if (typeof value !== "object" || value === null) {
         tenantOrgAdddressDetails[key] = value;
       }
     }
-    
+
     const tenantOrganisationDetail = data.tenantOrganisationId;
-    const tenantOrganisationDetails = {};
+    const tenantOrganisationDetails: any = {};
     for (const [key, value] of Object.entries(tenantOrganisationDetail)) {
       if (typeof value !== "object" || value === null) {
         tenantOrganisationDetails[key] = value;
       }
     }
-
     const tenantUserDetail = tenantOrganisationDetail.tUserId;
-    const tenantUserDetails = {};
+    const tenantUserDetails : any = {};
     for (const [key, value] of Object.entries(tenantUserDetail)) {
       if (typeof value !== "object" || value === null) {
         tenantUserDetails[key] = value;
@@ -53,16 +52,21 @@ export class PreviewController {
     const tenantIndustyDetails = tenantOrganisationDetail.industry_domain;
     const tenantCountryDetails = data.country;
     const tenantStateDetails = data.state;
-
+    tenantStateDetails.countryId = tenantCountryDetails.id;
+    tenantOrgAdddressDetails.state = tenantStateDetails.id;
+    tenantOrgAdddressDetails.country = tenantCountryDetails.id;
+    tenantOrganisationDetails.tUserId = tenantUserDetails.id;
+    tenantOrganisationDetails.industry_domain = tenantIndustyDetails.id;
+    tenantOrgAdddressDetails.tenantOrganisationId = tenantOrganisationDetails.id;
     const rabbitConnection = await connectRabbitMQ();
     if (!rabbitConnection) {
-      throw new Error('Failed to connect to RabbitMQ');
+      throw new Error("Failed to connect to RabbitMQ");
     }
 
     // const { channel, exchange } = rabbitConnection;
     // await channel.publish(
-    //   exchange, 
-    //   'createUser', 
+    //   exchange,
+    //   'createUser',
     //   Buffer.from(
     //     JSON.stringify({
     //       tenantOrgAdddressDetails,
@@ -77,28 +81,28 @@ export class PreviewController {
 
     const { channel, exchange } = rabbitConnection;
     await channel.publish(
-      exchange, 
-      'tenantOrgAdddressDetails', 
+      exchange,
+      "tenantOrgAdddressDetails",
       Buffer.from(
         JSON.stringify({
-          tenantOrgAdddressDetails
+          tenantOrgAdddressDetails,
         })
       )
     );
 
     await channel.publish(
-      exchange, 
-      'tenantOrganisationDetails', 
+      exchange,
+      "tenantOrganisationDetails",
       Buffer.from(
         JSON.stringify({
-          tenantOrganisationDetails
+          tenantOrganisationDetails,
         })
       )
     );
 
     await channel.publish(
-      exchange, 
-      'tenantUserDetails', 
+      exchange,
+      'tenantUserDetails',
       Buffer.from(
         JSON.stringify({
           tenantUserDetails
@@ -106,46 +110,50 @@ export class PreviewController {
       )
     );
 
+    console.log(tenantOrgAdddressDetails);
+
+
     await channel.publish(
-      exchange, 
-      'tenantIndustyDetails', 
+      exchange,
+      "tenantIndustyDetails",
       Buffer.from(
         JSON.stringify({
-          tenantIndustyDetails
+          tenantIndustyDetails,
         })
       )
     );
 
     await channel.publish(
-      exchange, 
-      'tenantCountryDetails', 
+      exchange,
+      "tenantCountryDetails",
       Buffer.from(
         JSON.stringify({
-          tenantCountryDetails
+          tenantCountryDetails,
         })
       )
     );
 
     await channel.publish(
-      exchange, 
-      'tenantStateDetails', 
+      exchange,
+      "tenantStateDetails",
       Buffer.from(
         JSON.stringify({
-          tenantStateDetails
+          tenantStateDetails,
         })
       )
     );
-  console.log("Data has been sent")
 
-    return [
-      tenantOrgAdddressDetails,
-      tenantOrganisationDetails,
-      tenantUserDetails,
-      tenantIndustyDetails,
-      tenantCountryDetails,
-      tenantStateDetails,
-    ];
+    console.log("Data has been sent");
 
-    //return tenantUserDetails;
+    // return [
+    //   tenantOrgAdddressDetails,
+    //   tenantOrganisationDetails,
+    //   tenantUserDetails,
+    //   tenantIndustyDetails,
+    //   tenantCountryDetails,
+    //   tenantStateDetails,
+    // ];
+
+    return tenantUserDetails;
   }
 }
