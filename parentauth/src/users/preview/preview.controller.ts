@@ -9,6 +9,7 @@ import {
 } from "@nestjs/common";
 
 import { TenantOrganisationAddressService } from "../tenant_organisation_address/tenant_organisation_address.service";
+import { connectRabbitMQ } from "../rabbit";
 
 @Controller("preview")
 export class PreviewController {
@@ -25,8 +26,126 @@ export class PreviewController {
   }
 
   @Post()
-  async finalSubmit(@Body() type: any) {
-    const { industry_domain, organisationId } = type;
-    return [industry_domain, organisationId];
+  async finalSubmit(@Body() data: any) {
+    const tenantOrgAdddressDetail = data;
+    const tenantOrgAdddressDetails = {};
+    for (const [key, value] of Object.entries(data)) {
+      if (typeof value !== "object" || value === null) {
+        tenantOrgAdddressDetails[key] = value;
+      }
+    }
+    
+    const tenantOrganisationDetail = data.tenantOrganisationId;
+    const tenantOrganisationDetails = {};
+    for (const [key, value] of Object.entries(tenantOrganisationDetail)) {
+      if (typeof value !== "object" || value === null) {
+        tenantOrganisationDetails[key] = value;
+      }
+    }
+
+    const tenantUserDetail = tenantOrganisationDetail.tUserId;
+    const tenantUserDetails = {};
+    for (const [key, value] of Object.entries(tenantUserDetail)) {
+      if (typeof value !== "object" || value === null) {
+        tenantUserDetails[key] = value;
+      }
+    }
+    const tenantIndustyDetails = tenantOrganisationDetail.industry_domain;
+    const tenantCountryDetails = data.country;
+    const tenantStateDetails = data.state;
+
+    const rabbitConnection = await connectRabbitMQ();
+    if (!rabbitConnection) {
+      throw new Error('Failed to connect to RabbitMQ');
+    }
+
+    // const { channel, exchange } = rabbitConnection;
+    // await channel.publish(
+    //   exchange, 
+    //   'createUser', 
+    //   Buffer.from(
+    //     JSON.stringify({
+    //       tenantOrgAdddressDetails,
+    //       tenantOrganisationDetails,
+    //       tenantUserDetails,
+    //       tenantIndustyDetails,
+    //       tenantCountryDetails,
+    //       tenantStateDetails,
+    //     })
+    //   )
+    // );
+
+    const { channel, exchange } = rabbitConnection;
+    await channel.publish(
+      exchange, 
+      'tenantOrgAdddressDetails', 
+      Buffer.from(
+        JSON.stringify({
+          tenantOrgAdddressDetails
+        })
+      )
+    );
+
+    await channel.publish(
+      exchange, 
+      'tenantOrganisationDetails', 
+      Buffer.from(
+        JSON.stringify({
+          tenantOrganisationDetails
+        })
+      )
+    );
+
+    await channel.publish(
+      exchange, 
+      'tenantUserDetails', 
+      Buffer.from(
+        JSON.stringify({
+          tenantUserDetails
+        })
+      )
+    );
+
+    await channel.publish(
+      exchange, 
+      'tenantIndustyDetails', 
+      Buffer.from(
+        JSON.stringify({
+          tenantIndustyDetails
+        })
+      )
+    );
+
+    await channel.publish(
+      exchange, 
+      'tenantCountryDetails', 
+      Buffer.from(
+        JSON.stringify({
+          tenantCountryDetails
+        })
+      )
+    );
+
+    await channel.publish(
+      exchange, 
+      'tenantStateDetails', 
+      Buffer.from(
+        JSON.stringify({
+          tenantStateDetails
+        })
+      )
+    );
+  console.log("Data has been sent")
+
+    return [
+      tenantOrgAdddressDetails,
+      tenantOrganisationDetails,
+      tenantUserDetails,
+      tenantIndustyDetails,
+      tenantCountryDetails,
+      tenantStateDetails,
+    ];
+
+    //return tenantUserDetails;
   }
 }

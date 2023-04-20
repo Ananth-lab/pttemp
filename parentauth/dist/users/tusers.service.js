@@ -17,7 +17,6 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const tuser_entity_1 = require("./tuser.entity");
-const rabbit_1 = require("./rabbit");
 let TusersService = class TusersService {
     constructor(repo) {
         this.repo = repo;
@@ -25,13 +24,6 @@ let TusersService = class TusersService {
     async create(body) {
         try {
             const user = await this.repo.save(body);
-            const rabbitConnection = await (0, rabbit_1.connectRabbitMQ)();
-            if (!rabbitConnection) {
-                throw new Error('Failed to connect to RabbitMQ');
-            }
-            const { channel, exchange } = rabbitConnection;
-            await channel.publish(exchange, 'createUser', Buffer.from(JSON.stringify(user)));
-            console.log('Message sent:', user);
             return user;
         }
         catch (error) {

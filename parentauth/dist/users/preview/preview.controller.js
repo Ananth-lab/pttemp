@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PreviewController = void 0;
 const common_1 = require("@nestjs/common");
 const tenant_organisation_address_service_1 = require("../tenant_organisation_address/tenant_organisation_address.service");
+const rabbit_1 = require("../rabbit");
 let PreviewController = class PreviewController {
     constructor(tenantAddress) {
         this.tenantAddress = tenantAddress;
@@ -25,9 +26,63 @@ let PreviewController = class PreviewController {
     catch(error) {
         throw new Error(`Error fetching preview data: ${error.message}`);
     }
-    async finalSubmit(type) {
-        const { industry_domain, organisationId } = type;
-        return [industry_domain, organisationId];
+    async finalSubmit(data) {
+        const tenantOrgAdddressDetail = data;
+        const tenantOrgAdddressDetails = {};
+        for (const [key, value] of Object.entries(data)) {
+            if (typeof value !== "object" || value === null) {
+                tenantOrgAdddressDetails[key] = value;
+            }
+        }
+        const tenantOrganisationDetail = data.tenantOrganisationId;
+        const tenantOrganisationDetails = {};
+        for (const [key, value] of Object.entries(tenantOrganisationDetail)) {
+            if (typeof value !== "object" || value === null) {
+                tenantOrganisationDetails[key] = value;
+            }
+        }
+        const tenantUserDetail = tenantOrganisationDetail.tUserId;
+        const tenantUserDetails = {};
+        for (const [key, value] of Object.entries(tenantUserDetail)) {
+            if (typeof value !== "object" || value === null) {
+                tenantUserDetails[key] = value;
+            }
+        }
+        const tenantIndustyDetails = tenantOrganisationDetail.industry_domain;
+        const tenantCountryDetails = data.country;
+        const tenantStateDetails = data.state;
+        const rabbitConnection = await (0, rabbit_1.connectRabbitMQ)();
+        if (!rabbitConnection) {
+            throw new Error('Failed to connect to RabbitMQ');
+        }
+        const { channel, exchange } = rabbitConnection;
+        await channel.publish(exchange, 'tenantOrgAdddressDetails', Buffer.from(JSON.stringify({
+            tenantOrgAdddressDetails
+        })));
+        await channel.publish(exchange, 'tenantOrganisationDetails', Buffer.from(JSON.stringify({
+            tenantOrganisationDetails
+        })));
+        await channel.publish(exchange, 'tenantUserDetails', Buffer.from(JSON.stringify({
+            tenantUserDetails
+        })));
+        await channel.publish(exchange, 'tenantIndustyDetails', Buffer.from(JSON.stringify({
+            tenantIndustyDetails
+        })));
+        await channel.publish(exchange, 'tenantCountryDetails', Buffer.from(JSON.stringify({
+            tenantCountryDetails
+        })));
+        await channel.publish(exchange, 'tenantStateDetails', Buffer.from(JSON.stringify({
+            tenantStateDetails
+        })));
+        console.log("Data has been sent");
+        return [
+            tenantOrgAdddressDetails,
+            tenantOrganisationDetails,
+            tenantUserDetails,
+            tenantIndustyDetails,
+            tenantCountryDetails,
+            tenantStateDetails,
+        ];
     }
 };
 __decorate([

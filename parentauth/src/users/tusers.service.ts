@@ -14,14 +14,14 @@ export class TusersService {
   async create(body: CreateTuserDto) {
     try {
       const user =  await this.repo.save(body);
-      const rabbitConnection = await connectRabbitMQ();
-      if (!rabbitConnection) {
-        throw new Error('Failed to connect to RabbitMQ');
-      }
+      // const rabbitConnection = await connectRabbitMQ();
+      // if (!rabbitConnection) {
+      //   throw new Error('Failed to connect to RabbitMQ');
+      // }
   
-      const { channel, exchange } = rabbitConnection;
-      await channel.publish(exchange, 'createUser', Buffer.from(JSON.stringify(user)));
-      console.log('Message sent:', user);
+      // const { channel, exchange } = rabbitConnection;
+      // await channel.publish(exchange, 'createUser', Buffer.from(JSON.stringify(user)));
+      // console.log('Message sent:', user);
   
      // const user1 =await this.repo.save(user);
     //  console.log(user,"receving from postna")
