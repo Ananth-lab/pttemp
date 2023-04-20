@@ -32,20 +32,20 @@ export class TenantOrganisation {
   @Column()
   pan: string;
 
-  @OneToMany(
-    () => TenantOrganisation,
-    (tenantOrganisation) => tenantOrganisation.id,
-    { nullable: false }
-  )
-  tenantOrganisations: TenantOrganisation;
+  // @OneToMany(
+  //   () => TenantOrganisation,
+  //   (tenantOrganisation) => tenantOrganisation.id,
+  //   { nullable: false }
+  // )
+  // tenantOrganisations: TenantOrganisation;
 
   @ManyToOne(() => IndustryDomain, (industryDomain) => industryDomain.id, {
     nullable: false,
   })
+  @JoinColumn()
   industry_domain: IndustryDomain;
 
   @OneToOne(() => TenantOrganisationAddress)
-  @JoinColumn()
   billingAddress: TenantOrganisationAddress;
 
   @Column({ default: false })

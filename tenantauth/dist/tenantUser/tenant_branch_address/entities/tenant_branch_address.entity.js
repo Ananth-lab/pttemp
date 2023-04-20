@@ -38,7 +38,8 @@ __decorate([
     __metadata("design:type", String)
 ], TenantBranchAddress.prototype, "city", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => tenant_state_entity_1.TenantState, (state) => state.id),
+    (0, typeorm_1.ManyToOne)(() => tenant_state_entity_1.TenantState, (state) => state.id, { nullable: false }),
+    (0, typeorm_1.JoinColumn)(),
     __metadata("design:type", tenant_state_entity_1.TenantState)
 ], TenantBranchAddress.prototype, "state", void 0);
 __decorate([
@@ -46,7 +47,8 @@ __decorate([
     __metadata("design:type", String)
 ], TenantBranchAddress.prototype, "post_code", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => tenant_country_entity_1.TenantCountry, (country) => country.id),
+    (0, typeorm_1.ManyToOne)(() => tenant_country_entity_1.TenantCountry, (country) => country.id, { nullable: false }),
+    (0, typeorm_1.JoinColumn)(),
     __metadata("design:type", tenant_country_entity_1.TenantCountry)
 ], TenantBranchAddress.prototype, "country", void 0);
 __decorate([
@@ -58,12 +60,14 @@ __decorate([
         nullable: true,
         onDelete: "CASCADE",
     }),
+    (0, typeorm_1.JoinColumn)(),
     __metadata("design:type", TenantBranchAddress)
 ], TenantBranchAddress.prototype, "tenantBranhAddress", void 0);
 __decorate([
     (0, typeorm_1.OneToOne)(() => tenant_branch_entity_1.TenantBranch, (tenantBranch) => tenantBranch.id, {
         nullable: false,
     }),
+    (0, typeorm_1.JoinColumn)(),
     __metadata("design:type", tenant_branch_entity_1.TenantBranch)
 ], TenantBranchAddress.prototype, "tenantBranchId", void 0);
 __decorate([

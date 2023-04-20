@@ -4,6 +4,8 @@ import { Repository } from "typeorm";
 import { Tuser } from "./tuser.entity";
 import { CreateTuserDto } from "./dtos/create-tuser.dto";
 import * as amqp from "amqplib";
+import { UpdateTuserDto } from "./dtos/update-tuser.dto";
+import { connectRabbitMQ } from "../rabbitM/rabbitMq.sender";
 
 @Injectable()
 export class TusersService {
@@ -62,6 +64,40 @@ export class TusersService {
   find() {
     return this.repo.find();
   }
+
+  async update(
+    id: string,
+    updateTuserDto: UpdateTuserDto
+  ) {
+    try{
+      const user = await this.repo.findOne({ where: { id: id } });
+      if (!user) return user;
+      if(updateTuserDto.email ){
+        user.email = updateTuserDto.email; 
+      }
+      if(updateTuserDto.name ){
+        user.name = updateTuserDto.name; 
+      }
+      if(updateTuserDto.mobile ){
+        user.mobile = updateTuserDto.mobile; 
+      }
+      const tuser=await this.repo.save(user)
+      const rabbitConnection = await connectRabbitMQ();
+      if (!rabbitConnection) {
+        throw new Error('Failed to connect to RabbitMQ');
+      }
+      const { channel, exchange } = rabbitConnection;
+      await channel.publish(exchange, 'updateTuser', Buffer.from(JSON.stringify(user)));
+      console.log('Message sent:', Tuser);
+      return user
+    } catch (error) {
+      console.error('Failed to publish message to RabbitMQ:', error);
+      throw error;
+    }
+  }
+  
+    
+
 
   async findById(id: string) {
     const tuser = await this.repo.findOne({ where: { id } });

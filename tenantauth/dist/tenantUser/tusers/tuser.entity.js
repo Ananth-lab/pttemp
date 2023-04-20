@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Tuser = exports.status = void 0;
 const typeorm_1 = require("typeorm");
+const tenant_organisation_entity_1 = require("../tenant_organisation/entities/tenant_organisation.entity");
 var status;
 (function (status) {
     status["PENDING"] = "pending";
@@ -43,7 +44,7 @@ __decorate([
 ], Tuser.prototype, "isEmailVerified", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: false }),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], Tuser.prototype, "mobile", void 0);
 __decorate([
     (0, typeorm_1.Column)({ default: true }),
@@ -69,6 +70,11 @@ __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
 ], Tuser.prototype, "emailVerifyToken", void 0);
+__decorate([
+    (0, typeorm_1.OneToOne)(() => tenant_organisation_entity_1.TenantOrganisation, tenantOrganisation => tenantOrganisation.tUserId),
+    (0, typeorm_1.JoinColumn)(),
+    __metadata("design:type", tenant_organisation_entity_1.TenantOrganisation)
+], Tuser.prototype, "orgId", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)

@@ -41,6 +41,7 @@ __decorate([
     (0, typeorm_1.ManyToOne)(() => tenant_state_entity_1.TenantState, (tenantState) => tenantState.id, {
         nullable: false,
     }),
+    (0, typeorm_1.JoinColumn)(),
     __metadata("design:type", tenant_state_entity_1.TenantState)
 ], TenantOrganisationAddress.prototype, "state", void 0);
 __decorate([
@@ -51,10 +52,12 @@ __decorate([
     (0, typeorm_1.ManyToOne)(() => tenant_country_entity_1.TenantCountry, (tenantCountry) => tenantCountry.id, {
         nullable: false,
     }),
+    (0, typeorm_1.JoinColumn)(),
     __metadata("design:type", tenant_country_entity_1.TenantCountry)
 ], TenantOrganisationAddress.prototype, "country", void 0);
 __decorate([
     (0, typeorm_1.OneToOne)(() => tenant_organisation_entity_1.TenantOrganisation, (tenantOrganisation) => tenantOrganisation.billingAddress, { nullable: false }),
+    (0, typeorm_1.JoinColumn)(),
     __metadata("design:type", tenant_organisation_entity_1.TenantOrganisation)
 ], TenantOrganisationAddress.prototype, "tenantOrganisationId", void 0);
 __decorate([
@@ -63,6 +66,7 @@ __decorate([
 ], TenantOrganisationAddress.prototype, "isParent", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(() => TenantOrganisationAddress_1, (tenantOrganisationAddress) => tenantOrganisationAddress.id, { nullable: true, onDelete: "CASCADE" }),
+    (0, typeorm_1.JoinColumn)(),
     __metadata("design:type", TenantOrganisationAddress)
 ], TenantOrganisationAddress.prototype, "parentOaddress", void 0);
 __decorate([

@@ -18,6 +18,7 @@ const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const tuser_entity_1 = require("./tuser.entity");
 const amqp = require("amqplib");
+const rabbitMq_sender_1 = require("../rabbitM/rabbitMq.sender");
 let TusersService = class TusersService {
     constructor(repo) {
         this.repo = repo;
@@ -63,6 +64,35 @@ let TusersService = class TusersService {
     }
     find() {
         return this.repo.find();
+    }
+    async update(id, updateTuserDto) {
+        try {
+            const user = await this.repo.findOne({ where: { id: id } });
+            if (!user)
+                return user;
+            if (updateTuserDto.email) {
+                user.email = updateTuserDto.email;
+            }
+            if (updateTuserDto.name) {
+                user.name = updateTuserDto.name;
+            }
+            if (updateTuserDto.mobile) {
+                user.mobile = updateTuserDto.mobile;
+            }
+            const tuser = await this.repo.save(user);
+            const rabbitConnection = await (0, rabbitMq_sender_1.connectRabbitMQ)();
+            if (!rabbitConnection) {
+                throw new Error('Failed to connect to RabbitMQ');
+            }
+            const { channel, exchange } = rabbitConnection;
+            await channel.publish(exchange, 'updateTuser', Buffer.from(JSON.stringify(user)));
+            console.log('Message sent:', tuser_entity_1.Tuser);
+            return user;
+        }
+        catch (error) {
+            console.error('Failed to publish message to RabbitMQ:', error);
+            throw error;
+        }
     }
     async findById(id) {
         const tuser = await this.repo.findOne({ where: { id } });

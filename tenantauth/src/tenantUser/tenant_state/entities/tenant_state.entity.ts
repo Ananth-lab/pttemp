@@ -3,7 +3,7 @@ import { TenantBranch } from 'src/tenantUser/tenant_branch/entities/tenant_branc
 import { TenantBranchAddress } from 'src/tenantUser/tenant_branch_address/entities/tenant_branch_address.entity';
 import { TenantCountry } from 'src/tenantUser/tenant_country/entities/tenant_country.entity'; 
 import { TenantOrganisationAddress } from 'src/tenantUser/tenant_organisation_address/entities/tenant_organisation_address.entity';
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn, OneToMany, JoinColumn } from 'typeorm';
 
 
 @Entity()
@@ -15,6 +15,7 @@ export class TenantState{
   name: string;
 
   @ManyToOne(() => TenantCountry, tenantCountry => tenantCountry.id,{nullable:false})
+  @JoinColumn()
   countryId: TenantCountry;
 
   @OneToMany(() => TenantOrganisationAddress, address => address.state)

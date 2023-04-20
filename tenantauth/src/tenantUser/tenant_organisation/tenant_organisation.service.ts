@@ -9,7 +9,6 @@ import { UpdateTenantOrganisationDto } from "./dto/update-tenant_organisation.dt
 import { InjectRepository } from "@nestjs/typeorm";
 import { TenantOrganisation } from "./entities/tenant_organisation.entity";
 import { Equal, Repository } from "typeorm";
-import { equal } from "assert";
 import * as amqp from "amqplib";
 import { connectRabbitMQ } from "../rabbitM/rabbitMq.sender";
 require ("dotenv").config()

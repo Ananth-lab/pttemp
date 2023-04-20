@@ -1,5 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
+import { TenantOrganisation } from '../tenant_organisation/entities/tenant_organisation.entity';
 export enum status {
   PENDING = 'pending',
   ACTIVE = 'active',
@@ -26,7 +26,7 @@ export class Tuser {
   isEmailVerified: boolean;
 
   @Column({ nullable: false })
-  mobile: number;
+  mobile: string;
 
   @Column({ default: true })
   isMobileVerified: boolean;
@@ -46,6 +46,10 @@ export class Tuser {
 
   @Column({ nullable: true })
   emailVerifyToken: string;
+
+  @OneToOne(() => TenantOrganisation, tenantOrganisation=>tenantOrganisation.tUserId)
+  @JoinColumn()
+  orgId: TenantOrganisation;
 
   @Column({ nullable: true })
   emailVerifyExpires: string;

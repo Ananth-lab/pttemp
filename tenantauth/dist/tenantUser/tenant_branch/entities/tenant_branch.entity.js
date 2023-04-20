@@ -21,7 +21,8 @@ __decorate([
     __metadata("design:type", String)
 ], TenantBranch.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => tenant_organisation_entity_1.TenantOrganisation, tenantOrganisation => tenantOrganisation.id),
+    (0, typeorm_1.ManyToOne)(() => tenant_organisation_entity_1.TenantOrganisation, tenantOrganisation => tenantOrganisation.id, { nullable: false }),
+    (0, typeorm_1.JoinColumn)(),
     __metadata("design:type", tenant_organisation_entity_1.TenantOrganisation)
 ], TenantBranch.prototype, "organisation_id", void 0);
 __decorate([
@@ -41,6 +42,7 @@ __decorate([
         nullable: true,
         onDelete: "CASCADE",
     }),
+    (0, typeorm_1.JoinColumn)(),
     __metadata("design:type", TenantBranch)
 ], TenantBranch.prototype, "parentbranchId", void 0);
 __decorate([
