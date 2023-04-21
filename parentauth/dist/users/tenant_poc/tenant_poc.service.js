@@ -32,6 +32,14 @@ let TenantPocService = class TenantPocService {
             throw new common_1.HttpException(error.message, common_1.HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    async findOneOnOrg(id) {
+        try {
+            return await this.tenantPocRepo.findOne({ where: { tenantOrganisation_id: (0, typeorm_2.Equal)(id) } });
+        }
+        catch (error) {
+            throw new common_1.HttpException(error.message, common_1.HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
     async update(id, updateTenantPocDto) {
         try {
             const currPoc = await this.tenantPocRepo.findOne({ where: { id: id } });

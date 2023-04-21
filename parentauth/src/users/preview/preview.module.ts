@@ -5,10 +5,13 @@ import { TenantOrganisationService } from '../tenant_organisation/tenant_organis
 import { TenantOrganisationAddressService } from '../tenant_organisation_address/tenant_organisation_address.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TenantOrganisationAddress } from '../tenant_organisation_address/entities/tenant_organisation_address.entity';
+import { TenantPoc } from '../tenant_poc/entities/tenant_poc.entity';
+import { TenantPocController } from '../tenant_poc/tenant_poc.controller';
+import { TenantPocService } from '../tenant_poc/tenant_poc.service';
 
 @Module({
-  imports:[TypeOrmModule.forFeature([TenantOrganisationAddress])],
-  controllers: [PreviewController, TenantOrganisationAddressController],
-  providers: [TenantOrganisationAddressService]
+  imports:[TypeOrmModule.forFeature([TenantOrganisationAddress, TenantPoc])],
+  controllers: [PreviewController, TenantOrganisationAddressController, TenantPocController],
+  providers: [TenantOrganisationAddressService, TenantPocService]
 })
 export class PreviewModule {}

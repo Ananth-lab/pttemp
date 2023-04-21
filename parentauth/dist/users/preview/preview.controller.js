@@ -16,9 +16,11 @@ exports.PreviewController = void 0;
 const common_1 = require("@nestjs/common");
 const tenant_organisation_address_service_1 = require("../tenant_organisation_address/tenant_organisation_address.service");
 const rabbit_1 = require("../rabbit");
+const tenant_poc_service_1 = require("../tenant_poc/tenant_poc.service");
 let PreviewController = class PreviewController {
-    constructor(tenantAddress) {
+    constructor(tenantAddress, tenantPoc) {
         this.tenantAddress = tenantAddress;
+        this.tenantPoc = tenantPoc;
     }
     findOne(id) {
         return this.tenantAddress.findOne(id);
@@ -57,6 +59,8 @@ let PreviewController = class PreviewController {
         tenantOrganisationDetails.tUserId = tenantUserDetails.id;
         tenantOrganisationDetails.industry_domain = tenantIndustyDetails.id;
         tenantOrgAdddressDetails.tenantOrganisationId = tenantOrganisationDetails.id;
+        const tenantPocDetails = await this.tenantPoc.findOneOnOrg(tenantOrganisationDetail.id);
+        tenantPocDetails.tenantOrganisation_id = tenantOrganisationDetail.id;
         const rabbitConnection = await (0, rabbit_1.connectRabbitMQ)();
         if (!rabbitConnection) {
             throw new Error("Failed to connect to RabbitMQ");
@@ -74,6 +78,11 @@ let PreviewController = class PreviewController {
         await channel.publish(exchange, "tenantCountryDetails", Buffer.from(JSON.stringify({
             tenantCountryDetails,
         })));
+        setTimeout(() => {
+            channel.publish(exchange, "tenantPocDetails", Buffer.from(JSON.stringify({
+                tenantPocDetails,
+            })));
+        }, 500);
         await channel.publish(exchange, "tenantStateDetails", Buffer.from(JSON.stringify({
             tenantStateDetails,
         })));
@@ -102,7 +111,8 @@ __decorate([
 ], PreviewController.prototype, "finalSubmit", null);
 PreviewController = __decorate([
     (0, common_1.Controller)("preview"),
-    __metadata("design:paramtypes", [tenant_organisation_address_service_1.TenantOrganisationAddressService])
+    __metadata("design:paramtypes", [tenant_organisation_address_service_1.TenantOrganisationAddressService,
+        tenant_poc_service_1.TenantPocService])
 ], PreviewController);
 exports.PreviewController = PreviewController;
 //# sourceMappingURL=preview.controller.js.map

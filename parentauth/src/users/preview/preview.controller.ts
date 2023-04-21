@@ -10,11 +10,13 @@ import {
 
 import { TenantOrganisationAddressService } from "../tenant_organisation_address/tenant_organisation_address.service";
 import { connectRabbitMQ } from "../rabbit";
+import { TenantPocService } from "../tenant_poc/tenant_poc.service";
 
 @Controller("preview")
 export class PreviewController {
   constructor(
-    private readonly tenantAddress: TenantOrganisationAddressService
+    private readonly tenantAddress: TenantOrganisationAddressService,
+    private readonly tenantPoc : TenantPocService
   ) {}
 
   @Get(":id")
@@ -58,6 +60,12 @@ export class PreviewController {
     tenantOrganisationDetails.tUserId = tenantUserDetails.id;
     tenantOrganisationDetails.industry_domain = tenantIndustyDetails.id;
     tenantOrgAdddressDetails.tenantOrganisationId = tenantOrganisationDetails.id;
+
+    const tenantPocDetails = await this.tenantPoc.findOneOnOrg(tenantOrganisationDetail.id);
+    tenantPocDetails.tenantOrganisation_id = tenantOrganisationDetail.id;
+
+
+
     const rabbitConnection = await connectRabbitMQ();
     if (!rabbitConnection) {
       throw new Error("Failed to connect to RabbitMQ");
@@ -107,6 +115,18 @@ export class PreviewController {
       )
     );
 
+setTimeout(() => {
+   channel.publish(
+    exchange,
+    "tenantPocDetails",
+    Buffer.from(
+      JSON.stringify({
+        tenantPocDetails,
+      })
+    )
+  );
+}, 500)
+
     await channel.publish(
       exchange,
       "tenantStateDetails",
@@ -116,6 +136,7 @@ export class PreviewController {
         })
       )
     );
+
 
 
     setTimeout(() => {

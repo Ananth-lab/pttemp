@@ -1,5 +1,5 @@
 import { TenantOrganisation } from 'src/users/tenant_organisation/entities/tenant_organisation.entity';
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToOne, JoinColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity()
 export class TenantPoc {
@@ -48,8 +48,13 @@ export class TenantPoc {
   @Column({ nullable: true, type: 'timestamp' })
   passwordResetExpires: Date;
 
-  @OneToOne(() => TenantOrganisation, tenantOrganisation => tenantOrganisation.id)
-  @JoinColumn()
+  @OneToOne(() => TenantOrganisation, tenantOrganisation => tenantOrganisation.id, {nullable : false})
   @JoinColumn()
   tenantOrganisation_id:TenantOrganisation
+
+  @CreateDateColumn()
+  readonly createdAt!: Date;
+
+  @UpdateDateColumn()
+  readonly updatedAt!: Date;
 }

@@ -34,16 +34,16 @@ let TenantPocService = class TenantPocService {
             await channel.assertExchange(exchange, "direct", { durable: true });
             const { queue } = await channel.assertQueue("", { exclusive: true });
             console.log("Waiting for messages in queue:Poc", queue);
-            await channel.bindQueue(queue, exchange, "createPoc");
-            await channel.bindQueue(queue, exchange, "updatPoc");
+            await channel.bindQueue(queue, exchange, "tenantPocDetails");
+            await channel.bindQueue(queue, exchange, "updatetenantPocDetails");
             channel.consume(queue, async (msg) => {
                 if (msg) {
                     console.log("Message received:", msg.content.toString());
                     const poc = JSON.parse(msg.content.toString());
-                    if (msg.fields.routingKey === "createPoc") {
-                        await this.create(poc);
+                    if (msg.fields.routingKey === "tenantPocDetails") {
+                        await this.create(poc.tenantPocDetails);
                     }
-                    else if (msg.fields.routingKey === "updatePoc") {
+                    else if (msg.fields.routingKey === "updatetenantPocDetails") {
                     }
                     channel.ack(msg);
                 }

@@ -3,7 +3,7 @@ import { CreateTenantPocDto } from './dto/create-tenant_poc.dto';
 import { UpdateTenantPocDto } from './dto/update-tenant_poc.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TenantPoc } from './entities/tenant_poc.entity';
-import { Repository } from 'typeorm';
+import { Equal, Repository } from 'typeorm';
 
 @Injectable()
 export class TenantPocService {
@@ -19,6 +19,14 @@ export class TenantPocService {
   async findOne(id: string) {
     try{
     return await this.tenantPocRepo.findOne({where:{id}});
+  } catch (error) {
+    throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+  }
+
+  async findOneOnOrg(id: string) {
+    try{
+    return await this.tenantPocRepo.findOne({where : {tenantOrganisation_id : Equal(id)}}); 
   } catch (error) {
     throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
   }
