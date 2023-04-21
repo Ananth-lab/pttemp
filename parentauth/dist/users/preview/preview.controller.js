@@ -62,18 +62,14 @@ let PreviewController = class PreviewController {
             throw new Error("Failed to connect to RabbitMQ");
         }
         const { channel, exchange } = rabbitConnection;
-        await channel.publish(exchange, "tenantOrgAdddressDetails", Buffer.from(JSON.stringify({
-            tenantOrgAdddressDetails,
-        })));
-        await channel.publish(exchange, "tenantOrganisationDetails", Buffer.from(JSON.stringify({
-            tenantOrganisationDetails,
-        })));
         await channel.publish(exchange, 'tenantUserDetails', Buffer.from(JSON.stringify({
             tenantUserDetails
         })));
-        console.log(tenantOrgAdddressDetails);
         await channel.publish(exchange, "tenantIndustyDetails", Buffer.from(JSON.stringify({
             tenantIndustyDetails,
+        })));
+        await channel.publish(exchange, "tenantOrganisationDetails", Buffer.from(JSON.stringify({
+            tenantOrganisationDetails,
         })));
         await channel.publish(exchange, "tenantCountryDetails", Buffer.from(JSON.stringify({
             tenantCountryDetails,
@@ -81,6 +77,11 @@ let PreviewController = class PreviewController {
         await channel.publish(exchange, "tenantStateDetails", Buffer.from(JSON.stringify({
             tenantStateDetails,
         })));
+        setTimeout(() => {
+            channel.publish(exchange, "tenantOrgAdddressDetails", Buffer.from(JSON.stringify({
+                tenantOrgAdddressDetails,
+            })));
+        }, 1000);
         console.log("Data has been sent");
         return tenantUserDetails;
     }

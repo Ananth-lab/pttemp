@@ -63,42 +63,9 @@ export class PreviewController {
       throw new Error("Failed to connect to RabbitMQ");
     }
 
-    // const { channel, exchange } = rabbitConnection;
-    // await channel.publish(
-    //   exchange,
-    //   'createUser',
-    //   Buffer.from(
-    //     JSON.stringify({
-    //       tenantOrgAdddressDetails,
-    //       tenantOrganisationDetails,
-    //       tenantUserDetails,
-    //       tenantIndustyDetails,
-    //       tenantCountryDetails,
-    //       tenantStateDetails,
-    //     })
-    //   )
-    // );
 
-    const { channel, exchange } = rabbitConnection;
-    await channel.publish(
-      exchange,
-      "tenantOrgAdddressDetails",
-      Buffer.from(
-        JSON.stringify({
-          tenantOrgAdddressDetails,
-        })
-      )
-    );
+     const { channel, exchange } = rabbitConnection;
 
-    await channel.publish(
-      exchange,
-      "tenantOrganisationDetails",
-      Buffer.from(
-        JSON.stringify({
-          tenantOrganisationDetails,
-        })
-      )
-    );
 
     await channel.publish(
       exchange,
@@ -110,15 +77,22 @@ export class PreviewController {
       )
     );
 
-    console.log(tenantOrgAdddressDetails);
-
-
     await channel.publish(
       exchange,
       "tenantIndustyDetails",
       Buffer.from(
         JSON.stringify({
           tenantIndustyDetails,
+        })
+      )
+    );
+
+    await channel.publish(
+      exchange,
+      "tenantOrganisationDetails",
+      Buffer.from(
+        JSON.stringify({
+          tenantOrganisationDetails,
         })
       )
     );
@@ -142,6 +116,19 @@ export class PreviewController {
         })
       )
     );
+
+
+    setTimeout(() => {
+       channel.publish(
+        exchange,
+        "tenantOrgAdddressDetails",
+        Buffer.from(
+          JSON.stringify({
+            tenantOrgAdddressDetails,
+          })
+        )
+      );
+    }, 1000);
 
     console.log("Data has been sent");
 

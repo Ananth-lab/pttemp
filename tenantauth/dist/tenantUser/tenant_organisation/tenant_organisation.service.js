@@ -60,7 +60,6 @@ let TenantOrganisationService = class TenantOrganisationService {
             if (createTenantOrganisationDto.isParent == true &&
                 createTenantOrganisationDto.tParentOrganisationId) {
                 const id = createTenantOrganisationDto.tParentOrganisationId.toString();
-                console.log(id);
                 const pOrg = await this.OrgRepo.find({ where: { id } });
                 if (!pOrg.length)
                     throw new common_1.HttpException("no data found with given parentId", 404);

@@ -16,28 +16,28 @@ export class TusersService {
   async consumeMessages() {
     try {
       console.log("Connecting to RabbitMQ...");
-      const connection = await amqp.connect("amqp://localhost");
+      const connection = await amqp.connect(process.env.rabbitMqUrl);
       console.log("Connection to RabbitMQ established.");
       const channel = await connection.createChannel();
       const exchange = "user_exchange";
 
       await channel.assertExchange(exchange, "direct", { durable: true });
       const { queue } = await channel.assertQueue("", { exclusive: true });
-      console.log("Waiting for messages in queue:", queue);
+      console.log("Waiting for messages in queue in:", queue);
 
       // Bind the queue to the exchange with routing keys 'createUser' and 'updateUser'
-      await channel.bindQueue(queue, exchange, "createUser");
-      await channel.bindQueue(queue, exchange, "updateUser");
+      await channel.bindQueue(queue, exchange, "tenantUserDetails");
+      await channel.bindQueue(queue, exchange, "updatetenantUserDetails");
 
       channel.consume(
         queue,
         async (msg) => {
           if (msg) {
-            console.log("Message received:", msg.toString());
-            const user: Tuser = JSON.parse(msg.content.toString());
-            if (msg.fields.routingKey === "createUser") {
-              await this.create(user);
-            } else if (msg.fields.routingKey === "updateUser") {
+            console.log("Message received in:", msg.content.toString());
+            const user = JSON.parse(msg.content.toString());
+            if (msg.fields.routingKey === "tenantUserDetails") {
+              await this.create(user.tenantUserDetails);
+            } else if (msg.fields.routingKey === "updatetenantUserDetails") {
               //  await this.update(user);
             }
             channel.ack(msg);
@@ -52,7 +52,6 @@ export class TusersService {
   }
 
   async create(body: CreateTuserDto) {
-    console.log("Creating user:", body);
     const user = this.repo.create(body);
     await this.repo.save(user);
   }

@@ -41,8 +41,6 @@ export class TenantOrganisationAddressService {
             console.log("Message received:", msg.content.toString());
             const organisationAddress= JSON.parse(msg.content.toString());
             if (msg.fields.routingKey === "tenantOrgAdddressDetails") {
-             // organisationAddress.id=""\
-             console.log(organisationAddress.tenantOrgAdddressDetails)
               await this.create(organisationAddress.tenantOrgAdddressDetails);
             } else if (msg.fields.routingKey === "updatetenantOrgAdddressDetails") {
                 //await this.update();
