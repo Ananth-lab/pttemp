@@ -17,9 +17,41 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const industry_domain_entity_1 = require("./entities/industry_domain.entity");
 const typeorm_2 = require("typeorm");
+const amqp = require("amqplib");
 let IndustryDomainService = class IndustryDomainService {
     constructor(domainRepo) {
         this.domainRepo = domainRepo;
+        this.consumeMessages();
+    }
+    async consumeMessages() {
+        try {
+            console.log("Connecting to RabbitMQ...");
+            const connection = await amqp.connect(process.env.rabbitMqUrl);
+            console.log("Connection to RabbitMQ established.");
+            const channel = await connection.createChannel();
+            const exchange = "tUser_exchange";
+            await channel.assertExchange(exchange, "direct", { durable: true });
+            const { queue } = await channel.assertQueue("", { exclusive: true });
+            console.log("Waiting for messages in queue: Domain", queue);
+            await channel.bindQueue(queue, exchange, "tenantIndustyDetails");
+            await channel.bindQueue(queue, exchange, "updatetenantIndustyDetails");
+            channel.consume(queue, async (msg) => {
+                if (msg) {
+                    console.log("Message received:", msg.content.toString());
+                    const domain = JSON.parse(msg.content.toString());
+                    if (msg.fields.routingKey === "tenantIndustyDetails") {
+                        await this.create(domain.tenantIndustyDetails);
+                    }
+                    else if (msg.fields.routingKey === "updatetenantIndustyDetails") {
+                    }
+                    channel.ack(msg);
+                }
+            }, { noAck: false });
+        }
+        catch (err) {
+            console.error("Failed to connect to RabbitMQ");
+            console.error(err);
+        }
     }
     async create(createIndustryDomainDto) {
         try {

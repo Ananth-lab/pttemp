@@ -9,14 +9,57 @@ import { UpdateTenantOrganisationDto } from "./dto/update-tenant_organisation.dt
 import { InjectRepository } from "@nestjs/typeorm";
 import { TenantOrganisation } from "./entities/tenant_organisation.entity";
 import { Equal, Repository } from "typeorm";
-import { equal } from "assert";
+import * as amqp from "amqplib";
 
 @Injectable()
 export class TenantOrganisationService {
   constructor(
     @InjectRepository(TenantOrganisation)
     private readonly OrgRepo: Repository<TenantOrganisation>
-  ) {}
+  ) {this.consumeMessages()}
+
+  async consumeMessages() {
+    try {
+      console.log("Connecting to RabbitMQ...");
+      const connection = await amqp.connect(process.env.rabbitMqUrl);
+      console.log("Connection to RabbitMQ established.");
+      const channel = await connection.createChannel();
+      const exchange = "tUser_exchange";
+  
+      await channel.assertExchange(exchange, "direct", { durable: true });
+      const { queue } = await channel.assertQueue("", { exclusive: true });
+      console.log("Waiting for messages in queue:Organisation", queue);
+  
+      // Bind the queue to the exchange with routing keys 'createUser' and 'updateUser'
+      await channel.bindQueue(queue, exchange, "tenantOrganisationDetails");
+      await channel.bindQueue(queue, exchange, "updatetenantOrganisationDetails");
+  
+      channel.consume(
+        queue,
+        async (msg) => {
+          if (msg) {
+            console.log("Message received:", msg.content.toString());
+            const organisation= JSON.parse(msg.content.toString());
+            if (msg.fields.routingKey === "tenantOrganisationDetails") {
+              await this.create(organisation.tenantOrganisationDetails);
+            } else if (msg.fields.routingKey === "updatetenantOrganisationDetails") {
+                //await this.update();
+            }
+            channel.ack(msg);
+          }
+        },
+        { noAck: false }
+      );
+    } catch (err) {
+      console.error("Failed to connect to RabbitMQ");
+      console.error(err);
+    }
+  }
+ 
+
+
+
+
   async create(createTenantOrganisationDto: CreateTenantOrganisationDto) {
     try {
       if (

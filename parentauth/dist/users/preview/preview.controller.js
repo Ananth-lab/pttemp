@@ -21,10 +21,12 @@ let PreviewController = class PreviewController {
         this.tenantAddress = tenantAddress;
     }
     findOne(id) {
-        return this.tenantAddress.findOne(id);
-    }
-    catch(error) {
-        throw new Error(`Error fetching preview data: ${error.message}`);
+        try {
+            return this.tenantAddress.findOne(id);
+        }
+        catch (error) {
+            throw new Error(`Error fetching preview data: ${error.message}`);
+        }
     }
     async finalSubmit(data) {
         const tenantOrgAdddressDetail = data;

@@ -17,9 +17,41 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const tenant_organisation_entity_1 = require("./entities/tenant_organisation.entity");
 const typeorm_2 = require("typeorm");
+const amqp = require("amqplib");
 let TenantOrganisationService = class TenantOrganisationService {
     constructor(OrgRepo) {
         this.OrgRepo = OrgRepo;
+        this.consumeMessages();
+    }
+    async consumeMessages() {
+        try {
+            console.log("Connecting to RabbitMQ...");
+            const connection = await amqp.connect(process.env.rabbitMqUrl);
+            console.log("Connection to RabbitMQ established.");
+            const channel = await connection.createChannel();
+            const exchange = "tUser_exchange";
+            await channel.assertExchange(exchange, "direct", { durable: true });
+            const { queue } = await channel.assertQueue("", { exclusive: true });
+            console.log("Waiting for messages in queue:Organisation", queue);
+            await channel.bindQueue(queue, exchange, "tenantOrganisationDetails");
+            await channel.bindQueue(queue, exchange, "updatetenantOrganisationDetails");
+            channel.consume(queue, async (msg) => {
+                if (msg) {
+                    console.log("Message received:", msg.content.toString());
+                    const organisation = JSON.parse(msg.content.toString());
+                    if (msg.fields.routingKey === "tenantOrganisationDetails") {
+                        await this.create(organisation.tenantOrganisationDetails);
+                    }
+                    else if (msg.fields.routingKey === "updatetenantOrganisationDetails") {
+                    }
+                    channel.ack(msg);
+                }
+            }, { noAck: false });
+        }
+        catch (err) {
+            console.error("Failed to connect to RabbitMQ");
+            console.error(err);
+        }
     }
     async create(createTenantOrganisationDto) {
         try {

@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 export declare class TenantStateService {
     private readonly statRep;
     constructor(statRep: Repository<TenantState>);
+    consumeMessages(): Promise<void>;
     create(createTenantStateDto: CreateTenantStateDto): Promise<CreateTenantStateDto & TenantState>;
     findOne(id: string): Promise<TenantState>;
 }

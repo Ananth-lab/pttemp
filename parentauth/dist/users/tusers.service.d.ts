@@ -5,6 +5,7 @@ import { UpdateTuserDto } from './dtos/update-tuser.dto';
 export declare class TusersService {
     private repo;
     constructor(repo: Repository<Tuser>);
+    consumeMessages(): Promise<void>;
     create(body: CreateTuserDto): Promise<CreateTuserDto & Tuser>;
     find(email: string): Promise<Tuser[]>;
     findAllTusers(): Promise<Tuser[]>;

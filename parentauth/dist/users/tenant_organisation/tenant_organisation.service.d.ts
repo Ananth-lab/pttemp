@@ -5,6 +5,7 @@ import { Repository } from "typeorm";
 export declare class TenantOrganisationService {
     private readonly OrgRepo;
     constructor(OrgRepo: Repository<TenantOrganisation>);
+    consumeMessages(): Promise<void>;
     create(createTenantOrganisationDto: CreateTenantOrganisationDto): Promise<CreateTenantOrganisationDto & TenantOrganisation>;
     findAll(): Promise<TenantOrganisation[]>;
     findOne(id: string): Promise<TenantOrganisation>;

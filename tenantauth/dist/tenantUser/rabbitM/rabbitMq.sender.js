@@ -9,7 +9,7 @@ const connectRabbitMQ = async () => {
         const connection = await amqp.connect(process.env.rabbitMqUrl);
         console.log('Connection to RabbitMQ established.');
         const channel = await connection.createChannel();
-        const exchange = 'user_exchange';
+        const exchange = 'tUser_exchange';
         await channel.assertExchange(exchange, 'direct', { durable: true });
         console.log('RabbitMQ channel and exchange created.');
         return { channel, exchange };

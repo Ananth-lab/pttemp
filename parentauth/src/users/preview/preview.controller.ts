@@ -19,11 +19,12 @@ export class PreviewController {
 
   @Get(":id")
   findOne(@Param("id") id: string) {
+    try{
     return this.tenantAddress.findOne(id);
   }
   catch(error) {
     throw new Error(`Error fetching preview data: ${error.message}`);
-  }
+  }}
 
   @Post()
   async finalSubmit(@Body() data: any) {

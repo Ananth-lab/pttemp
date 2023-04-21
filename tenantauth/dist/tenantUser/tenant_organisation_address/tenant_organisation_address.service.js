@@ -54,6 +54,14 @@ let TenantOrganisationAddressService = class TenantOrganisationAddressService {
             console.error(err);
         }
     }
+    async findOne(id) {
+        try {
+            return await this.repoOrAd.findOne({ where: { id }, relations: { tenantOrganisationId: { tUserId: true, industry_domain: true }, country: true, state: true } });
+        }
+        catch (error) {
+            throw new common_1.HttpException(error.message, common_1.HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
     async create(createTenantOrganisationAddressDto) {
         try {
             if ((createTenantOrganisationAddressDto.isParent == null &&

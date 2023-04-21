@@ -53,7 +53,7 @@ export class TusersService {
 
   async create(body: CreateTuserDto) {
     const user = this.repo.create(body);
-    await this.repo.save(user);
+   return  await this.repo.save(user);
   }
 
   findOne(email: string) {
@@ -86,7 +86,7 @@ export class TusersService {
         throw new Error('Failed to connect to RabbitMQ');
       }
       const { channel, exchange } = rabbitConnection;
-      await channel.publish(exchange, 'updateTuser', Buffer.from(JSON.stringify(user)));
+      await channel.publish(exchange, 'updateTuserDetails', Buffer.from(JSON.stringify(user)));
       console.log('Message sent:', Tuser);
       return user
     } catch (error) {

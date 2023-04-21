@@ -17,9 +17,42 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const tenant_country_entity_1 = require("./entities/tenant_country.entity");
 const typeorm_2 = require("typeorm");
+const amqp = require("amqplib");
 let TenantCountryService = class TenantCountryService {
     constructor(countryRepository) {
         this.countryRepository = countryRepository;
+        this.consumeMessages();
+    }
+    async consumeMessages() {
+        try {
+            console.log("Connecting to RabbitMQ...");
+            const connection = await amqp.connect(process.env.rabbitMqUrl);
+            console.log("Connection to RabbitMQ established.");
+            const channel = await connection.createChannel();
+            const exchange = "tUser_exchange";
+            await channel.assertExchange(exchange, "direct", { durable: true });
+            const { queue } = await channel.assertQueue("", { exclusive: true });
+            console.log("Waiting for messages in queue:Country", queue);
+            await channel.bindQueue(queue, exchange, "tenantCountryDetails");
+            await channel.bindQueue(queue, exchange, "updatetenantCountryDetails");
+            channel.consume(queue, async (msg) => {
+                if (msg) {
+                    console.log("Message received:", msg.content.toString());
+                    const country = JSON.parse(msg.content.toString());
+                    if (msg.fields.routingKey === "tenantCountryDetails") {
+                        await this.create(country.tenantCountryDetails);
+                        console.log("created");
+                    }
+                    else if (msg.fields.routingKey === "updatetenantCountryDetails") {
+                    }
+                    channel.ack(msg);
+                }
+            }, { noAck: false });
+        }
+        catch (err) {
+            console.error("Failed to connect to RabbitMQ");
+            console.error(err);
+        }
     }
     async create(createTenantCountryDto) {
         try {

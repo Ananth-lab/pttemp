@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 export declare class IndustryDomainService {
     private readonly domainRepo;
     constructor(domainRepo: Repository<IndustryDomain>);
+    consumeMessages(): Promise<void>;
     create(createIndustryDomainDto: CreateIndustryDomainDto): Promise<CreateIndustryDomainDto & IndustryDomain>;
     findAll(): Promise<IndustryDomain[]>;
     findOne(id: string): Promise<IndustryDomain>;

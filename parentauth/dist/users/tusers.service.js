@@ -17,9 +17,41 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const tuser_entity_1 = require("./tuser.entity");
+const amqp = require("amqplib");
 let TusersService = class TusersService {
     constructor(repo) {
         this.repo = repo;
+        this.consumeMessages();
+    }
+    async consumeMessages() {
+        try {
+            console.log("Connecting to RabbitMQ...");
+            const connection = await amqp.connect(process.env.rabbitMqUrl);
+            console.log("Connection to RabbitMQ established.");
+            const channel = await connection.createChannel();
+            const exchange = "tUser_exchange";
+            await channel.assertExchange(exchange, "direct", { durable: true });
+            const { queue } = await channel.assertQueue("", { exclusive: true });
+            console.log("Waiting for messages in queue in: tuser", queue);
+            await channel.bindQueue(queue, exchange, "tenantUserDetails");
+            await channel.bindQueue(queue, exchange, "updatetenantUserDetails");
+            channel.consume(queue, async (msg) => {
+                if (msg) {
+                    console.log("Message received in:", msg.content.toString());
+                    const user = JSON.parse(msg.content.toString());
+                    if (msg.fields.routingKey === "tenantUserDetails") {
+                        await this.create(user.tenantUserDetails);
+                    }
+                    else if (msg.fields.routingKey === "updatetenantUserDetails") {
+                    }
+                    channel.ack(msg);
+                }
+            }, { noAck: false });
+        }
+        catch (err) {
+            console.error("Failed to connect to RabbitMQ");
+            console.error(err);
+        }
     }
     async create(body) {
         try {

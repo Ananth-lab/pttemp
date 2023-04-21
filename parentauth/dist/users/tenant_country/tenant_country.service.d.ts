@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 export declare class TenantCountryService {
     private readonly countryRepository;
     constructor(countryRepository: Repository<TenantCountry>);
+    consumeMessages(): Promise<void>;
     create(createTenantCountryDto: CreateTenantCountryDto): Promise<CreateTenantCountryDto & TenantCountry>;
     findOne(id: string): Promise<TenantCountry>;
 }

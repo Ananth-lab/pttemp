@@ -29,6 +29,10 @@ import { TenantState } from './tenantUser/tenant_state/entities/tenant_state.ent
 import { TenantCountry } from './tenantUser/tenant_country/entities/tenant_country.entity';
 import { TenantBranchAddress } from './tenantUser/tenant_branch_address/entities/tenant_branch_address.entity';
 import { TenantBranchAddressModule } from './tenantUser/tenant_branch_address/tenant_branch_address.module';
+//import {PreviewModule }
+import { privateEncrypt } from 'crypto';
+import Preview from 'twilio/lib/rest/Preview';
+import { PreviewModule } from './tenantUser/preview/preview.module';
 
 @Module({
   imports: [
@@ -42,8 +46,8 @@ import { TenantBranchAddressModule } from './tenantUser/tenant_branch_address/te
         return {
           // database: config.get<string>('DB_NAME'),
           database: 'tenantauth',
-          username : 'ananth',
-          password : 'u7i8o9p0',
+          username : 'postgres',
+          password : 'Pass@123',
           type: 'postgres',
           host: 'localhost',
           port: 5432,
@@ -56,7 +60,7 @@ import { TenantBranchAddressModule } from './tenantUser/tenant_branch_address/te
     RolesModule,
     TusersModule,
     ModulesModule,
-    TenantOrganisationModule,TenantOrganisationAddressModule,TenantPocModule,IndustryDomainModule,TenantBranchModule,TenantCountryModule,TenantStateModule,TenantBranchAddressModule
+    TenantOrganisationModule,TenantOrganisationAddressModule,TenantPocModule,IndustryDomainModule,TenantBranchModule,TenantCountryModule,TenantStateModule,TenantBranchAddressModule,PreviewModule
   ],
   controllers: [AppController],
   providers: [AppService],

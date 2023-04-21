@@ -38,6 +38,7 @@ const tenant_state_entity_1 = require("./tenantUser/tenant_state/entities/tenant
 const tenant_country_entity_1 = require("./tenantUser/tenant_country/entities/tenant_country.entity");
 const tenant_branch_address_entity_1 = require("./tenantUser/tenant_branch_address/entities/tenant_branch_address.entity");
 const tenant_branch_address_module_1 = require("./tenantUser/tenant_branch_address/tenant_branch_address.module");
+const preview_module_1 = require("./tenantUser/preview/preview.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -52,8 +53,8 @@ AppModule = __decorate([
                 useFactory: (config) => {
                     return {
                         database: 'tenantauth',
-                        username: 'ananth',
-                        password: 'u7i8o9p0',
+                        username: 'postgres',
+                        password: 'Pass@123',
                         type: 'postgres',
                         host: 'localhost',
                         port: 5432,
@@ -66,7 +67,7 @@ AppModule = __decorate([
             roles_module_1.RolesModule,
             tusers_module_1.TusersModule,
             modules_module_1.ModulesModule,
-            tenant_organisation_module_1.TenantOrganisationModule, tenant_organisation_address_module_1.TenantOrganisationAddressModule, tenant_poc_module_1.TenantPocModule, industry_domain_module_1.IndustryDomainModule, tenant_branch_module_1.TenantBranchModule, tenant_country_module_1.TenantCountryModule, tenant_state_module_1.TenantStateModule, tenant_branch_address_module_1.TenantBranchAddressModule
+            tenant_organisation_module_1.TenantOrganisationModule, tenant_organisation_address_module_1.TenantOrganisationAddressModule, tenant_poc_module_1.TenantPocModule, industry_domain_module_1.IndustryDomainModule, tenant_branch_module_1.TenantBranchModule, tenant_country_module_1.TenantCountryModule, tenant_state_module_1.TenantStateModule, tenant_branch_address_module_1.TenantBranchAddressModule, preview_module_1.PreviewModule
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
