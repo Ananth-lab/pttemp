@@ -16,15 +16,19 @@ exports.PreviewController = void 0;
 const common_1 = require("@nestjs/common");
 const tenant_organisation_address_service_1 = require("../tenant_organisation_address/tenant_organisation_address.service");
 const rabbitMq_sender_1 = require("../rabbitM/rabbitMq.sender");
+const tenant_poc_service_1 = require("../tenant_poc/tenant_poc.service");
 let PreviewController = class PreviewController {
-    constructor(tenantAddress) {
+    constructor(tenantAddress, tenantPoc) {
         this.tenantAddress = tenantAddress;
+        this.tenantPoc = tenantPoc;
     }
     findOne(id) {
-        return this.tenantAddress.findOne(id);
-    }
-    catch(error) {
-        throw new Error(`Error fetching preview data: ${error.message}`);
+        try {
+            return this.tenantAddress.findOne(id);
+        }
+        catch (error) {
+            throw new Error(`Error fetching preview data: ${error.message}`);
+        }
     }
     async finalSubmit(data) {
         const tenantOrgAdddressDetail = data;
@@ -57,19 +61,18 @@ let PreviewController = class PreviewController {
         tenantOrganisationDetails.tUserId = tenantUserDetails.id;
         tenantOrganisationDetails.industry_domain = tenantIndustyDetails.id;
         tenantOrgAdddressDetails.tenantOrganisationId = tenantOrganisationDetails.id;
+        const tenantPocDetails = await this.tenantPoc.findOneOnOrg(tenantOrganisationDetail.id);
+        tenantPocDetails.tenantOrganisation_id = tenantOrganisationDetail.id;
         const rabbitConnection = await (0, rabbitMq_sender_1.connectRabbitMQ)();
         if (!rabbitConnection) {
             throw new Error("Failed to connect to RabbitMQ");
         }
         const { channel, exchange } = rabbitConnection;
-        await channel.publish(exchange, 'tenantUserDetails', Buffer.from(JSON.stringify({
-            tenantUserDetails
-        })));
         await channel.publish(exchange, "tenantIndustyDetails", Buffer.from(JSON.stringify({
             tenantIndustyDetails,
         })));
-        await channel.publish(exchange, "tenantOrganisationDetails", Buffer.from(JSON.stringify({
-            tenantOrganisationDetails,
+        await channel.publish(exchange, 'tenantUserDetails', Buffer.from(JSON.stringify({
+            tenantUserDetails
         })));
         await channel.publish(exchange, "tenantCountryDetails", Buffer.from(JSON.stringify({
             tenantCountryDetails,
@@ -77,6 +80,16 @@ let PreviewController = class PreviewController {
         await channel.publish(exchange, "tenantStateDetails", Buffer.from(JSON.stringify({
             tenantStateDetails,
         })));
+        setTimeout(() => {
+            channel.publish(exchange, "tenantOrganisationDetails", Buffer.from(JSON.stringify({
+                tenantOrganisationDetails,
+            })));
+        }, 500);
+        setTimeout(() => {
+            channel.publish(exchange, "tenantPocDetails", Buffer.from(JSON.stringify({
+                tenantPocDetails,
+            })));
+        }, 500);
         setTimeout(() => {
             channel.publish(exchange, "tenantOrgAdddressDetails", Buffer.from(JSON.stringify({
                 tenantOrgAdddressDetails,
@@ -102,7 +115,8 @@ __decorate([
 ], PreviewController.prototype, "finalSubmit", null);
 PreviewController = __decorate([
     (0, common_1.Controller)("preview"),
-    __metadata("design:paramtypes", [tenant_organisation_address_service_1.TenantOrganisationAddressService])
+    __metadata("design:paramtypes", [tenant_organisation_address_service_1.TenantOrganisationAddressService,
+        tenant_poc_service_1.TenantPocService])
 ], PreviewController);
 exports.PreviewController = PreviewController;
 //# sourceMappingURL=preview.controller.js.map

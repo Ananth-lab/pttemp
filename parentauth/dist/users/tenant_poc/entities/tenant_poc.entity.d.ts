@@ -16,4 +16,6 @@ export declare class TenantPoc {
     passwordResetToken: Date;
     passwordResetExpires: Date;
     tenantOrganisation_id: TenantOrganisation;
+    readonly createdAt: Date;
+    readonly updatedAt: Date;
 }

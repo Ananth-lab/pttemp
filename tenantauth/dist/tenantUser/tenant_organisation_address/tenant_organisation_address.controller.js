@@ -24,6 +24,9 @@ let TenantOrganisationAddressController = class TenantOrganisationAddressControl
     async create(createTenantOrganisationAddressDto) {
         return await this.tenantOrganisationAddressService.create(createTenantOrganisationAddressDto);
     }
+    findOne(id) {
+        return this.tenantOrganisationAddressService.findOne(id);
+    }
     async update(id, updateTenantOrganisationAddressDto) {
         const organisation = await this.tenantOrganisationAddressService.update(id, updateTenantOrganisationAddressDto);
         if (!organisation)
@@ -42,6 +45,13 @@ __decorate([
     __metadata("design:paramtypes", [create_tenant_organisation_address_dto_1.CreateTenantOrganisationAddressDto]),
     __metadata("design:returntype", Promise)
 ], TenantOrganisationAddressController.prototype, "create", null);
+__decorate([
+    (0, common_1.Get)(':id'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], TenantOrganisationAddressController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Patch)(":id"),
     (0, common_1.UsePipes)(common_1.ValidationPipe),

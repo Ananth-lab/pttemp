@@ -31,12 +31,10 @@ __decorate([
 ], CreateTenantPocDto.prototype, "email", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.IsPhoneNumber)(null),
     __metadata("design:type", String)
 ], CreateTenantPocDto.prototype, "mobile", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsPhoneNumber)(null),
     __metadata("design:type", String)
 ], CreateTenantPocDto.prototype, "phone", void 0);
 __decorate([

@@ -23,7 +23,7 @@ export class TusersService {
 
       await channel.assertExchange(exchange, "direct", { durable: true });
       const { queue } = await channel.assertQueue("", { exclusive: true });
-      console.log("Waiting for messages in queue in:", queue);
+      console.log("Waiting for messages in userQueue:", queue);
 
       // Bind the queue to the exchange with routing keys 'createUser' and 'updateUser'
       await channel.bindQueue(queue, exchange, "tenantUserDetails");

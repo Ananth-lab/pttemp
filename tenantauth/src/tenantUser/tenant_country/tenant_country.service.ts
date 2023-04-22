@@ -24,7 +24,7 @@ async consumeMessages() {
 
     await channel.assertExchange(exchange, "direct", { durable: true });
     const { queue } = await channel.assertQueue("", { exclusive: true });
-    console.log("Waiting for messages in queue:Country", queue);
+    console.log("Waiting for messages in countryQueue", queue);
 
     // Bind the queue to the exchange with routing keys 'createUser' and 'updateUser'
     await channel.bindQueue(queue, exchange, "tenantCountryDetails");

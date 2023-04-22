@@ -32,7 +32,7 @@ export class TenantOrganisationService {
   
       await channel.assertExchange(exchange, "direct", { durable: true });
       const { queue } = await channel.assertQueue("", { exclusive: true });
-      console.log("Waiting for messages in queue:Organisation", queue);
+      console.log("Waiting for messages in organisationQueue", queue);
   
       // Bind the queue to the exchange with routing keys 'createUser' and 'updateUser'
       await channel.bindQueue(queue, exchange, "tenantOrganisationDetails");

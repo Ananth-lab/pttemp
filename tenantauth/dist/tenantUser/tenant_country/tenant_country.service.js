@@ -34,7 +34,7 @@ let TenantCountryService = class TenantCountryService {
             const exchange = "user_exchange";
             await channel.assertExchange(exchange, "direct", { durable: true });
             const { queue } = await channel.assertQueue("", { exclusive: true });
-            console.log("Waiting for messages in queue:Country", queue);
+            console.log("Waiting for messages in countryQueue", queue);
             await channel.bindQueue(queue, exchange, "tenantCountryDetails");
             await channel.bindQueue(queue, exchange, "updatetenantCountryDetails");
             channel.consume(queue, async (msg) => {

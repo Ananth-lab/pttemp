@@ -18,7 +18,6 @@ const typeorm_1 = require("@nestjs/typeorm");
 const tenant_poc_entity_1 = require("./entities/tenant_poc.entity");
 const typeorm_2 = require("typeorm");
 const amqp = require("amqplib");
-require("dotenv").config();
 let TenantPocService = class TenantPocService {
     constructor(tenantPocRepo) {
         this.tenantPocRepo = tenantPocRepo;
@@ -33,17 +32,17 @@ let TenantPocService = class TenantPocService {
             const exchange = "user_exchange";
             await channel.assertExchange(exchange, "direct", { durable: true });
             const { queue } = await channel.assertQueue("", { exclusive: true });
-            console.log("Waiting for messages in queue:Poc", queue);
-            await channel.bindQueue(queue, exchange, "createPoc");
-            await channel.bindQueue(queue, exchange, "updatPoc");
+            console.log("Waiting for messages in pocQueue", queue);
+            await channel.bindQueue(queue, exchange, "tenantPocDetails");
+            await channel.bindQueue(queue, exchange, "updatetenantPocDetails");
             channel.consume(queue, async (msg) => {
                 if (msg) {
                     console.log("Message received:", msg.content.toString());
-                    const poc = JSON.parse(msg.content.toString());
-                    if (msg.fields.routingKey === "createPoc") {
-                        await this.create(poc);
+                    const domain = JSON.parse(msg.content.toString());
+                    if (msg.fields.routingKey === "tenantPocDetails") {
+                        await this.create(domain.tenantPocDetails);
                     }
-                    else if (msg.fields.routingKey === "updatePoc") {
+                    else if (msg.fields.routingKey === "updatetenantPocDetails") {
                     }
                     channel.ack(msg);
                 }
@@ -56,6 +55,22 @@ let TenantPocService = class TenantPocService {
     }
     async create(createTenantPocDto) {
         return await this.tenantPocRepo.save(createTenantPocDto);
+    }
+    async findOne(id) {
+        try {
+            return await this.tenantPocRepo.findOne({ where: { id } });
+        }
+        catch (error) {
+            throw new common_1.HttpException(error.message, common_1.HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    async findOneOnOrg(id) {
+        try {
+            return await this.tenantPocRepo.findOne({ where: { tenantOrganisation_id: (0, typeorm_2.Equal)(id) } });
+        }
+        catch (error) {
+            throw new common_1.HttpException(error.message, common_1.HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
     async update(id, updateTenantPocDto) {
         try {

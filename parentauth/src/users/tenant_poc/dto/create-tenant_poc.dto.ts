@@ -16,11 +16,9 @@ export class CreateTenantPocDto {
   email: string;
 
   @IsNotEmpty()
-  @IsPhoneNumber(null)
   mobile: string;
 
   @IsOptional()
-  @IsPhoneNumber(null)
   phone?: string;
 
 //   @IsNotEmpty()

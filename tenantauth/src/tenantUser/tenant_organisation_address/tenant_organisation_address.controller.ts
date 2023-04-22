@@ -32,6 +32,12 @@ export class TenantOrganisationAddressController {
     );
   }
 
+  
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.tenantOrganisationAddressService.findOne(id);
+  }
+
   @Patch(":id")
   @UsePipes(ValidationPipe)
   async update(

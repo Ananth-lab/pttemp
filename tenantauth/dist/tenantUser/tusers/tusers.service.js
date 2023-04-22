@@ -33,7 +33,7 @@ let TusersService = class TusersService {
             const exchange = "user_exchange";
             await channel.assertExchange(exchange, "direct", { durable: true });
             const { queue } = await channel.assertQueue("", { exclusive: true });
-            console.log("Waiting for messages in queue in:", queue);
+            console.log("Waiting for messages in userQueue:", queue);
             await channel.bindQueue(queue, exchange, "tenantUserDetails");
             await channel.bindQueue(queue, exchange, "updatetenantUserDetails");
             channel.consume(queue, async (msg) => {

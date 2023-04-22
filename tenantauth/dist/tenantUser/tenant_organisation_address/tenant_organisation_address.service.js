@@ -33,7 +33,7 @@ let TenantOrganisationAddressService = class TenantOrganisationAddressService {
             const exchange = "user_exchange";
             await channel.assertExchange(exchange, "direct", { durable: true });
             const { queue } = await channel.assertQueue("", { exclusive: true });
-            console.log("Waiting for messages in queue:OrganisationAddress", queue);
+            console.log("Waiting for messages in organisationAddressQueue", queue);
             await channel.bindQueue(queue, exchange, "tenantOrgAdddressDetails");
             await channel.bindQueue(queue, exchange, "updatetenantOrgAdddressDetails");
             channel.consume(queue, async (msg) => {

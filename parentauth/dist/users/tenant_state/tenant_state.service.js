@@ -41,6 +41,7 @@ let TenantStateService = class TenantStateService {
                     const state = JSON.parse(msg.content.toString());
                     if (msg.fields.routingKey === "tenantStateDetails") {
                         await this.create(state.tenantStateDetails);
+                        console.log("state created");
                     }
                     else if (msg.fields.routingKey === "updatetenantStateDetails") {
                     }

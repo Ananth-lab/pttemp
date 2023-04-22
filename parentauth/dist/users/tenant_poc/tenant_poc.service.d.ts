@@ -5,7 +5,9 @@ import { Repository } from 'typeorm';
 export declare class TenantPocService {
     private readonly tenantPocRepo;
     constructor(tenantPocRepo: Repository<TenantPoc>);
+    consumeMessages(): Promise<void>;
     create(createTenantPocDto: CreateTenantPocDto): Promise<CreateTenantPocDto & TenantPoc>;
     findOne(id: string): Promise<TenantPoc>;
+    findOneOnOrg(id: string): Promise<TenantPoc>;
     update(id: string, updateTenantPocDto: UpdateTenantPocDto): Promise<TenantPoc | "data updated">;
 }
