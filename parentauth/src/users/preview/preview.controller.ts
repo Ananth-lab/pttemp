@@ -16,15 +16,16 @@ import { TenantPocService } from "../tenant_poc/tenant_poc.service";
 export class PreviewController {
   constructor(
     private readonly tenantAddress: TenantOrganisationAddressService,
-    private readonly tenantPoc : TenantPocService
+    private readonly tenantPoc: TenantPocService
   ) {}
 
   @Get(":id")
   findOne(@Param("id") id: string) {
-    return this.tenantAddress.findOne(id);
-  }
-  catch(error) {
-    throw new Error(`Error fetching preview data: ${error.message}`);
+    try {
+      return this.tenantAddress.findOne(id);
+    } catch (error) {
+      throw new Error(`Error fetching preview data: ${error.message}`);
+    }
   }
 
   @Post()
@@ -45,7 +46,7 @@ export class PreviewController {
       }
     }
     const tenantUserDetail = tenantOrganisationDetail.tUserId;
-    const tenantUserDetails : any = {};
+    const tenantUserDetails: any = {};
     for (const [key, value] of Object.entries(tenantUserDetail)) {
       if (typeof value !== "object" || value === null) {
         tenantUserDetails[key] = value;
@@ -59,88 +60,95 @@ export class PreviewController {
     tenantOrgAdddressDetails.country = tenantCountryDetails.id;
     tenantOrganisationDetails.tUserId = tenantUserDetails.id;
     tenantOrganisationDetails.industry_domain = tenantIndustyDetails.id;
-    tenantOrgAdddressDetails.tenantOrganisationId = tenantOrganisationDetails.id;
+    tenantOrgAdddressDetails.tenantOrganisationId =
+      tenantOrganisationDetails.id;
 
-    const tenantPocDetails = await this.tenantPoc.findOneOnOrg(tenantOrganisationDetail.id);
+    const tenantPocDetails = await this.tenantPoc.findOneOnOrg(
+      tenantOrganisationDetail.id
+    );
     tenantPocDetails.tenantOrganisation_id = tenantOrganisationDetail.id;
-
-
 
     const rabbitConnection = await connectRabbitMQ();
     if (!rabbitConnection) {
       throw new Error("Failed to connect to RabbitMQ");
     }
 
+    const { channel, exchange } = rabbitConnection;
 
-     const { channel, exchange } = rabbitConnection;
+    setTimeout(async () => {
+      await channel.publish(
+        exchange,
+        "tenantUserDetails",
+        Buffer.from(
+          JSON.stringify({
+            tenantUserDetails,
+          })
+        )
+      );
+    }, 100);
 
+    setTimeout(async () => {
+      await channel.publish(
+        exchange,
+        "tenantCountryDetails",
+        Buffer.from(
+          JSON.stringify({
+            tenantCountryDetails,
+          })
+        )
+      );
+    }, 200);
 
-    await channel.publish(
-      exchange,
-      'tenantUserDetails',
-      Buffer.from(
-        JSON.stringify({
-          tenantUserDetails
-        })
-      )
-    );
+    setTimeout(async () => {
+      await channel.publish(
+        exchange,
+        "tenantIndustyDetails",
+        Buffer.from(
+          JSON.stringify({
+            tenantIndustyDetails,
+          })
+        )
+      );
+    }, 300);
 
-    await channel.publish(
-      exchange,
-      "tenantIndustyDetails",
-      Buffer.from(
-        JSON.stringify({
-          tenantIndustyDetails,
-        })
-      )
-    );
+    setTimeout(async () => {
+      await channel.publish(
+        exchange,
+        "tenantStateDetails",
+        Buffer.from(
+          JSON.stringify({
+            tenantStateDetails,
+          })
+        )
+      );
+    }, 400);
 
-    await channel.publish(
-      exchange,
-      "tenantOrganisationDetails",
-      Buffer.from(
-        JSON.stringify({
-          tenantOrganisationDetails,
-        })
-      )
-    );
+    setTimeout(async () => {
+      await channel.publish(
+        exchange,
+        "tenantOrganisationDetails",
+        Buffer.from(
+          JSON.stringify({
+            tenantOrganisationDetails,
+          })
+        )
+      );
+    }, 500);
 
-    await channel.publish(
-      exchange,
-      "tenantCountryDetails",
-      Buffer.from(
-        JSON.stringify({
-          tenantCountryDetails,
-        })
-      )
-    );
-
-setTimeout(() => {
-   channel.publish(
-    exchange,
-    "tenantPocDetails",
-    Buffer.from(
-      JSON.stringify({
-        tenantPocDetails,
-      })
-    )
-  );
-}, 500)
-
-    await channel.publish(
-      exchange,
-      "tenantStateDetails",
-      Buffer.from(
-        JSON.stringify({
-          tenantStateDetails,
-        })
-      )
-    );
-
-
+    setTimeout(async () => {
+      await channel.publish(
+        exchange,
+        "tenantPocDetails",
+        Buffer.from(
+          JSON.stringify({
+            tenantPocDetails,
+          })
+        )
+      );
+    }, 600);
 
     setTimeout(() => {
-       channel.publish(
+      channel.publish(
         exchange,
         "tenantOrgAdddressDetails",
         Buffer.from(
@@ -149,7 +157,7 @@ setTimeout(() => {
           })
         )
       );
-    }, 1000);
+    }, 700);
 
     console.log("Data has been sent");
 

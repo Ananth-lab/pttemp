@@ -23,10 +23,12 @@ let PreviewController = class PreviewController {
         this.tenantPoc = tenantPoc;
     }
     findOne(id) {
-        return this.tenantAddress.findOne(id);
-    }
-    catch(error) {
-        throw new Error(`Error fetching preview data: ${error.message}`);
+        try {
+            return this.tenantAddress.findOne(id);
+        }
+        catch (error) {
+            throw new Error(`Error fetching preview data: ${error.message}`);
+        }
     }
     async finalSubmit(data) {
         const tenantOrgAdddressDetail = data;
@@ -58,7 +60,8 @@ let PreviewController = class PreviewController {
         tenantOrgAdddressDetails.country = tenantCountryDetails.id;
         tenantOrganisationDetails.tUserId = tenantUserDetails.id;
         tenantOrganisationDetails.industry_domain = tenantIndustyDetails.id;
-        tenantOrgAdddressDetails.tenantOrganisationId = tenantOrganisationDetails.id;
+        tenantOrgAdddressDetails.tenantOrganisationId =
+            tenantOrganisationDetails.id;
         const tenantPocDetails = await this.tenantPoc.findOneOnOrg(tenantOrganisationDetail.id);
         tenantPocDetails.tenantOrganisation_id = tenantOrganisationDetail.id;
         const rabbitConnection = await (0, rabbit_1.connectRabbitMQ)();
@@ -66,31 +69,41 @@ let PreviewController = class PreviewController {
             throw new Error("Failed to connect to RabbitMQ");
         }
         const { channel, exchange } = rabbitConnection;
-        await channel.publish(exchange, 'tenantUserDetails', Buffer.from(JSON.stringify({
-            tenantUserDetails
-        })));
-        await channel.publish(exchange, "tenantIndustyDetails", Buffer.from(JSON.stringify({
-            tenantIndustyDetails,
-        })));
-        await channel.publish(exchange, "tenantOrganisationDetails", Buffer.from(JSON.stringify({
-            tenantOrganisationDetails,
-        })));
-        await channel.publish(exchange, "tenantCountryDetails", Buffer.from(JSON.stringify({
-            tenantCountryDetails,
-        })));
-        setTimeout(() => {
-            channel.publish(exchange, "tenantPocDetails", Buffer.from(JSON.stringify({
-                tenantPocDetails,
+        setTimeout(async () => {
+            await channel.publish(exchange, "tenantUserDetails", Buffer.from(JSON.stringify({
+                tenantUserDetails,
+            })));
+        }, 100);
+        setTimeout(async () => {
+            await channel.publish(exchange, "tenantCountryDetails", Buffer.from(JSON.stringify({
+                tenantCountryDetails,
+            })));
+        }, 200);
+        setTimeout(async () => {
+            await channel.publish(exchange, "tenantIndustyDetails", Buffer.from(JSON.stringify({
+                tenantIndustyDetails,
+            })));
+        }, 300);
+        setTimeout(async () => {
+            await channel.publish(exchange, "tenantStateDetails", Buffer.from(JSON.stringify({
+                tenantStateDetails,
+            })));
+        }, 400);
+        setTimeout(async () => {
+            await channel.publish(exchange, "tenantOrganisationDetails", Buffer.from(JSON.stringify({
+                tenantOrganisationDetails,
             })));
         }, 500);
-        await channel.publish(exchange, "tenantStateDetails", Buffer.from(JSON.stringify({
-            tenantStateDetails,
-        })));
+        setTimeout(async () => {
+            await channel.publish(exchange, "tenantPocDetails", Buffer.from(JSON.stringify({
+                tenantPocDetails,
+            })));
+        }, 600);
         setTimeout(() => {
             channel.publish(exchange, "tenantOrgAdddressDetails", Buffer.from(JSON.stringify({
                 tenantOrgAdddressDetails,
             })));
-        }, 1000);
+        }, 700);
         console.log("Data has been sent");
         return tenantUserDetails;
     }
