@@ -17,10 +17,12 @@ const common_1 = require("@nestjs/common");
 const tenant_organisation_address_service_1 = require("../tenant_organisation_address/tenant_organisation_address.service");
 const rabbit_1 = require("../rabbit");
 const tenant_poc_service_1 = require("../tenant_poc/tenant_poc.service");
+const subscription_service_1 = require("../../subscription/subscription.service");
 let PreviewController = class PreviewController {
-    constructor(tenantAddress, tenantPoc) {
+    constructor(tenantAddress, tenantPoc, tenantSubscription) {
         this.tenantAddress = tenantAddress;
         this.tenantPoc = tenantPoc;
+        this.tenantSubscription = tenantSubscription;
     }
     findOne(id) {
         try {
@@ -64,6 +66,7 @@ let PreviewController = class PreviewController {
             tenantOrganisationDetails.id;
         const tenantPocDetails = await this.tenantPoc.findOneOnOrg(tenantOrganisationDetail.id);
         tenantPocDetails.tenantOrganisation_id = tenantOrganisationDetail.id;
+        const tenantSubscriptionDetails = await this.tenantSubscription.findOneByTuserId(tenantUserDetail.id);
         const rabbitConnection = await (0, rabbit_1.connectRabbitMQ)();
         if (!rabbitConnection) {
             throw new Error("Failed to connect to RabbitMQ");
@@ -104,6 +107,11 @@ let PreviewController = class PreviewController {
                 tenantOrgAdddressDetails,
             })));
         }, 700);
+        setTimeout(() => {
+            channel.publish(exchange, "tenantSubscriptionDetails", Buffer.from(JSON.stringify({
+                tenantSubscriptionDetails,
+            })));
+        }, 800);
         console.log("Data has been sent");
         return tenantUserDetails;
     }
@@ -125,7 +133,8 @@ __decorate([
 PreviewController = __decorate([
     (0, common_1.Controller)("preview"),
     __metadata("design:paramtypes", [tenant_organisation_address_service_1.TenantOrganisationAddressService,
-        tenant_poc_service_1.TenantPocService])
+        tenant_poc_service_1.TenantPocService,
+        subscription_service_1.SubscriptionService])
 ], PreviewController);
 exports.PreviewController = PreviewController;
 //# sourceMappingURL=preview.controller.js.map

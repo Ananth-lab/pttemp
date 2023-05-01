@@ -8,10 +8,13 @@ import { TenantOrganisationAddress } from '../tenant_organisation_address/entiti
 import { TenantPoc } from '../tenant_poc/entities/tenant_poc.entity';
 import { TenantPocController } from '../tenant_poc/tenant_poc.controller';
 import { TenantPocService } from '../tenant_poc/tenant_poc.service';
+import { Subscription } from 'src/subscription/entities/subscription.entity';
+import { SubscriptionController } from 'src/subscription/subscription.controller';
+import { SubscriptionService } from 'src/subscription/subscription.service';
 
 @Module({
-  imports:[TypeOrmModule.forFeature([TenantOrganisationAddress, TenantPoc])],
-  controllers: [PreviewController, TenantOrganisationAddressController, TenantPocController],
-  providers: [TenantOrganisationAddressService, TenantPocService]
+  imports:[TypeOrmModule.forFeature([TenantOrganisationAddress, TenantPoc, Subscription])],
+  controllers: [PreviewController, TenantOrganisationAddressController, TenantPocController, SubscriptionController],
+  providers: [TenantOrganisationAddressService, TenantPocService, SubscriptionService]
 })
 export class PreviewModule {}

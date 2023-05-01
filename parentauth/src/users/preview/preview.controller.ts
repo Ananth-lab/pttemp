@@ -11,12 +11,14 @@ import {
 import { TenantOrganisationAddressService } from "../tenant_organisation_address/tenant_organisation_address.service";
 import { connectRabbitMQ } from "../rabbit";
 import { TenantPocService } from "../tenant_poc/tenant_poc.service";
+import { SubscriptionService } from "src/subscription/subscription.service";
 
 @Controller("preview")
 export class PreviewController {
   constructor(
     private readonly tenantAddress: TenantOrganisationAddressService,
-    private readonly tenantPoc: TenantPocService
+    private readonly tenantPoc: TenantPocService,
+    private readonly tenantSubscription : SubscriptionService
   ) {}
 
   @Get(":id")
@@ -67,6 +69,9 @@ export class PreviewController {
       tenantOrganisationDetail.id
     );
     tenantPocDetails.tenantOrganisation_id = tenantOrganisationDetail.id;
+
+    //find user's subscription plan
+    const tenantSubscriptionDetails = await this.tenantSubscription.findOneByTuserId(tenantUserDetail.id);
 
     const rabbitConnection = await connectRabbitMQ();
     if (!rabbitConnection) {
@@ -158,6 +163,18 @@ export class PreviewController {
         )
       );
     }, 700);
+
+    setTimeout(() => {
+      channel.publish(
+        exchange,
+        "tenantSubscriptionDetails",
+        Buffer.from(
+          JSON.stringify({
+            tenantSubscriptionDetails,
+          })
+        )
+      );
+    }, 800);
 
     console.log("Data has been sent");
 

@@ -48,6 +48,8 @@ const tenant_organisation_address_entity_1 = require("./users/tenant_organisatio
 const tenant_organisation_address_module_1 = require("./users/tenant_organisation_address/tenant_organisation_address.module");
 const tenant_state_module_1 = require("./users/tenant_state/tenant_state.module");
 const preview_module_1 = require("./users/preview/preview.module");
+const subscription_module_1 = require("./subscription/subscription.module");
+const subscription_entity_1 = require("./subscription/entities/subscription.entity");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -85,7 +87,7 @@ AppModule = __decorate([
                             tmodule_entity_1.Tmodule,
                             tsubmodule_entity_1.Tsubmodule,
                             bsmap_entity_1.Bsmap,
-                            tenant_country_entity_1.TenantCountry, industry_domain_entity_1.IndustryDomain, tenant_state_entity_1.TenantState, tenant_organisation_address_entity_1.TenantOrganisationAddress
+                            tenant_country_entity_1.TenantCountry, industry_domain_entity_1.IndustryDomain, tenant_state_entity_1.TenantState, tenant_organisation_address_entity_1.TenantOrganisationAddress, subscription_entity_1.Subscription
                         ],
                     };
                 },
@@ -102,7 +104,8 @@ AppModule = __decorate([
             bundles_module_1.BundlesModule,
             tmodules_module_1.TmodulesModule,
             tenant_country_module_1.TenantCountryModule,
-            industry_domain_module_1.IndustryDomainModule, tenant_organisation_address_module_1.TenantOrganisationAddressModule, tenant_state_module_1.TenantStateModule, preview_module_1.PreviewModule
+            subscription_module_1.SubscriptionModule,
+            industry_domain_module_1.IndustryDomainModule, tenant_organisation_address_module_1.TenantOrganisationAddressModule, tenant_state_module_1.TenantStateModule, preview_module_1.PreviewModule, subscription_module_1.SubscriptionModule
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

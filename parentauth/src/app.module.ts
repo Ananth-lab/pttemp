@@ -39,6 +39,8 @@ import { TenantOrganisationAddress } from "./users/tenant_organisation_address/e
 import { TenantOrganisationAddressModule } from "./users/tenant_organisation_address/tenant_organisation_address.module";
 import { TenantStateModule } from "./users/tenant_state/tenant_state.module";
 import { PreviewModule } from "./users/preview/preview.module";
+import { SubscriptionModule } from './subscription/subscription.module';
+import { Subscription } from "./subscription/entities/subscription.entity";
 
 @Module({
   imports: [
@@ -77,7 +79,7 @@ import { PreviewModule } from "./users/preview/preview.module";
             Tmodule,
             Tsubmodule,
             Bsmap,
-            TenantCountry,IndustryDomain,TenantState,TenantOrganisationAddress
+            TenantCountry,IndustryDomain,TenantState,TenantOrganisationAddress, Subscription
           ],
         };
       },
@@ -94,7 +96,8 @@ import { PreviewModule } from "./users/preview/preview.module";
     BundlesModule,
     TmodulesModule,
     TenantCountryModule,
-    IndustryDomainModule,TenantOrganisationAddressModule,TenantStateModule,PreviewModule
+    SubscriptionModule,
+    IndustryDomainModule,TenantOrganisationAddressModule,TenantStateModule,PreviewModule, SubscriptionModule
   ],
   controllers: [AppController],
   providers: [AppService],

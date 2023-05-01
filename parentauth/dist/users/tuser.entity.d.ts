@@ -1,4 +1,5 @@
 import { TenantOrganisation } from './tenant_organisation/entities/tenant_organisation.entity';
+import { Subscription } from 'src/subscription/entities/subscription.entity';
 export declare enum status {
     PENDING = "pending",
     ACTIVE = "active",
@@ -17,6 +18,7 @@ export declare class Tuser {
     model: string;
     emailVerifyToken: string;
     orgId: TenantOrganisation;
+    subscriptionId: Subscription;
     emailVerifyExpires: string;
     mobileVerifyToken: string;
     mobileVerifyExpires: string;

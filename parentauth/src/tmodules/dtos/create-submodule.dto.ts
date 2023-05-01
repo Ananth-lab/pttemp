@@ -11,4 +11,4 @@ export class CreateSubmoduleDto {
 
   @IsUUID()
   tmodule: Tmodule;
-}
+} 

@@ -38,6 +38,8 @@ const tenant_state_entity_1 = require("./tenantUser/tenant_state/entities/tenant
 const tenant_country_entity_1 = require("./tenantUser/tenant_country/entities/tenant_country.entity");
 const tenant_branch_address_entity_1 = require("./tenantUser/tenant_branch_address/entities/tenant_branch_address.entity");
 const tenant_branch_address_module_1 = require("./tenantUser/tenant_branch_address/tenant_branch_address.module");
+const subscription_entity_1 = require("./tenantUser/subscription/entities/subscription.entity");
+const subscription_module_1 = require("./tenantUser/subscription/subscription.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -58,11 +60,12 @@ AppModule = __decorate([
                         host: 'localhost',
                         port: 5432,
                         synchronize: true,
-                        entities: [role_entity_1.Role, privilege_entity_1.Privilege, module_entity_1.Tmodule, submodule_entity_1.Submodule, rac_map_entity_1.Racmap, tuser_entity_1.Tuser, industry_domain_entity_1.IndustryDomain, tenant_organisation_entity_1.TenantOrganisation, tenant_organisation_address_entity_1.TenantOrganisationAddress, tenant_poc_entity_1.TenantPoc, tenant_branch_entity_1.TenantBranch, tenant_state_entity_1.TenantState, tenant_country_entity_1.TenantCountry, tenant_branch_address_entity_1.TenantBranchAddress],
+                        entities: [role_entity_1.Role, privilege_entity_1.Privilege, module_entity_1.Tmodule, submodule_entity_1.Submodule, rac_map_entity_1.Racmap, subscription_entity_1.Subscription, tuser_entity_1.Tuser, industry_domain_entity_1.IndustryDomain, tenant_organisation_entity_1.TenantOrganisation, tenant_organisation_address_entity_1.TenantOrganisationAddress, tenant_poc_entity_1.TenantPoc, tenant_branch_entity_1.TenantBranch, tenant_state_entity_1.TenantState, tenant_country_entity_1.TenantCountry, tenant_branch_address_entity_1.TenantBranchAddress],
                     };
                 },
             }),
             privileges_module_1.PrivilegesModule,
+            subscription_module_1.SubscriptionModule,
             roles_module_1.RolesModule,
             tusers_module_1.TusersModule,
             modules_module_1.ModulesModule,

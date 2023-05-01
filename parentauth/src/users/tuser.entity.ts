@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
 import { TenantOrganisation } from './tenant_organisation/entities/tenant_organisation.entity';
+import { Subscription } from 'src/subscription/entities/subscription.entity';
 
 export enum status {
   PENDING = 'pending',
@@ -51,6 +52,9 @@ export class Tuser {
   @OneToOne(() => TenantOrganisation, tenantOrganisation=>tenantOrganisation.tUserId)
   @JoinColumn()
   orgId: TenantOrganisation;
+
+  @OneToOne(() => Subscription, (sub) => sub.tUser)
+  subscriptionId : Subscription;
 
   @Column({ nullable: true })
   emailVerifyExpires: string;

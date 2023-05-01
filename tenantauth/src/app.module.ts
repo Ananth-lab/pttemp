@@ -29,6 +29,8 @@ import { TenantState } from './tenantUser/tenant_state/entities/tenant_state.ent
 import { TenantCountry } from './tenantUser/tenant_country/entities/tenant_country.entity';
 import { TenantBranchAddress } from './tenantUser/tenant_branch_address/entities/tenant_branch_address.entity';
 import { TenantBranchAddressModule } from './tenantUser/tenant_branch_address/tenant_branch_address.module';
+import { Subscription } from './tenantUser/subscription/entities/subscription.entity';
+import { SubscriptionModule } from './tenantUser/subscription/subscription.module';
 
 @Module({
   imports: [
@@ -48,11 +50,12 @@ import { TenantBranchAddressModule } from './tenantUser/tenant_branch_address/te
           host: 'localhost',
           port: 5432,
           synchronize: true,
-          entities: [Role, Privilege, Tmodule, Submodule, Racmap, Tuser, IndustryDomain,TenantOrganisation,TenantOrganisationAddress,TenantPoc,TenantBranch,TenantState,TenantCountry,TenantBranchAddress],
+          entities: [Role, Privilege, Tmodule, Submodule, Racmap, Subscription, Tuser, IndustryDomain,TenantOrganisation,TenantOrganisationAddress,TenantPoc,TenantBranch,TenantState,TenantCountry,TenantBranchAddress],
         };
       },
     }),
     PrivilegesModule,
+    SubscriptionModule,
     RolesModule,
     TusersModule,
     ModulesModule,

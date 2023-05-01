@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Tuser = exports.status = void 0;
 const typeorm_1 = require("typeorm");
 const tenant_organisation_entity_1 = require("./tenant_organisation/entities/tenant_organisation.entity");
+const subscription_entity_1 = require("../subscription/entities/subscription.entity");
 var status;
 (function (status) {
     status["PENDING"] = "pending";
@@ -75,6 +76,10 @@ __decorate([
     (0, typeorm_1.JoinColumn)(),
     __metadata("design:type", tenant_organisation_entity_1.TenantOrganisation)
 ], Tuser.prototype, "orgId", void 0);
+__decorate([
+    (0, typeorm_1.OneToOne)(() => subscription_entity_1.Subscription, (sub) => sub.tUser),
+    __metadata("design:type", subscription_entity_1.Subscription)
+], Tuser.prototype, "subscriptionId", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
