@@ -11,15 +11,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateSubscriptionDto = void 0;
 const class_validator_1 = require("class-validator");
+const tmodule_entity_1 = require("../../tmodules/tmodule.entity");
+const tsubmodule_entity_1 = require("../../tmodules/tsubmodule.entity");
 class CreateSubscriptionDto {
 }
 __decorate([
     (0, class_validator_1.IsOptional)(),
-    __metadata("design:type", String)
+    (0, class_validator_1.IsUUID)(),
+    __metadata("design:type", tmodule_entity_1.Tmodule)
 ], CreateSubscriptionDto.prototype, "moduleId", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
-    __metadata("design:type", String)
+    (0, class_validator_1.IsUUID)(),
+    __metadata("design:type", tsubmodule_entity_1.Tsubmodule)
 ], CreateSubscriptionDto.prototype, "submoduleId", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),

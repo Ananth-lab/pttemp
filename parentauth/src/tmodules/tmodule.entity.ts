@@ -1,14 +1,22 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
-import { Tsubmodule } from './tsubmodule.entity';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  ManyToMany,
+  JoinColumn,CreateDateColumn,UpdateDateColumn
+} from "typeorm";
+import { Tsubmodule } from "./tsubmodule.entity";
+import { Subscription } from "src/subscription/entities/subscription.entity";
 
 export enum status {
-  ACTIVE = 'active',
-  DISABLED = 'disabled',
+  ACTIVE = "active",
+  DISABLED = "disabled",
 }
 
 @Entity()
 export class Tmodule {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn("uuid")
   id: string;
 
   @Column({ nullable: true })
@@ -21,12 +29,22 @@ export class Tmodule {
   description: string;
 
   @Column({
-    type: 'enum',
+    type: "enum",
     enum: status,
     default: status.ACTIVE,
   })
   status: status;
 
+  @ManyToMany(() => Subscription, (sub) => sub.moduleId)
+  @JoinColumn()
+  subscriptionId: Tmodule;
+
   @OneToMany((type) => Tsubmodule, (tsubmodule) => tsubmodule.tmodule)
   submodules: Tsubmodule[];
+
+  @CreateDateColumn()
+  readonly createdAt!: Date;
+
+  @UpdateDateColumn()
+  readonly updatedAt!: Date;
 }

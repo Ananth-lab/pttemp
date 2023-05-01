@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Tmodule = exports.status = void 0;
 const typeorm_1 = require("typeorm");
 const tsubmodule_entity_1 = require("./tsubmodule.entity");
+const subscription_entity_1 = require("../subscription/entities/subscription.entity");
 var status;
 (function (status) {
     status["ACTIVE"] = "active";
@@ -20,7 +21,7 @@ var status;
 let Tmodule = class Tmodule {
 };
 __decorate([
-    (0, typeorm_1.PrimaryGeneratedColumn)('uuid'),
+    (0, typeorm_1.PrimaryGeneratedColumn)("uuid"),
     __metadata("design:type", String)
 ], Tmodule.prototype, "id", void 0);
 __decorate([
@@ -37,16 +38,29 @@ __decorate([
 ], Tmodule.prototype, "description", void 0);
 __decorate([
     (0, typeorm_1.Column)({
-        type: 'enum',
+        type: "enum",
         enum: status,
         default: status.ACTIVE,
     }),
     __metadata("design:type", String)
 ], Tmodule.prototype, "status", void 0);
 __decorate([
+    (0, typeorm_1.ManyToMany)(() => subscription_entity_1.Subscription, (sub) => sub.moduleId),
+    (0, typeorm_1.JoinColumn)(),
+    __metadata("design:type", Tmodule)
+], Tmodule.prototype, "subscriptionId", void 0);
+__decorate([
     (0, typeorm_1.OneToMany)((type) => tsubmodule_entity_1.Tsubmodule, (tsubmodule) => tsubmodule.tmodule),
     __metadata("design:type", Array)
 ], Tmodule.prototype, "submodules", void 0);
+__decorate([
+    (0, typeorm_1.CreateDateColumn)(),
+    __metadata("design:type", Date)
+], Tmodule.prototype, "createdAt", void 0);
+__decorate([
+    (0, typeorm_1.UpdateDateColumn)(),
+    __metadata("design:type", Date)
+], Tmodule.prototype, "updatedAt", void 0);
 Tmodule = __decorate([
     (0, typeorm_1.Entity)()
 ], Tmodule);

@@ -1,5 +1,7 @@
+import { Tmodule } from "src/tmodules/tmodule.entity";
+import { Tsubmodule } from "src/tmodules/tsubmodule.entity";
 export declare class CreateSubscriptionDto {
-    moduleId?: string;
-    submoduleId?: string;
+    moduleId: Tmodule;
+    submoduleId?: Tsubmodule;
     tUserId: string;
 }

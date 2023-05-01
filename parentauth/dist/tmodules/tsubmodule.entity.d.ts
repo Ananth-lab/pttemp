@@ -12,4 +12,7 @@ export declare class Tsubmodule {
     status: status;
     bsmaps: Bsmap[];
     tmodule: Tmodule;
+    subId: Tsubmodule;
+    readonly createdAt: Date;
+    readonly updatedAt: Date;
 }

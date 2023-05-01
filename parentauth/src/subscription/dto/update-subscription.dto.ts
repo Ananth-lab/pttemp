@@ -1,12 +1,16 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateSubscriptionDto } from './create-subscription.dto';
-import { IsNotEmpty, IsOptional } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsUUID } from 'class-validator';
+import { Tmodule } from 'src/tmodules/tmodule.entity';
+import { Tsubmodule } from 'src/tmodules/tsubmodule.entity';
 
 export class UpdateSubscriptionDto extends PartialType(CreateSubscriptionDto) {
-    @IsOptional()
-    moduleId?: string;
   
-    @IsOptional()
-    submoduleId?: string;
+    @IsUUID()
+    moduleId: Tmodule;
+  
+  
+    @IsUUID()
+    submoduleId: Tsubmodule;
     
 }

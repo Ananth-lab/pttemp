@@ -7,8 +7,13 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   OneToMany,
+  ManyToMany,
+  JoinColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { Tmodule } from './tmodule.entity';
+import { Subscription } from 'src/subscription/entities/subscription.entity';
 
 export enum status {
   ACTIVE = 'active',
@@ -43,4 +48,14 @@ export class Tsubmodule {
     nullable: false,
   })
   tmodule: Tmodule;
+
+  @ManyToMany(() =>Subscription, (sub) => sub.subModuleId)
+  @JoinColumn()
+  subId: Tsubmodule;
+
+  @CreateDateColumn()
+  readonly createdAt!: Date;
+
+  @UpdateDateColumn()
+  readonly updatedAt!: Date;
 }

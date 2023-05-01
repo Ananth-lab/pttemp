@@ -13,6 +13,7 @@ exports.Tsubmodule = exports.status = void 0;
 const bsmap_entity_1 = require("../bundles/bsmap.entity");
 const typeorm_1 = require("typeorm");
 const tmodule_entity_1 = require("./tmodule.entity");
+const subscription_entity_1 = require("../subscription/entities/subscription.entity");
 var status;
 (function (status) {
     status["ACTIVE"] = "active";
@@ -54,6 +55,19 @@ __decorate([
     }),
     __metadata("design:type", tmodule_entity_1.Tmodule)
 ], Tsubmodule.prototype, "tmodule", void 0);
+__decorate([
+    (0, typeorm_1.ManyToMany)(() => subscription_entity_1.Subscription, (sub) => sub.subModuleId),
+    (0, typeorm_1.JoinColumn)(),
+    __metadata("design:type", Tsubmodule)
+], Tsubmodule.prototype, "subId", void 0);
+__decorate([
+    (0, typeorm_1.CreateDateColumn)(),
+    __metadata("design:type", Date)
+], Tsubmodule.prototype, "createdAt", void 0);
+__decorate([
+    (0, typeorm_1.UpdateDateColumn)(),
+    __metadata("design:type", Date)
+], Tsubmodule.prototype, "updatedAt", void 0);
 Tsubmodule = __decorate([
     (0, typeorm_1.Entity)()
 ], Tsubmodule);
