@@ -1,3 +1,4 @@
+import { Role } from 'src/roles/role.entity';
 export declare enum status {
     PENDING = "pending",
     ACTIVE = "active",
@@ -22,4 +23,5 @@ export declare class Puser {
     passwordResetExpires: string;
     otp: string;
     otpExpires: string;
+    roleId: Role;
 }

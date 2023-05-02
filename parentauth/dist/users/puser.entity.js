@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Puser = exports.status = void 0;
+const role_entity_1 = require("../roles/role.entity");
 const typeorm_1 = require("typeorm");
 var status;
 (function (status) {
@@ -97,6 +98,11 @@ __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
 ], Puser.prototype, "otpExpires", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => role_entity_1.Role, (role) => role.id),
+    (0, typeorm_1.JoinColumn)(),
+    __metadata("design:type", role_entity_1.Role)
+], Puser.prototype, "roleId", void 0);
 Puser = __decorate([
     (0, typeorm_1.Entity)()
 ], Puser);

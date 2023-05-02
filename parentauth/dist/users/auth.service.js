@@ -32,6 +32,8 @@ let AuthService = class AuthService {
         const hash = (await scrypt(body.password, salt, 32));
         const result = salt + '.' + hash.toString('hex');
         console.log(result);
+        const user = await this.pusersService.create(Object.assign(Object.assign({}, body), { password: result }));
+        return user;
     }
     async pSignin(email, password) {
         const [user] = await this.pusersService.find(email);

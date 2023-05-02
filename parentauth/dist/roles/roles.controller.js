@@ -25,9 +25,10 @@ let RolesController = class RolesController {
     }
     async createRole(body) {
         const role = await this.rolesService.create(body);
+        console.log(body.rac);
         for (let i = 0; i < body.rac.length; i++) {
             const tmp = body.rac[i];
-            this.racmapsService.create(Object.assign(Object.assign({}, tmp), { roleId: role }));
+            this.racmapsService.create(Object.assign(Object.assign({}, tmp), { roleId: role, moduleId: tmp.pmoduleId }));
         }
         return role;
     }
@@ -46,7 +47,7 @@ let RolesController = class RolesController {
         this.racmapsService.remove(role);
         for (let i = 0; i < body.rac.length; i++) {
             const tmp = body.rac[i];
-            this.racmapsService.create(Object.assign(Object.assign({}, tmp), { roleId: role }));
+            this.racmapsService.create(Object.assign(Object.assign({}, tmp), { roleId: role, moduleId: tmp.pmoduleId }));
         }
         return role;
     }

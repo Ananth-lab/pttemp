@@ -25,9 +25,10 @@ export class RolesController {
   @Post()
   async createRole(@Body() body: CreateRoleBodyDto) {
     const role = await this.rolesService.create(body);
+    console.log(body.rac)
     for (let i = 0; i < body.rac.length; i++) {
       const tmp = body.rac[i];
-      this.racmapsService.create({ ...tmp, roleId: role });
+      this.racmapsService.create({ ...tmp, roleId: role, moduleId: tmp.pmoduleId });
     }
     return role;
   }
@@ -56,7 +57,7 @@ export class RolesController {
 
     for (let i = 0; i < body.rac.length; i++) {
       const tmp = body.rac[i];
-      this.racmapsService.create({ ...tmp, roleId: role });
+      this.racmapsService.create({ ...tmp, roleId: role, moduleId: tmp.pmoduleId});
     }
 
     return role;

@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Role } from 'src/roles/role.entity';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
 
 export enum status {
   PENDING = 'pending',
@@ -67,4 +68,8 @@ export class Puser {
 
   @Column({ nullable: true })
   otpExpires: string;
+
+  @ManyToOne(()=> Role,(role)=> role.id)
+  @JoinColumn()
+  roleId:Role
 }

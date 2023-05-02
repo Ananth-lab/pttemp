@@ -14,6 +14,7 @@ const class_validator_1 = require("class-validator");
 const psubmodule_entity_1 = require("../../pmodules/psubmodule.entity");
 const privilege_entity_1 = require("../../privileges/privilege.entity");
 const role_entity_1 = require("../role.entity");
+const pmodule_entity_1 = require("../../pmodules/pmodule.entity");
 class CreateRacmapDto {
 }
 __decorate([
@@ -26,6 +27,11 @@ __decorate([
     (0, class_validator_1.IsUUID)(),
     __metadata("design:type", psubmodule_entity_1.Psubmodule)
 ], CreateRacmapDto.prototype, "submoduleId", void 0);
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsUUID)(),
+    __metadata("design:type", pmodule_entity_1.Pmodule)
+], CreateRacmapDto.prototype, "moduleId", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsUUID)(),

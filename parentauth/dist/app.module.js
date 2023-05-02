@@ -67,8 +67,8 @@ AppModule = __decorate([
                         type: "postgres",
                         host: "localhost",
                         port: 5432,
-                        username: 'ananth',
-                        password: 'u7i8o9p0',
+                        username: 'postgres',
+                        password: 'Pass@123',
                         synchronize: true,
                         entities: [
                             tenant_organisation_entity_1.TenantOrganisation,

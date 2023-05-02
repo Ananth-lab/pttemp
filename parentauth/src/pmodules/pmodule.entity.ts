@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, UpdateDateColumn, CreateDateColumn } from 'typeorm';
 import { Psubmodule } from './psubmodule.entity';
 
 export enum status {
@@ -29,4 +29,11 @@ export class Pmodule {
 
   @OneToMany((type) => Psubmodule, (psubmodule) => psubmodule.pmodule)
   submodules: Psubmodule[];
+  
+  @CreateDateColumn()
+  readonly createdAt!: Date;
+
+  @UpdateDateColumn()
+  readonly updatedAt!: Date;
+
 }

@@ -47,6 +47,14 @@ __decorate([
     (0, typeorm_1.OneToMany)((type) => psubmodule_entity_1.Psubmodule, (psubmodule) => psubmodule.pmodule),
     __metadata("design:type", Array)
 ], Pmodule.prototype, "submodules", void 0);
+__decorate([
+    (0, typeorm_1.CreateDateColumn)(),
+    __metadata("design:type", Date)
+], Pmodule.prototype, "createdAt", void 0);
+__decorate([
+    (0, typeorm_1.UpdateDateColumn)(),
+    __metadata("design:type", Date)
+], Pmodule.prototype, "updatedAt", void 0);
 Pmodule = __decorate([
     (0, typeorm_1.Entity)()
 ], Pmodule);

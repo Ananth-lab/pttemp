@@ -37,9 +37,9 @@ export class AuthService {
 
     console.log(result)
 
-    //const user = await this.pusersService.create({ ...body, password: result });
+  const user = await this.pusersService.create({ ...body, password: result });
 
-    //return user;
+    return user;
   }
 
   async pSignin(email: string, password: string) {

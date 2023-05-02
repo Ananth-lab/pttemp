@@ -14,6 +14,7 @@ const psubmodule_entity_1 = require("../pmodules/psubmodule.entity");
 const privilege_entity_1 = require("../privileges/privilege.entity");
 const typeorm_1 = require("typeorm");
 const role_entity_1 = require("./role.entity");
+const pmodule_entity_1 = require("../pmodules/pmodule.entity");
 let Racmap = class Racmap {
 };
 __decorate([
@@ -25,7 +26,11 @@ __decorate([
     __metadata("design:type", role_entity_1.Role)
 ], Racmap.prototype, "roleId", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => psubmodule_entity_1.Psubmodule, (psubmodule) => psubmodule.racs),
+    (0, typeorm_1.ManyToOne)(() => pmodule_entity_1.Pmodule, (pModule) => pModule.id),
+    __metadata("design:type", pmodule_entity_1.Pmodule)
+], Racmap.prototype, "moduleId", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => psubmodule_entity_1.Psubmodule, (psubmodule) => psubmodule.id),
     __metadata("design:type", psubmodule_entity_1.Psubmodule)
 ], Racmap.prototype, "submoduleId", void 0);
 __decorate([

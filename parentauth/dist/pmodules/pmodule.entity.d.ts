@@ -10,4 +10,6 @@ export declare class Pmodule {
     description: string;
     status: status;
     submodules: Psubmodule[];
+    readonly createdAt: Date;
+    readonly updatedAt: Date;
 }

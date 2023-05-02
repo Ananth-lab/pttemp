@@ -8,6 +8,7 @@ import {
 } from 'class-validator';
 import { Privilege } from 'src/privileges/privilege.entity';
 import { Psubmodule } from 'src/pmodules/psubmodule.entity';
+import { Pmodule } from 'src/pmodules/pmodule.entity';
 
 export class CreateRoleBodyDto {
   @IsString()
@@ -20,5 +21,5 @@ export class CreateRoleBodyDto {
   createdBy: string;
 
   @IsArray()
-  rac: [{ submoduleId: Psubmodule; privilegeId: Privilege }];
+  rac: [{ submoduleId: Psubmodule; privilegeId: Privilege ,pmoduleId:Pmodule}];
 }
