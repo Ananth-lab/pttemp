@@ -11,7 +11,7 @@ export class RacmapsService {
 
   create(data: CreateRacmapDto) {
     const role = this.repo.create(data);
-    this.repo.save(role);
+    return this.repo.save(role);
   }
 
   async remove(id: Role) {

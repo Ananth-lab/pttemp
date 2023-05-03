@@ -56,7 +56,7 @@ __decorate([
     __metadata("design:type", tmodule_entity_1.Tmodule)
 ], Tsubmodule.prototype, "tmodule", void 0);
 __decorate([
-    (0, typeorm_1.ManyToMany)(() => subscription_entity_1.Subscription, (sub) => sub.subModuleId),
+    (0, typeorm_1.OneToMany)(() => subscription_entity_1.Subscription, (sub) => sub.subModule),
     (0, typeorm_1.JoinColumn)(),
     __metadata("design:type", Tsubmodule)
 ], Tsubmodule.prototype, "subId", void 0);

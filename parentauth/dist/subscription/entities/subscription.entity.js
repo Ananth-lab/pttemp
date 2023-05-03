@@ -21,15 +21,15 @@ __decorate([
     __metadata("design:type", String)
 ], Subscription.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.ManyToMany)(() => tmodule_entity_1.Tmodule, (tModule) => tModule.id, { nullable: true }),
+    (0, typeorm_1.ManyToOne)(() => tmodule_entity_1.Tmodule, (tModule) => tModule.id, { nullable: true }),
     (0, typeorm_1.JoinColumn)(),
     __metadata("design:type", tmodule_entity_1.Tmodule)
-], Subscription.prototype, "moduleId", void 0);
+], Subscription.prototype, "module", void 0);
 __decorate([
-    (0, typeorm_1.ManyToMany)(() => tsubmodule_entity_1.Tsubmodule, (sModule) => sModule.id, { nullable: true }),
+    (0, typeorm_1.ManyToOne)(() => tsubmodule_entity_1.Tsubmodule, (sModule) => sModule.id, { nullable: true }),
     (0, typeorm_1.JoinColumn)(),
     __metadata("design:type", tsubmodule_entity_1.Tsubmodule)
-], Subscription.prototype, "subModuleId", void 0);
+], Subscription.prototype, "subModule", void 0);
 __decorate([
     (0, typeorm_1.OneToOne)(() => tuser_entity_1.Tuser, (tUser) => tUser.id),
     (0, typeorm_1.JoinColumn)(),

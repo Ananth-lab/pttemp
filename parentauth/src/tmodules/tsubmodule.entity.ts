@@ -49,7 +49,7 @@ export class Tsubmodule {
   })
   tmodule: Tmodule;
 
-  @ManyToMany(() =>Subscription, (sub) => sub.subModuleId)
+  @OneToMany(() =>Subscription, (sub) => sub.subModule)
   @JoinColumn()
   subId: Tsubmodule;
 

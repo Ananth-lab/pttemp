@@ -26,6 +26,14 @@ __decorate([
     (0, typeorm_1.OneToMany)(() => rac_map_entity_1.Racmap, (racmap) => racmap.privilegeId),
     __metadata("design:type", Array)
 ], Privilege.prototype, "racs", void 0);
+__decorate([
+    (0, typeorm_1.CreateDateColumn)(),
+    __metadata("design:type", Date)
+], Privilege.prototype, "createdAt", void 0);
+__decorate([
+    (0, typeorm_1.UpdateDateColumn)(),
+    __metadata("design:type", Date)
+], Privilege.prototype, "updatedAt", void 0);
 Privilege = __decorate([
     (0, typeorm_1.Entity)()
 ], Privilege);

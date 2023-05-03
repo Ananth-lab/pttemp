@@ -23,7 +23,7 @@ let ModulesService = class ModulesService {
     }
     create(data) {
         const module = this.repo.create(data);
-        this.repo.save(module);
+        return this.repo.save(module);
     }
     find() {
         return this.repo.find();

@@ -34,6 +34,14 @@ __decorate([
     (0, typeorm_1.OneToMany)(() => rac_map_entity_1.Racmap, (racmap) => racmap.roleId, { onDelete: 'CASCADE' }),
     __metadata("design:type", Array)
 ], Role.prototype, "racs", void 0);
+__decorate([
+    (0, typeorm_1.CreateDateColumn)(),
+    __metadata("design:type", Date)
+], Role.prototype, "createdAt", void 0);
+__decorate([
+    (0, typeorm_1.UpdateDateColumn)(),
+    __metadata("design:type", Date)
+], Role.prototype, "updatedAt", void 0);
 Role = __decorate([
     (0, typeorm_1.Entity)()
 ], Role);

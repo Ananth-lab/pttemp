@@ -52,6 +52,14 @@ __decorate([
     (0, typeorm_1.OneToMany)(() => rac_map_entity_1.Racmap, (racmap) => racmap.submoduleId),
     __metadata("design:type", Array)
 ], Submodule.prototype, "racs", void 0);
+__decorate([
+    (0, typeorm_1.CreateDateColumn)(),
+    __metadata("design:type", Date)
+], Submodule.prototype, "createdAt", void 0);
+__decorate([
+    (0, typeorm_1.UpdateDateColumn)(),
+    __metadata("design:type", Date)
+], Submodule.prototype, "updatedAt", void 0);
 Submodule = __decorate([
     (0, typeorm_1.Entity)()
 ], Submodule);

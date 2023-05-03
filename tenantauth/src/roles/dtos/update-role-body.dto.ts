@@ -1,6 +1,7 @@
 import { IsString, IsArray, IsNotEmpty } from 'class-validator';
 import { Privilege } from 'src/privileges/privilege.entity';
 import { Submodule } from 'src/modules/submodule.entity';
+import { Tmodule } from 'src/modules/module.entity';
 
 export class UpdateRoleBodyDto {
   @IsString()
@@ -11,5 +12,5 @@ export class UpdateRoleBodyDto {
 
   @IsNotEmpty()
   @IsArray()
-  rac: [{ submoduleId: Submodule; privilegeId: Privilege }];
+  rac: [{ submoduleId: Submodule;moduleId : Tmodule; privilegeId: Privilege }];
 }

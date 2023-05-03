@@ -21,7 +21,7 @@ let ModulesController = class ModulesController {
         this.tmodulesService = tmodulesService;
     }
     addModule(body) {
-        this.tmodulesService.create(body);
+        return this.tmodulesService.create(body);
     }
     getModules() {
         return this.tmodulesService.find();

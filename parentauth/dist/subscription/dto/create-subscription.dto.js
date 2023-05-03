@@ -19,12 +19,12 @@ __decorate([
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsUUID)(),
     __metadata("design:type", tmodule_entity_1.Tmodule)
-], CreateSubscriptionDto.prototype, "moduleId", void 0);
+], CreateSubscriptionDto.prototype, "module", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsUUID)(),
     __metadata("design:type", tsubmodule_entity_1.Tsubmodule)
-], CreateSubscriptionDto.prototype, "submoduleId", void 0);
+], CreateSubscriptionDto.prototype, "submodule", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)

@@ -5,11 +5,11 @@ import { Tsubmodule } from "src/tmodules/tsubmodule.entity";
 export class CreateSubscriptionDto {
   @IsOptional()
   @IsUUID()
-  moduleId: Tmodule;
+  module: Tmodule;
 
   @IsOptional()
   @IsUUID()
-  submoduleId?: Tsubmodule;
+  submodule?: Tsubmodule;
 
   @IsNotEmpty()
   tUserId : string;

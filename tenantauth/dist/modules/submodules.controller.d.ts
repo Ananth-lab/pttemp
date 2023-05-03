@@ -3,7 +3,7 @@ import { SubmodulesService } from './submodules.service';
 export declare class SubmodulesController {
     private submodulesService;
     constructor(submodulesService: SubmodulesService);
-    addModule(body: CreateSubmoduleDto): void;
+    addModule(body: CreateSubmoduleDto): Promise<import("./submodule.entity").Submodule>;
     getModules(): Promise<import("./submodule.entity").Submodule[]>;
     getModule(id: string): Promise<void>;
 }

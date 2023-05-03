@@ -5,6 +5,8 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   OneToMany,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { Tmodule } from './module.entity';
 
@@ -39,4 +41,10 @@ export class Submodule {
 
   @OneToMany(() => Racmap, (racmap) => racmap.submoduleId)
   racs: Racmap[];
+
+  @CreateDateColumn()
+  readonly createdAt!: Date;
+
+  @UpdateDateColumn()
+  readonly updatedAt!: Date;
 }

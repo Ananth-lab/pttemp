@@ -5,6 +5,6 @@ import { Role } from './role.entity';
 export declare class RacmapsService {
     private repo;
     constructor(repo: Repository<Racmap>);
-    create(data: CreateRacmapDto): void;
+    create(data: CreateRacmapDto): Promise<Racmap>;
     remove(id: Role): Promise<Racmap[]>;
 }

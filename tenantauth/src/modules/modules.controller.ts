@@ -16,7 +16,7 @@ export class ModulesController {
 
   @Post()
   addModule(@Body() body: CreateModuleDto) {
-    this.tmodulesService.create(body);
+    return this.tmodulesService.create(body);
   }
 
   @Get()

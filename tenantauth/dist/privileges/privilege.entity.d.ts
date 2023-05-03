@@ -3,4 +3,6 @@ export declare class Privilege {
     id: string;
     privilegeName: string;
     racs: Racmap[];
+    readonly createdAt: Date;
+    readonly updatedAt: Date;
 }

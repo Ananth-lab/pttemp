@@ -11,6 +11,7 @@ import {
   OneToOne,
   JoinColumn,
   ManyToMany,
+  ManyToOne,
 } from "typeorm";
 
 @Entity()
@@ -19,13 +20,13 @@ export class Subscription {
   id: string;
 
   // @Column({nullable:true})
-  @ManyToMany(() => Tmodule, (tModule) => tModule.id,{nullable:true})
+  @ManyToOne(() => Tmodule, (tModule) => tModule.id,{nullable:true})
   @JoinColumn()
-  moduleId: Tmodule;
+  module: Tmodule;
 
-  @ManyToMany(() =>Tsubmodule, (sModule) => sModule.id,{nullable:true})
+  @ManyToOne(() =>Tsubmodule, (sModule) => sModule.id,{nullable:true})
   @JoinColumn()
-  subModuleId: Tsubmodule;
+  subModule: Tsubmodule;
 
   @OneToOne(() => Tuser, (tUser) => tUser.id)
   @JoinColumn()

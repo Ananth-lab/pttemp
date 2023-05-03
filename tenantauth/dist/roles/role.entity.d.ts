@@ -5,4 +5,6 @@ export declare class Role {
     description: string;
     createdBy: string;
     racs: Racmap[];
+    readonly createdAt: Date;
+    readonly updatedAt: Date;
 }

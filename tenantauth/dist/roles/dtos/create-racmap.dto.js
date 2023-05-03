@@ -14,6 +14,7 @@ const class_validator_1 = require("class-validator");
 const submodule_entity_1 = require("../../modules/submodule.entity");
 const privilege_entity_1 = require("../../privileges/privilege.entity");
 const role_entity_1 = require("../role.entity");
+const module_entity_1 = require("../../modules/module.entity");
 class CreateRacmapDto {
 }
 __decorate([
@@ -28,5 +29,9 @@ __decorate([
     (0, class_validator_1.IsUUID)(),
     __metadata("design:type", privilege_entity_1.Privilege)
 ], CreateRacmapDto.prototype, "privilegeId", void 0);
+__decorate([
+    (0, class_validator_1.IsUUID)(),
+    __metadata("design:type", module_entity_1.Tmodule)
+], CreateRacmapDto.prototype, "moduleId", void 0);
 exports.CreateRacmapDto = CreateRacmapDto;
 //# sourceMappingURL=create-racmap.dto.js.map

@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Tmodule = exports.status = void 0;
 const typeorm_1 = require("typeorm");
 const submodule_entity_1 = require("./submodule.entity");
+const rac_map_entity_1 = require("../roles/rac-map.entity");
 var status;
 (function (status) {
     status["ACTIVE"] = "active";
@@ -47,6 +48,18 @@ __decorate([
     (0, typeorm_1.OneToMany)((type) => submodule_entity_1.Submodule, (submodule) => submodule.tmodule),
     __metadata("design:type", Array)
 ], Tmodule.prototype, "submodules", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)((type) => rac_map_entity_1.Racmap, (rec) => rec.moduleId),
+    __metadata("design:type", Array)
+], Tmodule.prototype, "modules", void 0);
+__decorate([
+    (0, typeorm_1.CreateDateColumn)(),
+    __metadata("design:type", Date)
+], Tmodule.prototype, "createdAt", void 0);
+__decorate([
+    (0, typeorm_1.UpdateDateColumn)(),
+    __metadata("design:type", Date)
+], Tmodule.prototype, "updatedAt", void 0);
 Tmodule = __decorate([
     (0, typeorm_1.Entity)()
 ], Tmodule);

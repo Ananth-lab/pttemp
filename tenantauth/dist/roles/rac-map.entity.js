@@ -14,6 +14,7 @@ const submodule_entity_1 = require("../modules/submodule.entity");
 const privilege_entity_1 = require("../privileges/privilege.entity");
 const typeorm_1 = require("typeorm");
 const role_entity_1 = require("./role.entity");
+const module_entity_1 = require("../modules/module.entity");
 let Racmap = class Racmap {
 };
 __decorate([
@@ -25,13 +26,25 @@ __decorate([
     __metadata("design:type", role_entity_1.Role)
 ], Racmap.prototype, "roleId", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => submodule_entity_1.Submodule, (submodule) => submodule.racs),
+    (0, typeorm_1.ManyToOne)(() => submodule_entity_1.Submodule, (submodule) => submodule.id),
     __metadata("design:type", submodule_entity_1.Submodule)
 ], Racmap.prototype, "submoduleId", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => module_entity_1.Tmodule, (module) => module.id),
+    __metadata("design:type", module_entity_1.Tmodule)
+], Racmap.prototype, "moduleId", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(() => privilege_entity_1.Privilege, (privilege) => privilege.racs),
     __metadata("design:type", privilege_entity_1.Privilege)
 ], Racmap.prototype, "privilegeId", void 0);
+__decorate([
+    (0, typeorm_1.CreateDateColumn)(),
+    __metadata("design:type", Date)
+], Racmap.prototype, "createdAt", void 0);
+__decorate([
+    (0, typeorm_1.UpdateDateColumn)(),
+    __metadata("design:type", Date)
+], Racmap.prototype, "updatedAt", void 0);
 Racmap = __decorate([
     (0, typeorm_1.Entity)()
 ], Racmap);

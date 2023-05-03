@@ -23,7 +23,7 @@ let RacmapsService = class RacmapsService {
     }
     create(data) {
         const role = this.repo.create(data);
-        this.repo.save(role);
+        return this.repo.save(role);
     }
     async remove(id) {
         const records = await this.repo.find({ where: { roleId: id } });

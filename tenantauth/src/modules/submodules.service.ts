@@ -12,7 +12,7 @@ export class SubmodulesService {
 
   create(data: CreateSubmoduleDto) {
     const module = this.repo.create(data);
-    this.repo.save(module);
+    return this.repo.save(module);
   }
 
   find() {

@@ -21,7 +21,7 @@ let SubmodulesController = class SubmodulesController {
         this.submodulesService = submodulesService;
     }
     addModule(body) {
-        this.submodulesService.create(body);
+        return this.submodulesService.create(body);
     }
     getModules() {
         return this.submodulesService.find();

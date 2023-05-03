@@ -57,8 +57,8 @@ import { Subscription } from "./subscription/entities/subscription.entity";
           type: "postgres",
           host: "localhost",
           port: 5432,
-          username : 'postgres',
-          password : 'Pass@123',
+          username : 'ananth',
+          password : 'u7i8o9p0',
     
 
           synchronize: true,

@@ -8,7 +8,7 @@ export class SubmodulesController {
 
   @Post()
   addModule(@Body() body: CreateSubmoduleDto) {
-    this.submodulesService.create(body);
+    return this.submodulesService.create(body);
   }
 
   @Get()

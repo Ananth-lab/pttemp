@@ -12,4 +12,6 @@ export declare class Submodule {
     status: status;
     tmodule: Tmodule;
     racs: Racmap[];
+    readonly createdAt: Date;
+    readonly updatedAt: Date;
 }

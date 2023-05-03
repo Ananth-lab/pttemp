@@ -1,5 +1,5 @@
 import { Racmap } from 'src/roles/rac-map.entity';
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity()
 export class Privilege {
@@ -11,4 +11,10 @@ export class Privilege {
 
   @OneToMany(() => Racmap, (racmap) => racmap.privilegeId)
   racs: Racmap[];
+
+  @CreateDateColumn()
+  readonly createdAt!: Date;
+
+  @UpdateDateColumn()
+  readonly updatedAt!: Date;
 }

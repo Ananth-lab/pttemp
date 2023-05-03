@@ -3,7 +3,7 @@ import { ModulesService } from './modules.service';
 export declare class ModulesController {
     private tmodulesService;
     constructor(tmodulesService: ModulesService);
-    addModule(body: CreateModuleDto): void;
+    addModule(body: CreateModuleDto): Promise<import("./module.entity").Tmodule>;
     getModules(): Promise<import("./module.entity").Tmodule[]>;
     getModule(id: string): Promise<import("./module.entity").Tmodule>;
     getSubmodules(id: string): Promise<import("./module.entity").Tmodule>;

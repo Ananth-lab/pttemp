@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import { Racmap } from './rac-map.entity';
 
 @Entity()
@@ -17,4 +17,10 @@ export class Role {
 
   @OneToMany(() => Racmap, (racmap) => racmap.roleId, { onDelete: 'CASCADE' })
   racs: Racmap[];
+
+  @CreateDateColumn()
+  readonly createdAt!: Date;
+
+  @UpdateDateColumn()
+  readonly updatedAt!: Date;
 }

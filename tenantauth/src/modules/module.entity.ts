@@ -1,5 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import { Submodule } from './submodule.entity';
+import { Racmap } from 'src/roles/rac-map.entity';
 
 export enum status {
   ACTIVE = 'active',
@@ -29,4 +30,15 @@ export class Tmodule {
 
   @OneToMany((type) => Submodule, (submodule) => submodule.tmodule)
   submodules: Submodule[];
+
+
+  @OneToMany((type) => Racmap, (rec) => rec.moduleId)
+  modules: Racmap[];
+
+  @CreateDateColumn()
+  readonly createdAt!: Date;
+
+  @UpdateDateColumn()
+  readonly updatedAt!: Date;
+
 }

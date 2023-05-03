@@ -4,7 +4,7 @@ import { CreateModuleDto } from './dtos/create-module.dto';
 export declare class ModulesService {
     private repo;
     constructor(repo: Repository<Tmodule>);
-    create(data: CreateModuleDto): void;
+    create(data: CreateModuleDto): Promise<Tmodule>;
     find(): Promise<Tmodule[]>;
     findOne(id: string): Promise<Tmodule>;
     findOneIncludeSubmodule(id: string): Promise<Tmodule>;
