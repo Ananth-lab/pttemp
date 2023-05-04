@@ -12,13 +12,17 @@ import { TenantOrganisationAddressService } from "../tenant_organisation_address
 import { connectRabbitMQ } from "../rabbit";
 import { TenantPocService } from "../tenant_poc/tenant_poc.service";
 import { SubscriptionService } from "src/subscription/subscription.service";
+import { TmodulesService } from "src/tmodules/tmodules.service";
+import { TsubmodulesService } from "src/tmodules/tsubmodules.service";
 
 @Controller("preview")
 export class PreviewController {
   constructor(
     private readonly tenantAddress: TenantOrganisationAddressService,
     private readonly tenantPoc: TenantPocService,
-    private readonly tenantSubscription : SubscriptionService
+    private readonly tenantSubscription : SubscriptionService,
+    private readonly tenantModule : TmodulesService,
+    private readonly tenantSubModule : TsubmodulesService
   ) {}
 
   @Get(":id")
@@ -73,6 +77,23 @@ export class PreviewController {
 
     //find user's subscription plan
     const tenantSubscriptionDetails = await this.tenantSubscription.findOneByTuserId(tenantUserDetail.id);
+
+    //finding the modules and submodule details using subscription plan
+    const modules = tenantSubscriptionDetails.module;
+    const tenantModuleDetails = [];
+    await Promise.all(modules.map(async (module) => {
+      const curr = await this.tenantModule.findOne(module);
+      tenantModuleDetails.push(JSON.parse(JSON.stringify(curr)));
+    }));
+
+    const submodules = tenantSubscriptionDetails.subModule;
+    const tenantSubModuleDetails = [];
+    
+    await Promise.all(submodules.map(async (submodule) => {
+      const curr = await this.tenantSubModule.findOne(submodule);
+      tenantSubModuleDetails.push(JSON.parse(JSON.stringify(curr)));
+    }));
+
 
     const rabbitConnection = await connectRabbitMQ();
     if (!rabbitConnection) {
@@ -168,6 +189,31 @@ export class PreviewController {
     setTimeout(() => {
       channel.publish(
         exchange,
+        "tenantModuleDetails",
+        Buffer.from(
+          JSON.stringify({
+            tenantModuleDetails,
+          })
+        )
+      );
+    }, 800);
+
+    setTimeout(() => {
+      channel.publish(
+        exchange,
+        "tenantSubModuleDetails",
+        Buffer.from(
+          JSON.stringify({
+            tenantSubModuleDetails,
+          })
+        )
+      );
+    }, 900);
+
+
+    setTimeout(() => {
+      channel.publish(
+        exchange,
         "tenantSubscriptionDetails",
         Buffer.from(
           JSON.stringify({
@@ -175,19 +221,9 @@ export class PreviewController {
           })
         )
       );
-    }, 800);
+    }, 1000);
 
     console.log("Data has been sent");
-
-    // return [
-    //   tenantOrgAdddressDetails,
-    //   tenantOrganisationDetails,
-    //   tenantUserDetails,
-    //   tenantIndustyDetails,
-    //   tenantCountryDetails,
-    //   tenantStateDetails,
-    // ];
-
     return tenantUserDetails;
   }
 }

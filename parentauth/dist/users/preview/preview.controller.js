@@ -18,11 +18,15 @@ const tenant_organisation_address_service_1 = require("../tenant_organisation_ad
 const rabbit_1 = require("../rabbit");
 const tenant_poc_service_1 = require("../tenant_poc/tenant_poc.service");
 const subscription_service_1 = require("../../subscription/subscription.service");
+const tmodules_service_1 = require("../../tmodules/tmodules.service");
+const tsubmodules_service_1 = require("../../tmodules/tsubmodules.service");
 let PreviewController = class PreviewController {
-    constructor(tenantAddress, tenantPoc, tenantSubscription) {
+    constructor(tenantAddress, tenantPoc, tenantSubscription, tenantModule, tenantSubModule) {
         this.tenantAddress = tenantAddress;
         this.tenantPoc = tenantPoc;
         this.tenantSubscription = tenantSubscription;
+        this.tenantModule = tenantModule;
+        this.tenantSubModule = tenantSubModule;
     }
     findOne(id) {
         try {
@@ -67,6 +71,18 @@ let PreviewController = class PreviewController {
         const tenantPocDetails = await this.tenantPoc.findOneOnOrg(tenantOrganisationDetail.id);
         tenantPocDetails.tenantOrganisation_id = tenantOrganisationDetail.id;
         const tenantSubscriptionDetails = await this.tenantSubscription.findOneByTuserId(tenantUserDetail.id);
+        const modules = tenantSubscriptionDetails.module;
+        const tenantModuleDetails = [];
+        await Promise.all(modules.map(async (module) => {
+            const curr = await this.tenantModule.findOne(module);
+            tenantModuleDetails.push(JSON.parse(JSON.stringify(curr)));
+        }));
+        const submodules = tenantSubscriptionDetails.subModule;
+        const tenantSubModuleDetails = [];
+        await Promise.all(submodules.map(async (submodule) => {
+            const curr = await this.tenantSubModule.findOne(submodule);
+            tenantSubModuleDetails.push(JSON.parse(JSON.stringify(curr)));
+        }));
         const rabbitConnection = await (0, rabbit_1.connectRabbitMQ)();
         if (!rabbitConnection) {
             throw new Error("Failed to connect to RabbitMQ");
@@ -108,10 +124,20 @@ let PreviewController = class PreviewController {
             })));
         }, 700);
         setTimeout(() => {
+            channel.publish(exchange, "tenantModuleDetails", Buffer.from(JSON.stringify({
+                tenantModuleDetails,
+            })));
+        }, 800);
+        setTimeout(() => {
+            channel.publish(exchange, "tenantSubModuleDetails", Buffer.from(JSON.stringify({
+                tenantSubModuleDetails,
+            })));
+        }, 900);
+        setTimeout(() => {
             channel.publish(exchange, "tenantSubscriptionDetails", Buffer.from(JSON.stringify({
                 tenantSubscriptionDetails,
             })));
-        }, 800);
+        }, 1000);
         console.log("Data has been sent");
         return tenantUserDetails;
     }
@@ -134,7 +160,9 @@ PreviewController = __decorate([
     (0, common_1.Controller)("preview"),
     __metadata("design:paramtypes", [tenant_organisation_address_service_1.TenantOrganisationAddressService,
         tenant_poc_service_1.TenantPocService,
-        subscription_service_1.SubscriptionService])
+        subscription_service_1.SubscriptionService,
+        tmodules_service_1.TmodulesService,
+        tsubmodules_service_1.TsubmodulesService])
 ], PreviewController);
 exports.PreviewController = PreviewController;
 //# sourceMappingURL=preview.controller.js.map
