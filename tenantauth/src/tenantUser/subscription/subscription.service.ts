@@ -37,8 +37,8 @@ export class SubscriptionService {
       console.log("Waiting for messages in subscription-queue", queue);
   
       // Bind the queue to the exchange with routing keys 'createUser' and 'updateUser'
-      await channel.bindQueue(queue, exchange, "tenantSriptionDetails");
-      await channel.bindQueue(queue, exchange, "updatetenantScriptionDetails");
+      await channel.bindQueue(queue, exchange, "tenantSubscriptionDetails");
+      await channel.bindQueue(queue, exchange, "updatetenantSubscriptionDetails");
   
       channel.consume(
         queue,
@@ -46,14 +46,14 @@ export class SubscriptionService {
           if (msg) {
             console.log("Message received:subscription", msg.content.toString());
             const subscription= JSON.parse(msg.content.toString());
-            if (msg.fields.routingKey === "tenantScriptionDetails") {
-              await this.create(subscription.tenantScriptionDetails);
+            if (msg.fields.routingKey === "tenantSubscriptionDetails") {
+              await this.create(subscription.tenantSubscriptionDetails);
             const   dto=new CreatePrivilegeDto
             dto.privilegeName="super"
             const priv=  await this.privRepo.create(dto)
 
           //  return await rol
-            } else if (msg.fields.routingKey === "updatetenantScriptionDetails") {
+            } else if (msg.fields.routingKey === "updatetenantSubscriptionDetails") {
                 //await this.update();
             }
             channel.ack(msg);

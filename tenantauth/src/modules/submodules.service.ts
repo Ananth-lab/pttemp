@@ -36,9 +36,9 @@ export class SubmodulesService {
           if (msg) {
             console.log("Message received:subModule", msg.content.toString());
             const module= JSON.parse(msg.content.toString());
-            if (msg.fields.routingKey === "tenantsubModuleDetails") {
-              await this.create(module.tenantModuleDetails);
-            } else if (msg.fields.routingKey === "updatetenantsubModuleDetails") {
+            if (msg.fields.routingKey === "tenantSubModuleDetails") {
+              await this.create(module.tenantSubModuleDetails);
+            } else if (msg.fields.routingKey === "updatetenantSubModuleDetails") {
                 //await this.update();
             }
             channel.ack(msg);
