@@ -1,4 +1,3 @@
-import { Tsubmodule } from "./tsubmodule.entity";
 export declare enum status {
     ACTIVE = "active",
     DISABLED = "disabled"
@@ -9,8 +8,7 @@ export declare class Tmodule {
     name: string;
     description: string;
     status: status;
-    subscriptionId: Tmodule;
-    submodules: Tsubmodule[];
+    submodules: any;
     readonly createdAt: Date;
     readonly updatedAt: Date;
 }

@@ -65,6 +65,7 @@ export class PreviewController {
     tenantOrgAdddressDetails.tenantOrganisationId =
       tenantOrganisationDetails.id;
 
+
     const tenantPocDetails = await this.tenantPoc.findOneOnOrg(
       tenantOrganisationDetail.id
     );

@@ -12,6 +12,7 @@ import {
   JoinColumn,
   ManyToMany,
   ManyToOne,
+  JoinTable,
 } from "typeorm";
 
 @Entity()
@@ -19,14 +20,11 @@ export class Subscription {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  // @Column({nullable:true})
-  @ManyToOne(() => Tmodule, (tModule) => tModule.id,{nullable:true})
-  @JoinColumn()
-  module: Tmodule;
+  @Column("simple-array")
+  module: string[];
 
-  @ManyToOne(() =>Tsubmodule, (sModule) => sModule.id,{nullable:true})
-  @JoinColumn()
-  subModule: Tsubmodule;
+  @Column("simple-array")
+  subModule: string[];
 
   @OneToOne(() => Tuser, (tUser) => tUser.id)
   @JoinColumn()

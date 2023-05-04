@@ -4,7 +4,7 @@ import {
   PrimaryGeneratedColumn,
   OneToMany,
   ManyToMany,
-  JoinColumn,CreateDateColumn,UpdateDateColumn
+  JoinColumn,CreateDateColumn,UpdateDateColumn, JoinTable
 } from "typeorm";
 import { Tsubmodule } from "./tsubmodule.entity";
 import { Subscription } from "src/subscription/entities/subscription.entity";
@@ -35,12 +35,9 @@ export class Tmodule {
   })
   status: status;
 
-  @OneToMany(() => Subscription, (sub) => sub.module)
-  @JoinColumn()
-  subscriptionId: Tmodule;
 
   @OneToMany((type) => Tsubmodule, (tsubmodule) => tsubmodule.tmodule)
-  submodules: Tsubmodule[];
+  submodules: any;
 
   @CreateDateColumn()
   readonly createdAt!: Date;

@@ -12,13 +12,19 @@ const subscription_service_1 = require("./subscription.service");
 const subscription_controller_1 = require("./subscription.controller");
 const typeorm_1 = require("@nestjs/typeorm");
 const subscription_entity_1 = require("./entities/subscription.entity");
+const tmodule_entity_1 = require("../tmodules/tmodule.entity");
+const tsubmodule_entity_1 = require("../tmodules/tsubmodule.entity");
+const tmodules_service_1 = require("../tmodules/tmodules.service");
+const tmodules_controller_1 = require("../tmodules/tmodules.controller");
+const tsubmodules_controller_1 = require("../tmodules/tsubmodules.controller");
+const tsubmodules_service_1 = require("../tmodules/tsubmodules.service");
 let SubscriptionModule = class SubscriptionModule {
 };
 SubscriptionModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([subscription_entity_1.Subscription])],
-        controllers: [subscription_controller_1.SubscriptionController],
-        providers: [subscription_service_1.SubscriptionService]
+        imports: [typeorm_1.TypeOrmModule.forFeature([subscription_entity_1.Subscription, tmodule_entity_1.Tmodule, tsubmodule_entity_1.Tsubmodule])],
+        controllers: [subscription_controller_1.SubscriptionController, tmodules_controller_1.TmodulesController, tsubmodules_controller_1.TsubmodulesController],
+        providers: [subscription_service_1.SubscriptionService, tmodules_service_1.TmodulesService, tsubmodules_service_1.TsubmodulesService]
     })
 ], SubscriptionModule);
 exports.SubscriptionModule = SubscriptionModule;

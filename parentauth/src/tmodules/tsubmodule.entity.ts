@@ -49,10 +49,6 @@ export class Tsubmodule {
   })
   tmodule: Tmodule;
 
-  @OneToMany(() =>Subscription, (sub) => sub.subModule)
-  @JoinColumn()
-  subId: Tsubmodule;
-
   @CreateDateColumn()
   readonly createdAt!: Date;
 

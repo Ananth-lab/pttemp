@@ -19,13 +19,19 @@ const tenant_poc_service_1 = require("../tenant_poc/tenant_poc.service");
 const subscription_entity_1 = require("../../subscription/entities/subscription.entity");
 const subscription_controller_1 = require("../../subscription/subscription.controller");
 const subscription_service_1 = require("../../subscription/subscription.service");
+const tmodule_entity_1 = require("../../tmodules/tmodule.entity");
+const tsubmodule_entity_1 = require("../../tmodules/tsubmodule.entity");
+const tmodules_controller_1 = require("../../tmodules/tmodules.controller");
+const tsubmodules_controller_1 = require("../../tmodules/tsubmodules.controller");
+const tmodules_service_1 = require("../../tmodules/tmodules.service");
+const tsubmodules_service_1 = require("../../tmodules/tsubmodules.service");
 let PreviewModule = class PreviewModule {
 };
 PreviewModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([tenant_organisation_address_entity_1.TenantOrganisationAddress, tenant_poc_entity_1.TenantPoc, subscription_entity_1.Subscription])],
-        controllers: [preview_controller_1.PreviewController, tenant_organisation_address_controller_1.TenantOrganisationAddressController, tenant_poc_controller_1.TenantPocController, subscription_controller_1.SubscriptionController],
-        providers: [tenant_organisation_address_service_1.TenantOrganisationAddressService, tenant_poc_service_1.TenantPocService, subscription_service_1.SubscriptionService]
+        imports: [typeorm_1.TypeOrmModule.forFeature([tenant_organisation_address_entity_1.TenantOrganisationAddress, tenant_poc_entity_1.TenantPoc, subscription_entity_1.Subscription, tmodule_entity_1.Tmodule, tsubmodule_entity_1.Tsubmodule])],
+        controllers: [preview_controller_1.PreviewController, tenant_organisation_address_controller_1.TenantOrganisationAddressController, tenant_poc_controller_1.TenantPocController, subscription_controller_1.SubscriptionController, tmodules_controller_1.TmodulesController, tsubmodules_controller_1.TsubmodulesController],
+        providers: [tenant_organisation_address_service_1.TenantOrganisationAddressService, tenant_poc_service_1.TenantPocService, subscription_service_1.SubscriptionService, tmodules_service_1.TmodulesService, tsubmodules_service_1.TsubmodulesService]
     })
 ], PreviewModule);
 exports.PreviewModule = PreviewModule;

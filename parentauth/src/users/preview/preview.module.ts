@@ -11,10 +11,16 @@ import { TenantPocService } from '../tenant_poc/tenant_poc.service';
 import { Subscription } from 'src/subscription/entities/subscription.entity';
 import { SubscriptionController } from 'src/subscription/subscription.controller';
 import { SubscriptionService } from 'src/subscription/subscription.service';
+import { Tmodule } from 'src/tmodules/tmodule.entity';
+import { Tsubmodule } from 'src/tmodules/tsubmodule.entity';
+import { TmodulesController } from 'src/tmodules/tmodules.controller';
+import { TsubmodulesController } from 'src/tmodules/tsubmodules.controller';
+import { TmodulesService } from 'src/tmodules/tmodules.service';
+import { TsubmodulesService } from 'src/tmodules/tsubmodules.service';
 
 @Module({
-  imports:[TypeOrmModule.forFeature([TenantOrganisationAddress, TenantPoc, Subscription])],
-  controllers: [PreviewController, TenantOrganisationAddressController, TenantPocController, SubscriptionController],
-  providers: [TenantOrganisationAddressService, TenantPocService, SubscriptionService]
+  imports:[TypeOrmModule.forFeature([TenantOrganisationAddress, TenantPoc, Subscription,Tmodule, Tsubmodule])],
+  controllers: [PreviewController, TenantOrganisationAddressController, TenantPocController, SubscriptionController, TmodulesController, TsubmodulesController],
+  providers: [TenantOrganisationAddressService, TenantPocService, SubscriptionService, TmodulesService, TsubmodulesService]
 })
 export class PreviewModule {}

@@ -12,7 +12,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Tmodule = exports.status = void 0;
 const typeorm_1 = require("typeorm");
 const tsubmodule_entity_1 = require("./tsubmodule.entity");
-const subscription_entity_1 = require("../subscription/entities/subscription.entity");
 var status;
 (function (status) {
     status["ACTIVE"] = "active";
@@ -45,13 +44,8 @@ __decorate([
     __metadata("design:type", String)
 ], Tmodule.prototype, "status", void 0);
 __decorate([
-    (0, typeorm_1.OneToMany)(() => subscription_entity_1.Subscription, (sub) => sub.module),
-    (0, typeorm_1.JoinColumn)(),
-    __metadata("design:type", Tmodule)
-], Tmodule.prototype, "subscriptionId", void 0);
-__decorate([
     (0, typeorm_1.OneToMany)((type) => tsubmodule_entity_1.Tsubmodule, (tsubmodule) => tsubmodule.tmodule),
-    __metadata("design:type", Array)
+    __metadata("design:type", Object)
 ], Tmodule.prototype, "submodules", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)(),

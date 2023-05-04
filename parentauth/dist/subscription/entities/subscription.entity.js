@@ -10,8 +10,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Subscription = void 0;
-const tmodule_entity_1 = require("../../tmodules/tmodule.entity");
-const tsubmodule_entity_1 = require("../../tmodules/tsubmodule.entity");
 const tuser_entity_1 = require("../../users/tuser.entity");
 const typeorm_1 = require("typeorm");
 let Subscription = class Subscription {
@@ -21,14 +19,12 @@ __decorate([
     __metadata("design:type", String)
 ], Subscription.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => tmodule_entity_1.Tmodule, (tModule) => tModule.id, { nullable: true }),
-    (0, typeorm_1.JoinColumn)(),
-    __metadata("design:type", tmodule_entity_1.Tmodule)
+    (0, typeorm_1.Column)("simple-array"),
+    __metadata("design:type", Array)
 ], Subscription.prototype, "module", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => tsubmodule_entity_1.Tsubmodule, (sModule) => sModule.id, { nullable: true }),
-    (0, typeorm_1.JoinColumn)(),
-    __metadata("design:type", tsubmodule_entity_1.Tsubmodule)
+    (0, typeorm_1.Column)("simple-array"),
+    __metadata("design:type", Array)
 ], Subscription.prototype, "subModule", void 0);
 __decorate([
     (0, typeorm_1.OneToOne)(() => tuser_entity_1.Tuser, (tUser) => tUser.id),

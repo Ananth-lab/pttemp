@@ -1,15 +1,11 @@
 import { IsNotEmpty, IsOptional, IsUUID } from "class-validator";
-import { Tmodule } from "src/tmodules/tmodule.entity";
-import { Tsubmodule } from "src/tmodules/tsubmodule.entity";
 
 export class CreateSubscriptionDto {
   @IsOptional()
-  @IsUUID()
-  module: Tmodule;
+  module: string[];
 
   @IsOptional()
-  @IsUUID()
-  submodule?: Tsubmodule;
+  subModule: string[];
 
   @IsNotEmpty()
   tUserId : string;
