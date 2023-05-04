@@ -1,21 +1,33 @@
-import { Tuser } from 'src/tenantUser/tusers/tuser.entity';
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany, OneToOne, JoinColumn } from 'typeorm';
+
+import { Tuser } from "src/tenantUser/tusers/tuser.entity"; 
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToMany,
+  OneToOne,
+  JoinColumn,
+  ManyToMany,
+  ManyToOne,
+  JoinTable,
+} from "typeorm";
 
 @Entity()
-export class Subscription{
-  @PrimaryGeneratedColumn('uuid')
+export class Subscription {
+  @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @Column({nullable:true})
-  moduleId: string;
+  @Column("simple-array")
+  module: string[];
 
-  @Column({nullable:true})
-  submoduleId: string;
+  @Column("simple-array")
+  subModule: string[];
 
   @OneToOne(() => Tuser, (tUser) => tUser.id)
   @JoinColumn()
-  tUser : Tuser;
-
+  tUser: Tuser;
 
   @CreateDateColumn()
   readonly createdAt!: Date;

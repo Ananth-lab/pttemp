@@ -17,9 +17,40 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("typeorm");
 const typeorm_2 = require("@nestjs/typeorm");
 const submodule_entity_1 = require("./submodule.entity");
+const amqp = require("amqplib");
 let SubmodulesService = class SubmodulesService {
     constructor(repo) {
         this.repo = repo;
+    }
+    async consumeMessages() {
+        try {
+            console.log("Connecting to RabbitMQ...");
+            const connection = await amqp.connect(process.env.rabbitMqUrl);
+            console.log("Connection to RabbitMQ established.");
+            const channel = await connection.createChannel();
+            const exchange = "user_exchange";
+            await channel.assertExchange(exchange, "direct", { durable: true });
+            const { queue } = await channel.assertQueue("", { exclusive: true });
+            console.log("Waiting for messages in subModule-queue", queue);
+            await channel.bindQueue(queue, exchange, "tenantSubModuleDetails");
+            await channel.bindQueue(queue, exchange, "updatetenantSubModuleDetails");
+            channel.consume(queue, async (msg) => {
+                if (msg) {
+                    console.log("Message received:subModule", msg.content.toString());
+                    const module = JSON.parse(msg.content.toString());
+                    if (msg.fields.routingKey === "tenantsubModuleDetails") {
+                        await this.create(module.tenantModuleDetails);
+                    }
+                    else if (msg.fields.routingKey === "updatetenantsubModuleDetails") {
+                    }
+                    channel.ack(msg);
+                }
+            }, { noAck: false });
+        }
+        catch (err) {
+            console.error("Failed to connect to RabbitMQ");
+            console.error(err);
+        }
     }
     create(data) {
         const module = this.repo.create(data);

@@ -1,11 +1,11 @@
-import { IsNotEmpty, IsOptional } from "class-validator";
+import { IsNotEmpty, IsOptional, IsUUID } from "class-validator";
 
 export class CreateSubscriptionDto {
   @IsOptional()
-  moduleId?: string;
+  module: string[];
 
   @IsOptional()
-  submoduleId?: string;
+  subModule: string[];
 
   @IsNotEmpty()
   tUserId : string;

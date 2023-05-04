@@ -17,9 +17,48 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const subscription_entity_1 = require("./entities/subscription.entity");
 const typeorm_2 = require("typeorm");
+const amqp = require("amqplib");
+const privilege_entity_1 = require("../../privileges/privilege.entity");
+const create_privilege_dto_1 = require("../../privileges/dtos/create-privilege.dto");
+const role_entity_1 = require("../../roles/role.entity");
 let SubscriptionService = class SubscriptionService {
-    constructor(subRepo) {
+    constructor(subRepo, privRepo, roleRepo) {
         this.subRepo = subRepo;
+        this.privRepo = privRepo;
+        this.roleRepo = roleRepo;
+    }
+    async consumeMessages() {
+        try {
+            console.log("Connecting to RabbitMQ...");
+            const connection = await amqp.connect(process.env.rabbitMqUrl);
+            console.log("Connection to RabbitMQ established.");
+            const channel = await connection.createChannel();
+            const exchange = "user_exchange";
+            await channel.assertExchange(exchange, "direct", { durable: true });
+            const { queue } = await channel.assertQueue("", { exclusive: true });
+            console.log("Waiting for messages in subscription-queue", queue);
+            await channel.bindQueue(queue, exchange, "tenantSriptionDetails");
+            await channel.bindQueue(queue, exchange, "updatetenantScriptionDetails");
+            channel.consume(queue, async (msg) => {
+                if (msg) {
+                    console.log("Message received:subscription", msg.content.toString());
+                    const subscription = JSON.parse(msg.content.toString());
+                    if (msg.fields.routingKey === "tenantScriptionDetails") {
+                        await this.create(subscription.tenantScriptionDetails);
+                        const dto = new create_privilege_dto_1.CreatePrivilegeDto;
+                        dto.privilegeName = "super";
+                        const priv = await this.privRepo.create(dto);
+                    }
+                    else if (msg.fields.routingKey === "updatetenantScriptionDetails") {
+                    }
+                    channel.ack(msg);
+                }
+            }, { noAck: false });
+        }
+        catch (err) {
+            console.error("Failed to connect to RabbitMQ");
+            console.error(err);
+        }
     }
     create(createSubscriptionDto) {
         return this.subRepo.save(createSubscriptionDto);
@@ -40,7 +79,11 @@ let SubscriptionService = class SubscriptionService {
 SubscriptionService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(subscription_entity_1.Subscription)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __param(1, (0, typeorm_1.InjectRepository)(privilege_entity_1.Privilege)),
+    __param(2, (0, typeorm_1.InjectRepository)(role_entity_1.Role)),
+    __metadata("design:paramtypes", [typeorm_2.Repository,
+        typeorm_2.Repository,
+        typeorm_2.Repository])
 ], SubscriptionService);
 exports.SubscriptionService = SubscriptionService;
 //# sourceMappingURL=subscription.service.js.map

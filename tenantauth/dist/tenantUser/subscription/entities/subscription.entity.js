@@ -15,17 +15,17 @@ const typeorm_1 = require("typeorm");
 let Subscription = class Subscription {
 };
 __decorate([
-    (0, typeorm_1.PrimaryGeneratedColumn)('uuid'),
+    (0, typeorm_1.PrimaryGeneratedColumn)("uuid"),
     __metadata("design:type", String)
 ], Subscription.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
-    __metadata("design:type", String)
-], Subscription.prototype, "moduleId", void 0);
+    (0, typeorm_1.Column)("simple-array"),
+    __metadata("design:type", Array)
+], Subscription.prototype, "module", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
-    __metadata("design:type", String)
-], Subscription.prototype, "submoduleId", void 0);
+    (0, typeorm_1.Column)("simple-array"),
+    __metadata("design:type", Array)
+], Subscription.prototype, "subModule", void 0);
 __decorate([
     (0, typeorm_1.OneToOne)(() => tuser_entity_1.Tuser, (tUser) => tUser.id),
     (0, typeorm_1.JoinColumn)(),

@@ -12,13 +12,17 @@ const subscription_service_1 = require("./subscription.service");
 const subscription_controller_1 = require("./subscription.controller");
 const typeorm_1 = require("@nestjs/typeorm");
 const subscription_entity_1 = require("./entities/subscription.entity");
+const privilege_entity_1 = require("../../privileges/privilege.entity");
+const privileges_service_1 = require("../../privileges/privileges.service");
+const role_entity_1 = require("../../roles/role.entity");
+const roles_service_1 = require("../../roles/roles.service");
 let SubscriptionModule = class SubscriptionModule {
 };
 SubscriptionModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([subscription_entity_1.Subscription])],
+        imports: [typeorm_1.TypeOrmModule.forFeature([subscription_entity_1.Subscription, privilege_entity_1.Privilege, role_entity_1.Role])],
         controllers: [subscription_controller_1.SubscriptionController],
-        providers: [subscription_service_1.SubscriptionService]
+        providers: [subscription_service_1.SubscriptionService, privileges_service_1.PrivilegesService, roles_service_1.RolesService]
     })
 ], SubscriptionModule);
 exports.SubscriptionModule = SubscriptionModule;

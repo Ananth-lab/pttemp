@@ -4,6 +4,7 @@ import { CreateSubmoduleDto } from './dtos/create-submodule.dto';
 export declare class SubmodulesService {
     private repo;
     constructor(repo: Repository<Submodule>);
+    consumeMessages(): Promise<void>;
     create(data: CreateSubmoduleDto): Promise<Submodule>;
     find(): Promise<Submodule[]>;
     findOne(id: string): Promise<Submodule>;

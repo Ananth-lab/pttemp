@@ -3,10 +3,14 @@ import { SubscriptionService } from './subscription.service';
 import { SubscriptionController } from './subscription.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Subscription } from './entities/subscription.entity';
+import { Privilege } from 'src/privileges/privilege.entity';
+import { PrivilegesService } from 'src/privileges/privileges.service';
+import { Role } from 'src/roles/role.entity';
+import { RolesService } from 'src/roles/roles.service';
 
 @Module({
-  imports : [TypeOrmModule.forFeature([Subscription])],
+  imports : [TypeOrmModule.forFeature([Subscription,Privilege,Role])],
   controllers: [SubscriptionController],
-  providers: [SubscriptionService]
+  providers: [SubscriptionService,PrivilegesService,RolesService]
 })
 export class SubscriptionModule {}

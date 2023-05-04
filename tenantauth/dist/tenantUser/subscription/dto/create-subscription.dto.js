@@ -15,12 +15,12 @@ class CreateSubscriptionDto {
 }
 __decorate([
     (0, class_validator_1.IsOptional)(),
-    __metadata("design:type", String)
-], CreateSubscriptionDto.prototype, "moduleId", void 0);
+    __metadata("design:type", Array)
+], CreateSubscriptionDto.prototype, "module", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
-    __metadata("design:type", String)
-], CreateSubscriptionDto.prototype, "submoduleId", void 0);
+    __metadata("design:type", Array)
+], CreateSubscriptionDto.prototype, "subModule", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
