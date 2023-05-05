@@ -21,11 +21,17 @@ const amqp = require("amqplib");
 const privilege_entity_1 = require("../../privileges/privilege.entity");
 const create_privilege_dto_1 = require("../../privileges/dtos/create-privilege.dto");
 const role_entity_1 = require("../../roles/role.entity");
+const create_role_body_dto_1 = require("../../roles/dtos/create-role-body.dto");
+const roles_service_1 = require("../../roles/roles.service");
+const rac_maps_service_1 = require("../../roles/rac-maps.service");
 let SubscriptionService = class SubscriptionService {
-    constructor(subRepo, privRepo, roleRepo) {
+    constructor(subRepo, privRepo, roleRepo, rolesService, racmapsService) {
         this.subRepo = subRepo;
         this.privRepo = privRepo;
         this.roleRepo = roleRepo;
+        this.rolesService = rolesService;
+        this.racmapsService = racmapsService;
+        this.consumeMessages();
     }
     async consumeMessages() {
         try {
@@ -37,19 +43,37 @@ let SubscriptionService = class SubscriptionService {
             await channel.assertExchange(exchange, "direct", { durable: true });
             const { queue } = await channel.assertQueue("", { exclusive: true });
             console.log("Waiting for messages in subscription-queue", queue);
-            await channel.bindQueue(queue, exchange, "tenantSriptionDetails");
-            await channel.bindQueue(queue, exchange, "updatetenantScriptionDetails");
+            await channel.bindQueue(queue, exchange, "tenantSubscriptionDetails");
+            await channel.bindQueue(queue, exchange, "updatetenantSubscriptionDetails");
             channel.consume(queue, async (msg) => {
                 if (msg) {
                     console.log("Message received:subscription", msg.content.toString());
                     const subscription = JSON.parse(msg.content.toString());
-                    if (msg.fields.routingKey === "tenantScriptionDetails") {
-                        await this.create(subscription.tenantScriptionDetails);
-                        const dto = new create_privilege_dto_1.CreatePrivilegeDto;
+                    if (msg.fields.routingKey === "tenantSubscriptionDetails") {
+                        const subs = await this.create(subscription.tenantSubscriptionDetails);
+                        const dto = new create_privilege_dto_1.CreatePrivilegeDto();
                         dto.privilegeName = "super";
-                        const priv = await this.privRepo.create(dto);
+                        const priv = await this.privRepo.save(dto);
+                        const roledto = new create_role_body_dto_1.CreateRoleBodyDto();
+                        roledto.name = "superadmin";
+                        const rac = [];
+                        const obj = {
+                            submoduleId: subs.subModule,
+                            moduleId: subs.module,
+                            privilegeId: priv.id
+                        };
+                        obj.submoduleId = subs.subModule;
+                        obj.moduleId = subs.module;
+                        obj.privilegeId = priv.id;
+                        rac.push(obj);
+                        roledto.rac = rac;
+                        const role = await this.rolesService.create(roledto);
+                        for (let i = 0; i < roledto.rac.length; i++) {
+                            const tmp = roledto.rac[i];
+                            this.racmapsService.create(Object.assign(Object.assign({}, tmp), { roleId: role }));
+                        }
                     }
-                    else if (msg.fields.routingKey === "updatetenantScriptionDetails") {
+                    else if (msg.fields.routingKey === "updatetenantSubscriptionDetails") {
                     }
                     channel.ack(msg);
                 }
@@ -83,7 +107,9 @@ SubscriptionService = __decorate([
     __param(2, (0, typeorm_1.InjectRepository)(role_entity_1.Role)),
     __metadata("design:paramtypes", [typeorm_2.Repository,
         typeorm_2.Repository,
-        typeorm_2.Repository])
+        typeorm_2.Repository,
+        roles_service_1.RolesService,
+        rac_maps_service_1.RacmapsService])
 ], SubscriptionService);
 exports.SubscriptionService = SubscriptionService;
 //# sourceMappingURL=subscription.service.js.map

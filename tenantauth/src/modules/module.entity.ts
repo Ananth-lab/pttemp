@@ -32,7 +32,7 @@ export class Tmodule {
   submodules: Submodule[];
 
 
-  @OneToMany((type) => Racmap, (rec) => rec.moduleId)
+  @OneToMany((type) => Racmap, (rac) => rac.moduleId)
   modules: Racmap[];
 
   @CreateDateColumn()

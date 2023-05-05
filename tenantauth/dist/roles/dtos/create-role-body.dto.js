@@ -27,7 +27,7 @@ __decorate([
 ], CreateRoleBodyDto.prototype, "createdBy", void 0);
 __decorate([
     (0, class_validator_1.IsArray)(),
-    __metadata("design:type", Array)
+    __metadata("design:type", Object)
 ], CreateRoleBodyDto.prototype, "rac", void 0);
 exports.CreateRoleBodyDto = CreateRoleBodyDto;
 //# sourceMappingURL=create-role-body.dto.js.map

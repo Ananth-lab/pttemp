@@ -7,10 +7,13 @@ import { Privilege } from 'src/privileges/privilege.entity';
 import { PrivilegesService } from 'src/privileges/privileges.service';
 import { Role } from 'src/roles/role.entity';
 import { RolesService } from 'src/roles/roles.service';
+import { RolesController } from 'src/roles/roles.controller';
+import { RacmapsService } from 'src/roles/rac-maps.service';
+import { Racmap } from 'src/roles/rac-map.entity';
 
 @Module({
-  imports : [TypeOrmModule.forFeature([Subscription,Privilege,Role])],
-  controllers: [SubscriptionController],
-  providers: [SubscriptionService,PrivilegesService,RolesService]
+  imports : [TypeOrmModule.forFeature([Subscription,Privilege,Role, Racmap])],
+  controllers: [SubscriptionController, RolesController],
+  providers: [SubscriptionService,PrivilegesService,RolesService, RacmapsService]
 })
 export class SubscriptionModule {}

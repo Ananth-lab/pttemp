@@ -9,11 +9,11 @@ export class CreateRacmapDto {
   roleId: Role;
 
   @IsUUID()
-  submoduleId: Submodule;
+  submoduleId: any;
 
   @IsUUID()
   privilegeId: Privilege;
 
   @IsUUID()
-  moduleId : Tmodule;
+  moduleId : any;
 }

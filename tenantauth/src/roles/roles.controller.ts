@@ -51,7 +51,7 @@ export class RolesController {
     @Body() body: UpdateRoleBodyDto,
   ) {
     const role = await this.rolesService.remove(id);
-    this.racmapsService.remove(role);
+    this.racmapsService.remove(role.id);
 
     for (let i = 0; i < body.rac.length; i++) {
       const tmp = body.rac[i];

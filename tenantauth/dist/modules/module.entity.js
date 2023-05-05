@@ -49,7 +49,7 @@ __decorate([
     __metadata("design:type", Array)
 ], Tmodule.prototype, "submodules", void 0);
 __decorate([
-    (0, typeorm_1.OneToMany)((type) => rac_map_entity_1.Racmap, (rec) => rec.moduleId),
+    (0, typeorm_1.OneToMany)((type) => rac_map_entity_1.Racmap, (rac) => rac.moduleId),
     __metadata("design:type", Array)
 ], Tmodule.prototype, "modules", void 0);
 __decorate([

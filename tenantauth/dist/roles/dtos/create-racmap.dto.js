@@ -11,10 +11,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateRacmapDto = void 0;
 const class_validator_1 = require("class-validator");
-const submodule_entity_1 = require("../../modules/submodule.entity");
 const privilege_entity_1 = require("../../privileges/privilege.entity");
 const role_entity_1 = require("../role.entity");
-const module_entity_1 = require("../../modules/module.entity");
 class CreateRacmapDto {
 }
 __decorate([
@@ -23,7 +21,7 @@ __decorate([
 ], CreateRacmapDto.prototype, "roleId", void 0);
 __decorate([
     (0, class_validator_1.IsUUID)(),
-    __metadata("design:type", submodule_entity_1.Submodule)
+    __metadata("design:type", Object)
 ], CreateRacmapDto.prototype, "submoduleId", void 0);
 __decorate([
     (0, class_validator_1.IsUUID)(),
@@ -31,7 +29,7 @@ __decorate([
 ], CreateRacmapDto.prototype, "privilegeId", void 0);
 __decorate([
     (0, class_validator_1.IsUUID)(),
-    __metadata("design:type", module_entity_1.Tmodule)
+    __metadata("design:type", Object)
 ], CreateRacmapDto.prototype, "moduleId", void 0);
 exports.CreateRacmapDto = CreateRacmapDto;
 //# sourceMappingURL=create-racmap.dto.js.map

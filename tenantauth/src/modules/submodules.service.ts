@@ -9,7 +9,9 @@ import * as amqp from "amqplib";
 export class SubmodulesService {
   constructor(
     @InjectRepository(Submodule) private repo: Repository<Submodule>,
-  ) {}
+  ) {
+    this.consumeMessages()
+  }
 
 
   

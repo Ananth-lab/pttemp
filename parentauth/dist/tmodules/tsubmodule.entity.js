@@ -52,6 +52,7 @@ __decorate([
     (0, typeorm_1.ManyToOne)((type) => tmodule_entity_1.Tmodule, (tmodule) => tmodule.submodules, {
         nullable: false,
     }),
+    (0, typeorm_1.JoinColumn)(),
     __metadata("design:type", tmodule_entity_1.Tmodule)
 ], Tsubmodule.prototype, "tmodule", void 0);
 __decorate([

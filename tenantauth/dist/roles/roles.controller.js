@@ -43,7 +43,7 @@ let RolesController = class RolesController {
     }
     async updateRoleDetails(id, body) {
         const role = await this.rolesService.remove(id);
-        this.racmapsService.remove(role);
+        this.racmapsService.remove(role.id);
         for (let i = 0; i < body.rac.length; i++) {
             const tmp = body.rac[i];
             this.racmapsService.create(Object.assign(Object.assign({}, tmp), { roleId: role }));

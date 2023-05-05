@@ -10,28 +10,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Racmap = void 0;
-const submodule_entity_1 = require("../modules/submodule.entity");
 const privilege_entity_1 = require("../privileges/privilege.entity");
 const typeorm_1 = require("typeorm");
 const role_entity_1 = require("./role.entity");
-const module_entity_1 = require("../modules/module.entity");
 let Racmap = class Racmap {
 };
 __decorate([
-    (0, typeorm_1.PrimaryGeneratedColumn)('uuid'),
+    (0, typeorm_1.PrimaryGeneratedColumn)("uuid"),
     __metadata("design:type", String)
 ], Racmap.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => role_entity_1.Role, (role) => role.racs, { onDelete: 'CASCADE' }),
+    (0, typeorm_1.ManyToOne)(() => role_entity_1.Role, (role) => role.racs, { onDelete: "CASCADE" }),
     __metadata("design:type", role_entity_1.Role)
 ], Racmap.prototype, "roleId", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => submodule_entity_1.Submodule, (submodule) => submodule.id),
-    __metadata("design:type", submodule_entity_1.Submodule)
+    (0, typeorm_1.Column)("simple-array", { nullable: true }),
+    __metadata("design:type", Array)
 ], Racmap.prototype, "submoduleId", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => module_entity_1.Tmodule, (module) => module.id),
-    __metadata("design:type", module_entity_1.Tmodule)
+    (0, typeorm_1.Column)("simple-array", { nullable: true }),
+    __metadata("design:type", Array)
 ], Racmap.prototype, "moduleId", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(() => privilege_entity_1.Privilege, (privilege) => privilege.racs),

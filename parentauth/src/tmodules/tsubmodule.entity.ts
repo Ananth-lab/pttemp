@@ -47,6 +47,7 @@ export class Tsubmodule {
   @ManyToOne((type) => Tmodule, (tmodule) => tmodule.submodules, {
     nullable: false,
   })
+  @JoinColumn()
   tmodule: Tmodule;
 
   @CreateDateColumn()
