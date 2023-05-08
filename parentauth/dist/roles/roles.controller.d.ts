@@ -1,7 +1,7 @@
-import { CreateRoleBodyDto } from './dtos/create-role-body.dto';
-import { RacmapsService } from './rac-maps.service';
-import { RolesService } from './roles.service';
-import { UpdateRoleBodyDto } from './dtos/update-role-body.dto';
+import { CreateRoleBodyDto } from "./dtos/create-role-body.dto";
+import { RacmapsService } from "./rac-maps.service";
+import { RolesService } from "./roles.service";
+import { UpdateRoleBodyDto } from "./dtos/update-role-body.dto";
 export declare class RolesController {
     private rolesService;
     private racmapsService;

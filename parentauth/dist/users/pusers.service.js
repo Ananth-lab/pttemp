@@ -25,7 +25,7 @@ let PusersService = class PusersService {
         const user = this.repo.create(body);
         return this.repo.save(user);
     }
-    find(email) {
+    findOne(email) {
         return this.repo.find({ where: { email } });
     }
     findAllPusers() {

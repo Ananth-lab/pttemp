@@ -11,7 +11,7 @@ import { JwtStrategy } from "./jwt.strategy";
     TusersModule,
     PassportModule,
     JwtModule.register({
-      secret: "SECRET",
+      secret: "this is secret key",
       signOptions: { expiresIn: "10d" },
     }),
   ],

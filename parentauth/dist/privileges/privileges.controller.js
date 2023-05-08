@@ -16,6 +16,7 @@ exports.PrivilegesController = void 0;
 const common_1 = require("@nestjs/common");
 const privileges_service_1 = require("./privileges.service");
 const create_privilege_dto_1 = require("./dtos/create-privilege.dto");
+const jwt_auth_guard_1 = require("../auth/jwt-auth.guard");
 let PrivilegesController = class PrivilegesController {
     constructor(privilegesService) {
         this.privilegesService = privilegesService;
@@ -28,6 +29,7 @@ let PrivilegesController = class PrivilegesController {
     }
 };
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -35,13 +37,14 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], PrivilegesController.prototype, "addPrivilege", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], PrivilegesController.prototype, "getPrivileges", null);
 PrivilegesController = __decorate([
-    (0, common_1.Controller)('privileges'),
+    (0, common_1.Controller)("privileges"),
     __metadata("design:paramtypes", [privileges_service_1.PrivilegesService])
 ], PrivilegesController);
 exports.PrivilegesController = PrivilegesController;

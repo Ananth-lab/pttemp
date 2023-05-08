@@ -16,6 +16,7 @@ exports.ModulesController = void 0;
 const common_1 = require("@nestjs/common");
 const create_module_dto_1 = require("./dtos/create-module.dto");
 const pmodules_service_1 = require("./pmodules.service");
+const jwt_auth_guard_1 = require("../auth/jwt-auth.guard");
 let ModulesController = class ModulesController {
     constructor(pmodulesService) {
         this.pmodulesService = pmodulesService;
@@ -29,19 +30,20 @@ let ModulesController = class ModulesController {
     async getModule(id) {
         const module = await this.pmodulesService.findOne(id);
         if (!module) {
-            throw new common_1.NotFoundException('Module not found');
+            throw new common_1.NotFoundException("Module not found");
         }
         return module;
     }
     async getSubmodules(id) {
         const module = await this.pmodulesService.findOneIncludeSubmodule(id);
         if (!module) {
-            throw new common_1.NotFoundException('Module not found');
+            throw new common_1.NotFoundException("Module not found");
         }
         return module;
     }
 };
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -49,27 +51,30 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ModulesController.prototype, "addModule", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], ModulesController.prototype, "getModules", null);
 __decorate([
-    (0, common_1.Get)('/:id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.Get)("/:id"),
+    __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], ModulesController.prototype, "getModule", null);
 __decorate([
-    (0, common_1.Get)('/:id/submodules'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.Get)("/:id/submodules"),
+    __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], ModulesController.prototype, "getSubmodules", null);
 ModulesController = __decorate([
-    (0, common_1.Controller)('parent_modules'),
+    (0, common_1.Controller)("parent_modules"),
     __metadata("design:paramtypes", [pmodules_service_1.PmodulesService])
 ], ModulesController);
 exports.ModulesController = ModulesController;

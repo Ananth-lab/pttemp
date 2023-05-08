@@ -10,21 +10,24 @@ import {
   ValidationPipe,
   ParseUUIDPipe,
   HttpException,
+  UseGuards,
 } from "@nestjs/common";
 import { TenantBranchService } from "./tenant_branch.service";
 import { CreateTenantBranchDto } from "./dto/create-tenant_branch.dto";
 import { UpdateTenantBranchDto } from "./dto/update-tenant_branch.dto";
+import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
 
 @Controller("tenant-branch")
 export class TenantBranchController {
   constructor(private readonly tenantBranchService: TenantBranchService) {}
-
+  @UseGuards(JwtAuthGuard)
   @Post()
   @UsePipes(ValidationPipe)
   async create(@Body() createTenantBranchDto: CreateTenantBranchDto) {
     return await this.tenantBranchService.create(createTenantBranchDto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Patch(":id")
   @UsePipes(ValidationPipe)
   async update(

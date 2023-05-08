@@ -1,8 +1,10 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
 import { PusersService } from './pusers.service';
-import { AuthService } from './auth.service';
 import { CreatePuserDto } from './dtos/create-puser.dto';
-import { SinginDto } from './dtos/signin.dto';
+import { LoginDto } from './dtos/login.dto.';
+import { AuthService } from 'src/auth/auth.service';
+import { LocalAuthGuard } from 'src/auth/local-auth.guard';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('parent_users')
 export class PusersController {
@@ -16,11 +18,13 @@ export class PusersController {
     return this.authService.psignup(body);
   }
 
-  @Post('/signin')
-  parentUserLogin(@Body() body: SinginDto) {
-    return this.authService.pSignin(body.email, body.password);
+  @UseGuards(LocalAuthGuard)
+  @Post('/login')
+  parentUserLogin(@Request() req): any {
+    return this.authService.login(req.user);
   }
-
+  
+  @UseGuards(JwtAuthGuard)
   @Get()
   getPusers() {
     return this.pusersService.findAllPusers();

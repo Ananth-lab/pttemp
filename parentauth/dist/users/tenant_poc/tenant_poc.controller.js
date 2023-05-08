@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const tenant_poc_service_1 = require("./tenant_poc.service");
 const create_tenant_poc_dto_1 = require("./dto/create-tenant_poc.dto");
 const update_tenant_poc_dto_1 = require("./dto/update-tenant_poc.dto");
+const jwt_auth_guard_1 = require("../../auth/jwt-auth.guard");
 let TenantPocController = class TenantPocController {
     constructor(tenantPocService) {
         this.tenantPocService = tenantPocService;
@@ -32,6 +33,7 @@ let TenantPocController = class TenantPocController {
     }
 };
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Post)(),
     (0, common_1.UsePipes)(common_1.ValidationPipe),
     __param(0, (0, common_1.Body)()),
@@ -40,6 +42,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], TenantPocController.prototype, "create", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Patch)(':id'),
     (0, common_1.UsePipes)(common_1.ValidationPipe),
     __param(0, (0, common_1.Param)('id')),

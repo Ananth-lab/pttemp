@@ -16,6 +16,7 @@ exports.TenantStateController = void 0;
 const common_1 = require("@nestjs/common");
 const tenant_state_service_1 = require("./tenant_state.service");
 const create_tenant_state_dto_1 = require("./dto/create-tenant_state.dto");
+const jwt_auth_guard_1 = require("../../auth/jwt-auth.guard");
 let TenantStateController = class TenantStateController {
     constructor(tenantStateService) {
         this.tenantStateService = tenantStateService;
@@ -25,6 +26,7 @@ let TenantStateController = class TenantStateController {
     }
 };
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Post)(),
     (0, common_1.UsePipes)(common_1.ValidationPipe),
     __param(0, (0, common_1.Body)()),

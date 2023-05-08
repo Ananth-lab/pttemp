@@ -4,6 +4,7 @@ import {
   Get,
   Param,
   Post,
+  UseGuards,
   UsePipes,
   ValidationPipe,
 } from "@nestjs/common";
@@ -14,6 +15,7 @@ import { TenantPocService } from "../tenant_poc/tenant_poc.service";
 import { SubscriptionService } from "src/subscription/subscription.service";
 import { TmodulesService } from "src/tmodules/tmodules.service";
 import { TsubmodulesService } from "src/tmodules/tsubmodules.service";
+import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
 
 @Controller("preview")
 export class PreviewController {
@@ -25,6 +27,7 @@ export class PreviewController {
     private readonly tenantSubModule : TsubmodulesService
   ) {}
 
+  @UseGuards(JwtAuthGuard)
   @Get(":id")
   findOne(@Param("id") id: string) {
     try {
@@ -34,6 +37,7 @@ export class PreviewController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post()
   async finalSubmit(@Body() data: any) {
     const tenantOrgAdddressDetail = data;

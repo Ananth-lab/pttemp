@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const tenant_organisation_service_1 = require("./tenant_organisation.service");
 const create_tenant_organisation_dto_1 = require("./dto/create-tenant_organisation.dto");
 const update_tenant_organisation_dto_1 = require("./dto/update-tenant_organisation.dto");
+const jwt_auth_guard_1 = require("../../auth/jwt-auth.guard");
 let TenantOrganisationController = class TenantOrganisationController {
     constructor(tenantOrganisationService) {
         this.tenantOrganisationService = tenantOrganisationService;
@@ -41,6 +42,7 @@ let TenantOrganisationController = class TenantOrganisationController {
     }
 };
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Post)(),
     (0, common_1.UsePipes)(common_1.ValidationPipe),
     __param(0, (0, common_1.Body)()),
@@ -49,19 +51,22 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], TenantOrganisationController.prototype, "create", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], TenantOrganisationController.prototype, "findAll", null);
 __decorate([
-    (0, common_1.Get)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.Get)(":id"),
+    __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], TenantOrganisationController.prototype, "findOne", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Patch)(":id"),
     (0, common_1.UsePipes)(common_1.ValidationPipe),
     __param(0, (0, common_1.Param)("id", common_1.ParseUUIDPipe)),
@@ -71,6 +76,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], TenantOrganisationController.prototype, "update", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Delete)(":id"),
     (0, common_1.HttpCode)(204),
     __param(0, (0, common_1.Param)("id", common_1.ParseUUIDPipe)),

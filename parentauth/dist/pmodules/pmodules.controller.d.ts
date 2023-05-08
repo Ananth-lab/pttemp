@@ -1,5 +1,5 @@
-import { CreateModuleDto } from './dtos/create-module.dto';
-import { PmodulesService } from './pmodules.service';
+import { CreateModuleDto } from "./dtos/create-module.dto";
+import { PmodulesService } from "./pmodules.service";
 export declare class ModulesController {
     private pmodulesService;
     constructor(pmodulesService: PmodulesService);

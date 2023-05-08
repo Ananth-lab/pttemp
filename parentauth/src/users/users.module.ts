@@ -4,7 +4,6 @@ import { TusersController } from './tusers.controller';
 import { PusersController } from './pusers.controller';
 import { TusersService } from './tusers.service';
 import { PusersService } from './pusers.service';
-import { AuthService } from './auth.service';
 import { Tuser } from './tuser.entity';
 import { Puser } from './puser.entity';
 import { JwtService } from '@nestjs/jwt';
@@ -18,10 +17,12 @@ import { TenantCountryModule } from './tenant_country/tenant_country.module';
 import { TenantStateModule } from './tenant_state/tenant_state.module';
 import { IndustryDomainModule } from './industry_domain/industry_domain.module';
 import { PreviewModule } from './preview/preview.module';
+import { AuthService } from 'src/auth/auth.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Tuser, Puser]), TenantOrganisationModule, TenantOrganisationAddressModule, TenantProfileModule, TenantBranchModule, TenantPocModule, TenantBranchAddressModule, TenantCountryModule, TenantStateModule, IndustryDomainModule, PreviewModule],
   controllers: [TusersController, PusersController],
   providers: [TusersService, PusersService, AuthService, JwtService],
+  exports : [PusersService, TusersService]
 })
 export class UsersModule {}

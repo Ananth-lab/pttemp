@@ -22,7 +22,7 @@ AuthModule = __decorate([
             tusers_module_1.TusersModule,
             passport_1.PassportModule,
             jwt_1.JwtModule.register({
-                secret: "SECRET",
+                secret: "this is secret key",
                 signOptions: { expiresIn: "10d" },
             }),
         ],

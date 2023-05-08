@@ -13,7 +13,7 @@ export class PusersService {
     return this.repo.save(user);
   }
 
-  find(email: string) {
+  findOne(email: string) {
     return this.repo.find({ where: { email } });
   }
 

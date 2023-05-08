@@ -11,18 +11,20 @@ import {
   ValidationPipe,
   HttpCode,
   ParseUUIDPipe,
+  UseGuards,
 } from "@nestjs/common";
 
 import { TenantOrganisationService } from "./tenant_organisation.service";
 import { CreateTenantOrganisationDto } from "./dto/create-tenant_organisation.dto";
 import { UpdateTenantOrganisationDto } from "./dto/update-tenant_organisation.dto";
+import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
 
 @Controller("tenant-organisation")
 export class TenantOrganisationController {
   constructor(
     private readonly tenantOrganisationService: TenantOrganisationService
   ) {}
-
+  @UseGuards(JwtAuthGuard)
   @Post()
   @UsePipes(ValidationPipe)
   async create(
@@ -32,17 +34,17 @@ export class TenantOrganisationController {
       createTenantOrganisationDto
     );
   }
-
+  @UseGuards(JwtAuthGuard)
   @Get()
   findAll() {
     return this.tenantOrganisationService.findAll();
   }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
+  @UseGuards(JwtAuthGuard)
+  @Get(":id")
+  findOne(@Param("id") id: string) {
     return this.tenantOrganisationService.findOne(id);
   }
-
+  @UseGuards(JwtAuthGuard)
   @Patch(":id")
   @UsePipes(ValidationPipe)
   async update(
@@ -56,7 +58,7 @@ export class TenantOrganisationController {
     if (!organisation) throw new HttpException("no data found", 404);
     return "data updated";
   }
-
+  @UseGuards(JwtAuthGuard)
   @Delete(":id")
   @HttpCode(204)
   async remove(@Param("id", ParseUUIDPipe) id: string) {

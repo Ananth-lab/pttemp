@@ -15,10 +15,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TusersController = void 0;
 const common_1 = require("@nestjs/common");
 const tusers_service_1 = require("./tusers.service");
-const auth_service_1 = require("./auth.service");
 const create_tuser_dto_1 = require("./dtos/create-tuser.dto");
-const signin_dto_1 = require("./dtos/signin.dto");
 const update_tuser_dto_1 = require("./dtos/update-tuser.dto");
+const auth_service_1 = require("../auth/auth.service");
+const jwt_auth_guard_1 = require("../auth/jwt-auth.guard");
 let TusersController = class TusersController {
     constructor(tusersService, authService) {
         this.tusersService = tusersService;
@@ -33,9 +33,6 @@ let TusersController = class TusersController {
             throw new common_1.HttpException("no data found", 404);
         return "data updated";
     }
-    tenantUserLogin(body) {
-        return this.authService.tSignin(body.email, body.password);
-    }
     getTusers() {
         return this.tusersService.findAllTusers();
     }
@@ -44,13 +41,15 @@ let TusersController = class TusersController {
     }
 };
 __decorate([
-    (0, common_1.Post)("/self_signup"),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.Post)("/signup"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_tuser_dto_1.CreateTuserDto]),
     __metadata("design:returntype", void 0)
 ], TusersController.prototype, "addUser", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Patch)(":id"),
     (0, common_1.UsePipes)(common_1.ValidationPipe),
     __param(0, (0, common_1.Param)("id", common_1.ParseUUIDPipe)),
@@ -60,19 +59,14 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], TusersController.prototype, "update", null);
 __decorate([
-    (0, common_1.Post)("/signin"),
-    __param(0, (0, common_1.Body)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [signin_dto_1.SinginDto]),
-    __metadata("design:returntype", void 0)
-], TusersController.prototype, "tenantUserLogin", null);
-__decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], TusersController.prototype, "getTusers", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Get)("/:id"),
     __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),

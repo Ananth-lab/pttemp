@@ -20,6 +20,7 @@ const tenant_poc_service_1 = require("../tenant_poc/tenant_poc.service");
 const subscription_service_1 = require("../../subscription/subscription.service");
 const tmodules_service_1 = require("../../tmodules/tmodules.service");
 const tsubmodules_service_1 = require("../../tmodules/tsubmodules.service");
+const jwt_auth_guard_1 = require("../../auth/jwt-auth.guard");
 let PreviewController = class PreviewController {
     constructor(tenantAddress, tenantPoc, tenantSubscription, tenantModule, tenantSubModule) {
         this.tenantAddress = tenantAddress;
@@ -143,6 +144,7 @@ let PreviewController = class PreviewController {
     }
 };
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Get)(":id"),
     __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
@@ -150,6 +152,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], PreviewController.prototype, "findOne", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),

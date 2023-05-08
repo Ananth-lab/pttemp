@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const industry_domain_service_1 = require("./industry_domain.service");
 const create_industry_domain_dto_1 = require("./dto/create-industry_domain.dto");
 const update_industry_domain_dto_1 = require("./dto/update-industry_domain.dto");
+const jwt_auth_guard_1 = require("../../auth/jwt-auth.guard");
 let IndustryDomainController = class IndustryDomainController {
     constructor(industryDomainService) {
         this.industryDomainService = industryDomainService;
@@ -38,6 +39,7 @@ let IndustryDomainController = class IndustryDomainController {
     }
 };
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Post)(),
     (0, common_1.UsePipes)(common_1.ValidationPipe),
     __param(0, (0, common_1.Body)()),
@@ -46,12 +48,14 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], IndustryDomainController.prototype, "create", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], IndustryDomainController.prototype, "findAll", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Patch)(':id'),
     (0, common_1.UsePipes)(common_1.ValidationPipe),
     __param(0, (0, common_1.Param)('id', common_1.ParseUUIDPipe)),
@@ -61,6 +65,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], IndustryDomainController.prototype, "update", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Delete)(':id'),
     (0, common_1.HttpCode)(204),
     __param(0, (0, common_1.Param)('id', common_1.ParseUUIDPipe)),

@@ -18,6 +18,7 @@ const create_role_body_dto_1 = require("./dtos/create-role-body.dto");
 const rac_maps_service_1 = require("./rac-maps.service");
 const roles_service_1 = require("./roles.service");
 const update_role_body_dto_1 = require("./dtos/update-role-body.dto");
+const jwt_auth_guard_1 = require("../auth/jwt-auth.guard");
 let RolesController = class RolesController {
     constructor(rolesService, racmapsService) {
         this.rolesService = rolesService;
@@ -38,7 +39,7 @@ let RolesController = class RolesController {
     getRole(id) {
         const role = this.rolesService.findOneIncludeSubmodule(id);
         if (!role) {
-            throw new common_1.NotFoundException('not found');
+            throw new common_1.NotFoundException("not found");
         }
         return role;
     }
@@ -56,6 +57,7 @@ let RolesController = class RolesController {
     }
 };
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -63,35 +65,39 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], RolesController.prototype, "createRole", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], RolesController.prototype, "getRoles", null);
 __decorate([
-    (0, common_1.Get)('/:id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.Get)("/:id"),
+    __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], RolesController.prototype, "getRole", null);
 __decorate([
-    (0, common_1.Patch)('/:id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.Patch)("/:id"),
+    __param(0, (0, common_1.Param)("id")),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, update_role_body_dto_1.UpdateRoleBodyDto]),
     __metadata("design:returntype", Promise)
 ], RolesController.prototype, "updateRoleDetails", null);
 __decorate([
-    (0, common_1.Delete)('/:id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.Delete)("/:id"),
+    __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], RolesController.prototype, "deleteModule", null);
 RolesController = __decorate([
-    (0, common_1.Controller)('roles'),
+    (0, common_1.Controller)("roles"),
     __metadata("design:paramtypes", [roles_service_1.RolesService,
         rac_maps_service_1.RacmapsService])
 ], RolesController);

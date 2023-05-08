@@ -5,6 +5,6 @@ export declare class PusersService {
     private repo;
     constructor(repo: Repository<Puser>);
     create(body: CreatePuserDto): Promise<Puser>;
-    find(email: string): Promise<Puser[]>;
+    findOne(email: string): Promise<Puser[]>;
     findAllPusers(): Promise<Puser[]>;
 }

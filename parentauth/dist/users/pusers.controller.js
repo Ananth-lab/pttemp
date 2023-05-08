@@ -15,9 +15,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PusersController = void 0;
 const common_1 = require("@nestjs/common");
 const pusers_service_1 = require("./pusers.service");
-const auth_service_1 = require("./auth.service");
 const create_puser_dto_1 = require("./dtos/create-puser.dto");
-const signin_dto_1 = require("./dtos/signin.dto");
+const auth_service_1 = require("../auth/auth.service");
+const local_auth_guard_1 = require("../auth/local-auth.guard");
+const jwt_auth_guard_1 = require("../auth/jwt-auth.guard");
 let PusersController = class PusersController {
     constructor(pusersService, authService) {
         this.pusersService = pusersService;
@@ -26,8 +27,8 @@ let PusersController = class PusersController {
     addUser(body) {
         return this.authService.psignup(body);
     }
-    parentUserLogin(body) {
-        return this.authService.pSignin(body.email, body.password);
+    parentUserLogin(req) {
+        return this.authService.login(req.user);
     }
     getPusers() {
         return this.pusersService.findAllPusers();
@@ -43,13 +44,15 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], PusersController.prototype, "addUser", null);
 __decorate([
-    (0, common_1.Post)('/signin'),
-    __param(0, (0, common_1.Body)()),
+    (0, common_1.UseGuards)(local_auth_guard_1.LocalAuthGuard),
+    (0, common_1.Post)('/login'),
+    __param(0, (0, common_1.Request)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [signin_dto_1.SinginDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Object)
 ], PusersController.prototype, "parentUserLogin", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),

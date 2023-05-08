@@ -41,6 +41,7 @@ import { TenantStateModule } from "./users/tenant_state/tenant_state.module";
 import { PreviewModule } from "./users/preview/preview.module";
 import { SubscriptionModule } from './subscription/subscription.module';
 import { Subscription } from "./subscription/entities/subscription.entity";
+import { AuthModule } from "./auth/auth.module";
 
 @Module({
   imports: [
@@ -97,7 +98,7 @@ import { Subscription } from "./subscription/entities/subscription.entity";
     TmodulesModule,
     TenantCountryModule,
     SubscriptionModule,
-    IndustryDomainModule,TenantOrganisationAddressModule,TenantStateModule,PreviewModule, SubscriptionModule
+    IndustryDomainModule,TenantOrganisationAddressModule,TenantStateModule,PreviewModule, SubscriptionModule, AuthModule
   ],
   controllers: [AppController],
   providers: [AppService],

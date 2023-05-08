@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const tenant_organisation_address_service_1 = require("./tenant_organisation_address.service");
 const create_tenant_organisation_address_dto_1 = require("./dto/create-tenant_organisation_address.dto");
 const update_tenant_organisation_address_dto_1 = require("./dto/update-tenant_organisation_address.dto");
+const jwt_auth_guard_1 = require("../../auth/jwt-auth.guard");
 let TenantOrganisationAddressController = class TenantOrganisationAddressController {
     constructor(tenantOrganisationAddressService) {
         this.tenantOrganisationAddressService = tenantOrganisationAddressService;
@@ -41,6 +42,7 @@ let TenantOrganisationAddressController = class TenantOrganisationAddressControl
     }
 };
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Post)(),
     (0, common_1.UsePipes)(common_1.ValidationPipe),
     __param(0, (0, common_1.Body)()),
@@ -49,6 +51,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], TenantOrganisationAddressController.prototype, "create", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Patch)(":id"),
     (0, common_1.UsePipes)(common_1.ValidationPipe),
     __param(0, (0, common_1.Param)("id", common_1.ParseUUIDPipe)),
@@ -58,19 +61,22 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], TenantOrganisationAddressController.prototype, "update", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], TenantOrganisationAddressController.prototype, "findAll", null);
 __decorate([
-    (0, common_1.Get)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.Get)(":id"),
+    __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], TenantOrganisationAddressController.prototype, "findOne", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Delete)(":id"),
     __param(0, (0, common_1.Param)("id", common_1.ParseUUIDPipe)),
     __metadata("design:type", Function),

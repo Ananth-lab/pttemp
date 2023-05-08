@@ -50,6 +50,7 @@ const tenant_state_module_1 = require("./users/tenant_state/tenant_state.module"
 const preview_module_1 = require("./users/preview/preview.module");
 const subscription_module_1 = require("./subscription/subscription.module");
 const subscription_entity_1 = require("./subscription/entities/subscription.entity");
+const auth_module_1 = require("./auth/auth.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -105,7 +106,7 @@ AppModule = __decorate([
             tmodules_module_1.TmodulesModule,
             tenant_country_module_1.TenantCountryModule,
             subscription_module_1.SubscriptionModule,
-            industry_domain_module_1.IndustryDomainModule, tenant_organisation_address_module_1.TenantOrganisationAddressModule, tenant_state_module_1.TenantStateModule, preview_module_1.PreviewModule, subscription_module_1.SubscriptionModule
+            industry_domain_module_1.IndustryDomainModule, tenant_organisation_address_module_1.TenantOrganisationAddressModule, tenant_state_module_1.TenantStateModule, preview_module_1.PreviewModule, subscription_module_1.SubscriptionModule, auth_module_1.AuthModule
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
