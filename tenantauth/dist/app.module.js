@@ -40,6 +40,7 @@ const tenant_branch_address_entity_1 = require("./tenantUser/tenant_branch_addre
 const tenant_branch_address_module_1 = require("./tenantUser/tenant_branch_address/tenant_branch_address.module");
 const subscription_entity_1 = require("./tenantUser/subscription/entities/subscription.entity");
 const subscription_module_1 = require("./tenantUser/subscription/subscription.module");
+const auth_module_1 = require("./auth/auth.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -53,14 +54,30 @@ AppModule = __decorate([
                 inject: [config_1.ConfigService],
                 useFactory: (config) => {
                     return {
-                        database: 'tenantauth',
-                        username: 'ananth',
-                        password: 'u7i8o9p0',
-                        type: 'postgres',
-                        host: 'localhost',
+                        database: "tenantauth",
+                        username: "ananth",
+                        password: "u7i8o9p0",
+                        type: "postgres",
+                        host: "localhost",
                         port: 5432,
                         synchronize: true,
-                        entities: [role_entity_1.Role, privilege_entity_1.Privilege, module_entity_1.Tmodule, submodule_entity_1.Submodule, rac_map_entity_1.Racmap, subscription_entity_1.Subscription, tuser_entity_1.Tuser, industry_domain_entity_1.IndustryDomain, tenant_organisation_entity_1.TenantOrganisation, tenant_organisation_address_entity_1.TenantOrganisationAddress, tenant_poc_entity_1.TenantPoc, tenant_branch_entity_1.TenantBranch, tenant_state_entity_1.TenantState, tenant_country_entity_1.TenantCountry, tenant_branch_address_entity_1.TenantBranchAddress],
+                        entities: [
+                            role_entity_1.Role,
+                            privilege_entity_1.Privilege,
+                            module_entity_1.Tmodule,
+                            submodule_entity_1.Submodule,
+                            rac_map_entity_1.Racmap,
+                            subscription_entity_1.Subscription,
+                            tuser_entity_1.Tuser,
+                            industry_domain_entity_1.IndustryDomain,
+                            tenant_organisation_entity_1.TenantOrganisation,
+                            tenant_organisation_address_entity_1.TenantOrganisationAddress,
+                            tenant_poc_entity_1.TenantPoc,
+                            tenant_branch_entity_1.TenantBranch,
+                            tenant_state_entity_1.TenantState,
+                            tenant_country_entity_1.TenantCountry,
+                            tenant_branch_address_entity_1.TenantBranchAddress,
+                        ],
                     };
                 },
             }),
@@ -69,7 +86,15 @@ AppModule = __decorate([
             roles_module_1.RolesModule,
             tusers_module_1.TusersModule,
             modules_module_1.ModulesModule,
-            tenant_organisation_module_1.TenantOrganisationModule, tenant_organisation_address_module_1.TenantOrganisationAddressModule, tenant_poc_module_1.TenantPocModule, industry_domain_module_1.IndustryDomainModule, tenant_branch_module_1.TenantBranchModule, tenant_country_module_1.TenantCountryModule, tenant_state_module_1.TenantStateModule, tenant_branch_address_module_1.TenantBranchAddressModule
+            tenant_organisation_module_1.TenantOrganisationModule,
+            tenant_organisation_address_module_1.TenantOrganisationAddressModule,
+            tenant_poc_module_1.TenantPocModule,
+            industry_domain_module_1.IndustryDomainModule,
+            tenant_branch_module_1.TenantBranchModule,
+            tenant_country_module_1.TenantCountryModule,
+            tenant_state_module_1.TenantStateModule,
+            tenant_branch_address_module_1.TenantBranchAddressModule,
+            auth_module_1.AuthModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

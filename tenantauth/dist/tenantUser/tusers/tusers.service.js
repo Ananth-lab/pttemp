@@ -98,6 +98,7 @@ let TusersService = class TusersService {
         if (!tuser) {
             throw new common_1.NotFoundException("user not found!");
         }
+        return tuser;
     }
 };
 TusersService = __decorate([

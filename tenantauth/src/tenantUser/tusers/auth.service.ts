@@ -7,7 +7,7 @@ import { CreateTuserDto } from './dtos/create-tuser.dto';
 const scrypt = promisify(_scrypt);
 
 @Injectable()
-export class AuthService {
+export class AuthServices {
   constructor(private tusersService: TusersService) {}
 
   async signup(body: CreateTuserDto) {
@@ -29,5 +29,4 @@ export class AuthService {
     return newuser;
   }
 
-  signin() {}
 }

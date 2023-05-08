@@ -10,5 +10,5 @@ export declare class TusersService {
     findOne(email: string): Promise<Tuser>;
     find(): Promise<Tuser[]>;
     update(id: string, updateTuserDto: UpdateTuserDto): Promise<Tuser>;
-    findById(id: string): Promise<void>;
+    findById(id: string): Promise<Tuser>;
 }

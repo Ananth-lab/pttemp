@@ -15,12 +15,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TusersController = void 0;
 const common_1 = require("@nestjs/common");
 const tusers_service_1 = require("./tusers.service");
-const auth_service_1 = require("./auth.service");
+const auth_service_1 = require("../../auth/auth.service");
+const local_auth_guard_1 = require("../../auth/local-auth.guard");
+const jwt_auth_guard_1 = require("../../auth/jwt-auth.guard");
 const create_tuser_dto_1 = require("./dtos/create-tuser.dto");
+const auth_service_2 = require("./auth.service");
 let TusersController = class TusersController {
-    constructor(tusersService, authService) {
+    constructor(tusersService, authService, authServices) {
         this.tusersService = tusersService;
         this.authService = authService;
+        this.authServices = authServices;
     }
     getAll() {
         return this.tusersService.find();
@@ -29,7 +33,10 @@ let TusersController = class TusersController {
         return this.tusersService.findById(id);
     }
     addUser(body) {
-        return this.authService.signup(body);
+        return this.authServices.signup(body);
+    }
+    tenantLogin(req) {
+        return this.authService.login(req.user);
     }
 };
 __decorate([
@@ -39,22 +46,32 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], TusersController.prototype, "getAll", null);
 __decorate([
-    (0, common_1.Get)('/:id'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.Get)("/:id"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], TusersController.prototype, "getUserById", null);
 __decorate([
-    (0, common_1.Post)('/signup'),
+    (0, common_1.Post)("/signup"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_tuser_dto_1.CreateTuserDto]),
     __metadata("design:returntype", void 0)
 ], TusersController.prototype, "addUser", null);
+__decorate([
+    (0, common_1.UseGuards)(local_auth_guard_1.LocalAuthGuard),
+    (0, common_1.Post)("/login"),
+    __param(0, (0, common_1.Request)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Object)
+], TusersController.prototype, "tenantLogin", null);
 TusersController = __decorate([
-    (0, common_1.Controller)('tenant_users'),
+    (0, common_1.Controller)("tenant_users"),
     __metadata("design:paramtypes", [tusers_service_1.TusersService,
-        auth_service_1.AuthService])
+        auth_service_1.AuthService,
+        auth_service_2.AuthServices])
 ], TusersController);
 exports.TusersController = TusersController;
 //# sourceMappingURL=tusers.controller.js.map

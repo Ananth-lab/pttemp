@@ -9,13 +9,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AuthService = void 0;
+exports.AuthServices = void 0;
 const common_1 = require("@nestjs/common");
 const tusers_service_1 = require("./tusers.service");
 const crypto_1 = require("crypto");
 const util_1 = require("util");
 const scrypt = (0, util_1.promisify)(crypto_1.scrypt);
-let AuthService = class AuthService {
+let AuthServices = class AuthServices {
     constructor(tusersService) {
         this.tusersService = tusersService;
     }
@@ -30,11 +30,10 @@ let AuthService = class AuthService {
         const newuser = await this.tusersService.create(Object.assign(Object.assign({}, body), { password: result }));
         return newuser;
     }
-    signin() { }
 };
-AuthService = __decorate([
+AuthServices = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [tusers_service_1.TusersService])
-], AuthService);
-exports.AuthService = AuthService;
+], AuthServices);
+exports.AuthServices = AuthServices;
 //# sourceMappingURL=auth.service.js.map

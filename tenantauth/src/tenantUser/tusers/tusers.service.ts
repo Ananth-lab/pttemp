@@ -103,5 +103,6 @@ export class TusersService {
     if (!tuser) {
       throw new NotFoundException("user not found!");
     }
+    return tuser;
   }
 }

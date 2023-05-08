@@ -1,13 +1,17 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
-import { TusersService } from './tusers.service';
-import { AuthService } from './auth.service';
-import { CreateTuserDto } from './dtos/create-tuser.dto';
+import { Body, Controller, Get, Post, Request, UseGuards } from "@nestjs/common";
+import { TusersService } from "./tusers.service";
+import { AuthService } from "../../auth/auth.service";
+import { LocalAuthGuard } from "src/auth/local-auth.guard";
+import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
+import { CreateTuserDto } from "./dtos/create-tuser.dto";
+import { AuthServices } from "./auth.service";
 
-@Controller('tenant_users')
+@Controller("tenant_users")
 export class TusersController {
   constructor(
     private tusersService: TusersService,
     private authService: AuthService,
+    private authServices : AuthServices
   ) {}
 
   @Get()
@@ -15,13 +19,20 @@ export class TusersController {
     return this.tusersService.find();
   }
 
-  @Get('/:id')
+  @UseGuards(JwtAuthGuard)
+  @Get("/:id")
   getUserById(id: string) {
     return this.tusersService.findById(id);
   }
 
-  @Post('/signup')
+  @Post("/signup")
   addUser(@Body() body: CreateTuserDto) {
-    return this.authService.signup(body);
+    return this.authServices.signup(body);
+  }
+
+  @UseGuards(LocalAuthGuard)
+  @Post("/login")
+  tenantLogin(@Request() req): any {
+    return this.authService.login(req.user);
   }
 }
