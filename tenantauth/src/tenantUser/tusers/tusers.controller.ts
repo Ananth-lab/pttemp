@@ -15,6 +15,7 @@ export class TusersController {
   ) {}
 
   @Get()
+  @UseGuards(JwtAuthGuard)
   getAll() {
     return this.tusersService.find();
   }

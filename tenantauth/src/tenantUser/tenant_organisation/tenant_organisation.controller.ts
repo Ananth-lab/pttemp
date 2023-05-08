@@ -11,11 +11,13 @@ import {
   ValidationPipe,
   HttpCode,
   ParseUUIDPipe,
+  UseGuards,
 } from "@nestjs/common";
 
 import { TenantOrganisationService } from "./tenant_organisation.service";
 import { CreateTenantOrganisationDto } from "./dto/create-tenant_organisation.dto";
 import { UpdateTenantOrganisationDto } from "./dto/update-tenant_organisation.dto";
+import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
 
 @Controller("tenant-organisation")
 export class TenantOrganisationController {
@@ -24,6 +26,7 @@ export class TenantOrganisationController {
   ) {}
 
   @Post()
+  @UseGuards(JwtAuthGuard)
   @UsePipes(ValidationPipe)
   async create(
     @Body() createTenantOrganisationDto: CreateTenantOrganisationDto
@@ -34,6 +37,7 @@ export class TenantOrganisationController {
   }
 
   @Get()
+  @UseGuards(JwtAuthGuard)
   findAll() {
     return this.tenantOrganisationService.findAll();
   }
@@ -44,6 +48,7 @@ export class TenantOrganisationController {
   // }
 
   @Patch(":id")
+  @UseGuards(JwtAuthGuard)
   @UsePipes(ValidationPipe)
   async update(
     @Param("id", ParseUUIDPipe) id: string,
@@ -58,6 +63,7 @@ export class TenantOrganisationController {
   }
 
   @Delete(":id")
+  @UseGuards(JwtAuthGuard)
   @HttpCode(204)
   async remove(@Param("id", ParseUUIDPipe) id: string) {
     return this.tenantOrganisationService.remove(id);

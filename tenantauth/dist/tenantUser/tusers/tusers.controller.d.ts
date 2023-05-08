@@ -9,6 +9,6 @@ export declare class TusersController {
     constructor(tusersService: TusersService, authService: AuthService, authServices: AuthServices);
     getAll(): Promise<import("./tuser.entity").Tuser[]>;
     getUserById(id: string): Promise<import("./tuser.entity").Tuser>;
-    addUser(body: CreateTuserDto): Promise<void>;
+    addUser(body: CreateTuserDto): Promise<import("./tuser.entity").Tuser>;
     tenantLogin(req: any): any;
 }

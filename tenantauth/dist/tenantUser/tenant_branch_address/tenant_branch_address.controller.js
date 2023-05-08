@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const tenant_branch_address_service_1 = require("./tenant_branch_address.service");
 const create_tenant_branch_address_dto_1 = require("./dto/create-tenant_branch_address.dto");
 const update_tenant_branch_address_dto_1 = require("./dto/update-tenant_branch_address.dto");
+const jwt_auth_guard_1 = require("../../auth/jwt-auth.guard");
 let TenantBranchAddressController = class TenantBranchAddressController {
     constructor(tenantBranchAddressService) {
         this.tenantBranchAddressService = tenantBranchAddressService;
@@ -30,6 +31,7 @@ let TenantBranchAddressController = class TenantBranchAddressController {
 };
 __decorate([
     (0, common_1.Post)(),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_tenant_branch_address_dto_1.CreateTenantBranchAddressDto]),
@@ -37,6 +39,7 @@ __decorate([
 ], TenantBranchAddressController.prototype, "create", null);
 __decorate([
     (0, common_1.Patch)(":id"),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __param(0, (0, common_1.Param)("id")),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),

@@ -6,7 +6,7 @@ export declare class TusersService {
     private repo;
     constructor(repo: Repository<Tuser>);
     consumeMessages(): Promise<void>;
-    create(body: CreateTuserDto): Promise<void>;
+    create(body: CreateTuserDto): Promise<Tuser>;
     findOne(email: string): Promise<Tuser>;
     find(): Promise<Tuser[]>;
     update(id: string, updateTuserDto: UpdateTuserDto): Promise<Tuser>;

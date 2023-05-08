@@ -53,7 +53,7 @@ export class TusersService {
 
   async create(body: CreateTuserDto) {
     const user = this.repo.create(body);
-    await this.repo.save(user);
+   return await this.repo.save(user);
   }
 
   findOne(email: string) {

@@ -56,7 +56,7 @@ let TusersService = class TusersService {
     }
     async create(body) {
         const user = this.repo.create(body);
-        await this.repo.save(user);
+        return await this.repo.save(user);
     }
     findOne(email) {
         return this.repo.findOne({ where: { email } });

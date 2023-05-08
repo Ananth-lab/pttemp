@@ -1,13 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete ,UsePipes,ValidationPipe} from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete ,UsePipes,ValidationPipe, UseGuards} from '@nestjs/common';
 import { TenantStateService } from './tenant_state.service';
 import { CreateTenantStateDto } from './dto/create-tenant_state.dto';
 import { UpdateTenantStateDto } from './dto/update-tenant_state.dto';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('tenant-state')
 export class TenantStateController {
   constructor(private readonly tenantStateService: TenantStateService) {}
 
   @Post()
+  @UseGuards(JwtAuthGuard)
   @UsePipes(ValidationPipe)
   async create(@Body() createTenantStateDto: CreateTenantStateDto) {
     return await  this.tenantStateService.create(createTenantStateDto);

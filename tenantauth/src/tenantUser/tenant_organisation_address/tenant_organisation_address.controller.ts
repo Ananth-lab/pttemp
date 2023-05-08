@@ -10,10 +10,12 @@ import {
   ValidationPipe,
   ParseUUIDPipe,
   HttpException,
+  UseGuards,
 } from "@nestjs/common";
 import { TenantOrganisationAddressService } from "./tenant_organisation_address.service";
 import { CreateTenantOrganisationAddressDto } from "./dto/create-tenant_organisation_address.dto";
 import { UpdateTenantOrganisationAddressDto } from "./dto/update-tenant_organisation_address.dto";
+import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
 
 @Controller("tenant-organisation-address")
 export class TenantOrganisationAddressController {
@@ -22,6 +24,7 @@ export class TenantOrganisationAddressController {
   ) {}
 
   @Post()
+  @UseGuards(JwtAuthGuard)
   @UsePipes(ValidationPipe)
   async create(
     @Body()
@@ -33,6 +36,7 @@ export class TenantOrganisationAddressController {
   }
 
   @Patch(":id")
+  @UseGuards(JwtAuthGuard)
   @UsePipes(ValidationPipe)
   async update(
     @Param("id", ParseUUIDPipe) id: string,
@@ -48,6 +52,7 @@ export class TenantOrganisationAddressController {
   }
 
   @Delete(":id")
+  @UseGuards(JwtAuthGuard)
   async remove(@Param("id", ParseUUIDPipe) id: string) {
     return await this.tenantOrganisationAddressService.remove(id);
   }

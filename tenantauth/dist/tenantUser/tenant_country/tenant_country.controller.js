@@ -16,6 +16,7 @@ exports.TenantCountryController = void 0;
 const common_1 = require("@nestjs/common");
 const tenant_country_service_1 = require("./tenant_country.service");
 const create_tenant_country_dto_1 = require("./dto/create-tenant_country.dto");
+const jwt_auth_guard_1 = require("../../auth/jwt-auth.guard");
 let TenantCountryController = class TenantCountryController {
     constructor(tenantCountryService) {
         this.tenantCountryService = tenantCountryService;
@@ -26,6 +27,7 @@ let TenantCountryController = class TenantCountryController {
 };
 __decorate([
     (0, common_1.Post)(),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.UsePipes)(common_1.ValidationPipe),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
