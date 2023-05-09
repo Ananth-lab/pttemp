@@ -19,12 +19,10 @@ const auth_service_1 = require("../../auth/auth.service");
 const local_auth_guard_1 = require("../../auth/local-auth.guard");
 const jwt_auth_guard_1 = require("../../auth/jwt-auth.guard");
 const create_tuser_dto_1 = require("./dtos/create-tuser.dto");
-const auth_service_2 = require("./auth.service");
 let TusersController = class TusersController {
-    constructor(tusersService, authService, authServices) {
+    constructor(tusersService, authService) {
         this.tusersService = tusersService;
         this.authService = authService;
-        this.authServices = authServices;
     }
     getAll() {
         return this.tusersService.find();
@@ -33,7 +31,7 @@ let TusersController = class TusersController {
         return this.tusersService.findById(id);
     }
     addUser(body) {
-        return this.authServices.signup(body);
+        return this.authService.signup(body);
     }
     tenantLogin(req) {
         return this.authService.login(req.user);
@@ -71,8 +69,7 @@ __decorate([
 TusersController = __decorate([
     (0, common_1.Controller)("tenant_users"),
     __metadata("design:paramtypes", [tusers_service_1.TusersService,
-        auth_service_1.AuthService,
-        auth_service_2.AuthServices])
+        auth_service_1.AuthService])
 ], TusersController);
 exports.TusersController = TusersController;
 //# sourceMappingURL=tusers.controller.js.map

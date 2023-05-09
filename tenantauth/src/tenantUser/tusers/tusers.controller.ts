@@ -4,14 +4,12 @@ import { AuthService } from "../../auth/auth.service";
 import { LocalAuthGuard } from "src/auth/local-auth.guard";
 import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
 import { CreateTuserDto } from "./dtos/create-tuser.dto";
-import { AuthServices } from "./auth.service";
 
 @Controller("tenant_users")
 export class TusersController {
   constructor(
     private tusersService: TusersService,
-    private authService: AuthService,
-    private authServices : AuthServices
+    private authService: AuthService
   ) {}
 
   @Get()
@@ -28,7 +26,7 @@ export class TusersController {
 
   @Post("/signup")
   addUser(@Body() body: CreateTuserDto) {
-    return this.authServices.signup(body);
+    return this.authService.signup(body);
   }
 
   @UseGuards(LocalAuthGuard)

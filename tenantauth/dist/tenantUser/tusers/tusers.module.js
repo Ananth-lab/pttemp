@@ -14,14 +14,13 @@ const tusers_service_1 = require("./tusers.service");
 const auth_service_1 = require("../../auth/auth.service");
 const tuser_entity_1 = require("./tuser.entity");
 const jwt_1 = require("@nestjs/jwt");
-const auth_service_2 = require("./auth.service");
 let TusersModule = class TusersModule {
 };
 TusersModule = __decorate([
     (0, common_1.Module)({
         imports: [typeorm_1.TypeOrmModule.forFeature([tuser_entity_1.Tuser])],
         controllers: [tusers_controller_1.TusersController],
-        providers: [tusers_service_1.TusersService, auth_service_1.AuthService, jwt_1.JwtService, auth_service_2.AuthServices],
+        providers: [tusers_service_1.TusersService, auth_service_1.AuthService, jwt_1.JwtService],
         exports: [tusers_service_1.TusersService]
     })
 ], TusersModule);

@@ -16,6 +16,7 @@ exports.TsubmodulesController = void 0;
 const common_1 = require("@nestjs/common");
 const create_submodule_dto_1 = require("./dtos/create-submodule.dto");
 const tsubmodules_service_1 = require("./tsubmodules.service");
+const jwt_auth_guard_1 = require("../auth/jwt-auth.guard");
 let TsubmodulesController = class TsubmodulesController {
     constructor(submodulesService) {
         this.submodulesService = submodulesService;
@@ -30,6 +31,7 @@ let TsubmodulesController = class TsubmodulesController {
     }
 };
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -37,12 +39,14 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], TsubmodulesController.prototype, "addModule", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], TsubmodulesController.prototype, "getModules", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Get)('/:id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),

@@ -23,7 +23,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthService = void 0;
 const common_1 = require("@nestjs/common");
 const jwt_1 = require("@nestjs/jwt");
+const crypto_1 = require("crypto");
 const tusers_service_1 = require("../tenantUser/tusers/tusers.service");
+const crypto_2 = require("crypto");
+const util_1 = require("util");
+const scryptAsync = (0, util_1.promisify)(crypto_2.scrypt);
 let AuthService = class AuthService {
     constructor(userService, jwtService) {
         this.userService = userService;
@@ -36,6 +40,17 @@ let AuthService = class AuthService {
             return rest;
         }
         return null;
+    }
+    async signup(body) {
+        const user = await this.userService.findOne(body.email);
+        if (user) {
+            throw new common_1.BadRequestException('email in use');
+        }
+        const salt = (0, crypto_1.randomBytes)(8).toString('hex');
+        const hash = (await scryptAsync(body.password, salt, 32));
+        const result = salt + '.' + hash.toString('hex');
+        const newuser = await this.userService.create(Object.assign(Object.assign({}, body), { password: result }));
+        return newuser;
     }
     async login(user) {
         const payload = { id: user.id, model: user.model };

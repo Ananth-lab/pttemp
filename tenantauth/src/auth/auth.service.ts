@@ -1,7 +1,11 @@
-import { Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
+import { randomBytes } from "crypto";
+import { CreateTuserDto } from "src/tenantUser/tusers/dtos/create-tuser.dto";
 import { TusersService } from "src/tenantUser/tusers/tusers.service";
-
+import { scrypt } from "crypto";
+import { promisify } from "util";
+const scryptAsync = promisify(scrypt);
 @Injectable()
 export class AuthService {
   constructor(
@@ -16,6 +20,25 @@ export class AuthService {
       return rest;
     }
     return null;
+  }
+
+  async signup(body: CreateTuserDto) {
+    const user = await this.userService.findOne(body.email);
+    if (user) {
+      throw new BadRequestException('email in use');
+    }
+
+    const salt = randomBytes(8).toString('hex');
+
+    const hash = (await scryptAsync(body.password, salt, 32)) as Buffer;
+    const result = salt + '.' + hash.toString('hex');
+
+    const newuser = await this.userService.create({
+      ...body,
+      password: result,
+    });
+
+    return newuser;
   }
 
   async login(user: any) {
